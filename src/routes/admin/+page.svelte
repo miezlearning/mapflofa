@@ -8,6 +8,7 @@
 	const tiles = $derived([
 		{ label: 'Programs', count: data.stats.programs, href: '/admin/programs', color: 'cyan' },
 		{ label: 'News', count: data.stats.news, href: '/admin/news', color: 'violet' },
+		{ label: 'Galeri', count: data.stats.gallery, href: '/admin/gallery', color: 'emerald' },
 		{ label: 'Events', count: data.stats.events, href: '/admin/events', color: 'amber' }
 	]);
 </script>
