@@ -1,0 +1,5 @@
+# Allow crawling the public site, hide admin + API surfaces from indexing.
+User-agent: *
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/

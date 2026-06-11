@@ -1,0 +1,730 @@
+/* All @import statements MUST come first */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ==========================================================
+   Modern Corporate Design Tokens — SMP 1 Anggana
+   ========================================================== */
+@theme {
+	/* Brand */
+	--color-primary: #0b2e4f;       /* deep navy — headings, brand */
+	--color-primary-600: #103d68;
+	--color-primary-700: #082439;
+	--color-accent: #e11d48;        /* rose — CTA pop */
+	--color-accent-600: #be123c;
+
+	/* Neutrals */
+	--color-ink: #0f172a;           /* body text */
+	--color-muted: #64748b;
+	--color-line: #e5e7eb;
+	--color-surface: #f7f8fb;       /* page bg */
+	--color-surface-2: #eef1f6;
+	--color-card: #ffffff;
+
+	/* Type */
+	--font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+	--font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-sans);
+	background: var(--color-surface);
+	color: var(--color-ink);
+	-webkit-font-smoothing: antialiased;
+	font-feature-settings: 'cv11', 'ss01';
+}
+
+::selection {
+	background: var(--color-primary);
+	color: #fff;
+}
+
+/* ==========================================================
+   Reveal-on-scroll — directional variants
+   ========================================================== */
+.reveal {
+	opacity: 0;
+	transition:
+		opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms),
+		transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms),
+		filter 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0ms);
+	will-change: transform, opacity;
+	filter: blur(4px);
+}
+.reveal-up    { transform: translate3d(0, 32px, 0); }
+.reveal-down  { transform: translate3d(0, -32px, 0); }
+.reveal-left  { transform: translate3d(-40px, 0, 0); }
+.reveal-right { transform: translate3d(40px, 0, 0); }
+.reveal-scale { transform: scale(0.94); }
+
+.reveal.is-revealed {
+	opacity: 1;
+	transform: translate3d(0, 0, 0) scale(1);
+	filter: blur(0);
+}
+
+/* ==========================================================
+   Underline that expands from the center
+   ========================================================== */
+.link-underline {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.link-underline::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: -2px;
+	width: 0;
+	height: 2px;
+	background: currentColor;
+	transition:
+		width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+		left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+	left: 0;
+	width: 100%;
+}
+
+/* ==========================================================
+   Organic masks — asymmetric corner curves.
+   Premium feel, simplifies on mobile.
+   ========================================================== */
+.mask-organic {
+	border-top-left-radius: 9rem;
+	border-bottom-right-radius: 9rem;
+	border-top-right-radius: 1.5rem;
+	border-bottom-left-radius: 1.5rem;
+}
+.mask-organic-alt {
+	border-top-right-radius: 9rem;
+	border-bottom-left-radius: 9rem;
+	border-top-left-radius: 1.5rem;
+	border-bottom-right-radius: 1.5rem;
+}
+@media (max-width: 768px) {
+	.mask-organic,
+	.mask-organic-alt {
+		border-radius: 1.75rem;
+	}
+}
+
+/* Decorative ring blob behind hero */
+@keyframes float-y {
+	0%, 100% { transform: translate3d(0, 0, 0); }
+	50%      { transform: translate3d(0, -14px, 0); }
+}
+.anim-float { animation: float-y 6s ease-in-out infinite; }
+
+/* Hide scrollbar (carousel tracks) */
+.scrollbar-hide {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* Parallax wrappers: clip overflow so children translating up/down
+   don't leak into adjacent sections. */
+.parallax-clip {
+	overflow: hidden;
+}
+.parallax-img {
+	/* extra height so vertical drift never reveals empty space */
+	height: 115%;
+	width: 100%;
+	top: -7.5%;
+	position: absolute;
+	left: 0;
+	object-fit: cover;
+}
+
+/* Tailwind v4 doesn't ship line-clamp utilities by default — declare what we use */
+.line-clamp-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.line-clamp-3 {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* ==========================================================
+   Reduced motion: respect a11y
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	.anim-float { animation: none; }
+}
+
+/* ==========================================================
+   Rich content (.md-content)
+   --------------------------------------------------------
+   Used by both the admin editor body (dark background, light text)
+   and the public news detail page (light background, dark text).
+   Tailwind preflight strips list-style/margin/padding from <ul>, <ol>,
+   <h*>, <blockquote>, etc. — restore them here so the content renders
+   consistently in BOTH places.
+   ========================================================== */
+
+.md-content {
+	line-height: 1.75;
+	font-size: 1.0625rem;
+	word-wrap: break-word;
+}
+
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4 {
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	margin: 1.5em 0 0.5em;
+	line-height: 1.25;
+}
+
+.md-content h1 { font-size: 1.75em; }
+.md-content h2 { font-size: 1.4em; }
+.md-content h3 { font-size: 1.2em; }
+.md-content h4 { font-size: 1.05em; }
+
+.md-content p {
+	margin: 0.875em 0;
+}
+
+.md-content a {
+	text-decoration: underline;
+}
+
+.md-content strong { font-weight: 700; }
+.md-content em     { font-style: italic; }
+.md-content u      { text-decoration: underline; }
+.md-content s      { text-decoration: line-through; }
+
+.md-content ul,
+.md-content ol {
+	padding-left: 1.5em;
+	margin: 0.875em 0;
+}
+
+.md-content ul        { list-style: disc outside; }
+.md-content ul ul     { list-style: circle outside; }
+.md-content ul ul ul  { list-style: square outside; }
+.md-content ol        { list-style: decimal outside; }
+
+.md-content li {
+	margin: 0.25em 0;
+}
+.md-content li::marker {
+	font-weight: 600;
+}
+
+.md-content blockquote {
+	border-left: 3px solid;
+	padding: 0.25em 1em;
+	margin: 1em 0;
+	border-radius: 0 0.375em 0.375em 0;
+}
+
+.md-content code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.875em;
+	padding: 0.0625em 0.375em;
+	border-radius: 0.25em;
+}
+
+.md-content pre {
+	padding: 0.875em 1em;
+	border-radius: 0.5em;
+	overflow-x: auto;
+	margin: 1em 0;
+}
+
+.md-content pre code {
+	background: transparent;
+	padding: 0;
+}
+
+.md-content img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	border-radius: 0.625rem;
+}
+
+.md-content figure {
+	margin: 1.25em 0;
+}
+
+.md-content figcaption {
+	font-size: 0.8125em;
+	text-align: center;
+	margin-top: 0.5em;
+	opacity: 0.75;
+}
+
+.md-content hr {
+	border: 0;
+	border-top: 1px solid currentColor;
+	opacity: 0.2;
+	margin: 1.5em 0;
+}
+
+.md-content table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1em 0;
+	font-size: 0.95em;
+}
+
+.md-content th,
+.md-content td {
+	padding: 0.5em 0.75em;
+	border: 1px solid;
+	border-color: currentColor;
+	border-opacity: 0.2;
+	text-align: left;
+}
+
+/* ----- Theme: dark (admin editor body) ----- */
+.body-edit.md-content,
+.md-content.dark {
+	color: #e2e8f0;
+}
+
+.body-edit.md-content h1,
+.body-edit.md-content h2,
+.body-edit.md-content h3,
+.body-edit.md-content h4 {
+	color: #f8fafc;
+}
+
+.body-edit.md-content a {
+	color: #38bdf8;
+}
+
+.body-edit.md-content blockquote {
+	border-left-color: #38bdf8;
+	background: rgba(56, 189, 248, 0.06);
+	color: #cbd5e1;
+}
+
+.body-edit.md-content code {
+	background: rgba(148, 163, 184, 0.18);
+	color: #e2e8f0;
+}
+
+.body-edit.md-content pre {
+	background: rgba(2, 6, 23, 0.85);
+	border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.body-edit.md-content th,
+.body-edit.md-content td {
+	border-color: rgba(148, 163, 184, 0.25);
+}
+
+.body-edit.md-content th {
+	background: rgba(15, 23, 42, 0.5);
+}
+
+/* ----- Theme: light (public detail page) ----- */
+.post .md-content {
+	color: #1f2937;
+}
+
+.post .md-content h1,
+.post .md-content h2,
+.post .md-content h3,
+.post .md-content h4 {
+	color: var(--color-primary, #0b2e4f);
+}
+
+.post .md-content a {
+	color: var(--color-primary, #0b2e4f);
+	text-decoration-color: var(--color-accent, #e11d48);
+}
+
+.post .md-content blockquote {
+	border-left-color: var(--color-accent, #e11d48);
+	background: #fff7f9;
+	color: #475569;
+}
+
+.post .md-content code {
+	background: #f1f5f9;
+}
+
+.post .md-content pre {
+	background: var(--color-primary, #0b2e4f);
+	color: #f1f5f9;
+}
+
+.post .md-content pre code {
+	color: #f1f5f9;
+}
+
+.post .md-content th {
+	background: #f8fafc;
+}
+
+/* ==========================================================
+   Dark mode (site-wide)
+   --------------------------------------------------------
+   Triggered when <html data-theme="dark"> is set (anti-FOUC
+   inline script in app.html, plus user toggle from Footer FAB).
+   Applies across landing, news listing, news detail.
+
+   Physical scene: families and staff scan school content after sunset,
+   with page photos and school updates glowing on handheld screens.
+
+   Color strategy: full palette for a brand site. Deep indigo carries the
+   night surface, lagoon cyan handles interactive focus, and confident red
+   carries school warmth, news, and category emphasis.
+   ========================================================== */
+
+[data-theme='dark'] {
+	--dark-canvas: oklch(13% 0.052 258);
+	--dark-canvas-deep: oklch(9% 0.046 268);
+	--dark-card: oklch(20% 0.058 252);
+	--dark-card-hover: oklch(24% 0.072 246);
+	--dark-card-muted: oklch(17% 0.05 268);
+	--dark-border: oklch(76% 0.08 218 / 0.24);
+	--dark-text: oklch(91% 0.028 242);
+	--dark-text-strong: oklch(98% 0.018 92);
+	--dark-text-muted: oklch(78% 0.048 235);
+	--dark-text-soft: oklch(67% 0.052 238);
+	--dark-accent: oklch(80% 0.16 188);
+	--dark-accent-soft: oklch(87% 0.105 185);
+	--dark-brand: oklch(70% 0.22 22);
+	--dark-brand-soft: oklch(84% 0.15 20);
+	--dark-coral: oklch(67% 0.24 18);
+	--dark-coral-soft: oklch(82% 0.16 18);
+	--dark-shadow: oklch(4% 0.035 268 / 0.62);
+}
+
+[data-theme='dark'] body {
+	background: var(--dark-canvas);
+	color: var(--dark-text);
+}
+
+[data-theme='dark'] ::selection {
+	background: var(--dark-brand);
+	color: var(--dark-canvas);
+}
+
+[data-theme='dark'] .bg-surface,
+[data-theme='dark'] .bg-surface-2 {
+	background: var(--dark-canvas);
+}
+
+/* Floating navbar — dark navy pill instead of translucent white. */
+[data-theme='dark'] nav.fixed > div.flex {
+	background: color-mix(in oklch, var(--dark-canvas-deep) 88%, var(--dark-accent) 12%);
+	border-color: var(--dark-border);
+	box-shadow: 0 18px 40px -16px var(--dark-shadow);
+}
+
+[data-theme='dark'] nav.fixed .text-slate-700,
+[data-theme='dark'] nav.fixed .text-primary {
+	color: var(--dark-text) !important;
+}
+
+[data-theme='dark'] nav.fixed .text-slate-700:hover {
+	color: var(--dark-text-strong) !important;
+}
+
+/* Magic pill highlight — soften so it doesn't blow out the dark surface. */
+[data-theme='dark'] nav.fixed ul .bg-slate-100 {
+	background-color: color-mix(in oklch, var(--dark-accent) 20%, transparent) !important;
+}
+
+/* Brand mark stays primary navy + white — contrast already fine. */
+
+/* CTA stays brand primary in both themes — re-emphasize border to lift it. */
+[data-theme='dark'] nav.fixed a.bg-primary {
+	box-shadow: 0 8px 24px -10px color-mix(in oklch, var(--dark-accent) 45%, transparent);
+}
+
+/* ----- Cards & panels on landing / listing / related ----- */
+
+/* The main card surface in landing/listing pages uses bg-white. Flip it
+   to a dark slate so cards remain visually distinct from the page bg. */
+[data-theme='dark'] section .bg-white {
+	background-color: var(--dark-card);
+	color: var(--dark-text);
+}
+
+[data-theme='dark'] section .bg-slate-50 {
+	background-color: var(--dark-card-muted);
+}
+
+/* News card root inside related & listing is bg-slate-100 by default. */
+[data-theme='dark'] section .bg-slate-100 {
+	background-color: var(--dark-card);
+}
+
+/* Body text on cards stays readable. */
+[data-theme='dark'] section .text-slate-600 {
+	color: var(--dark-text-muted);
+}
+
+[data-theme='dark'] section .text-slate-700,
+[data-theme='dark'] section .text-slate-800 {
+	color: var(--dark-text);
+}
+
+[data-theme='dark'] section .text-slate-500 {
+	color: var(--dark-text-soft);
+}
+
+/* Card titles use .text-primary in light mode (deep navy) — flip to off-white
+   for legibility against the dark card surface. */
+[data-theme='dark'] section .text-primary {
+	color: var(--dark-text-strong);
+}
+
+/* Date pills on news cards are bg-white/95 in light mode. In dark mode,
+   keep them raised without introducing a separate card color. */
+[data-theme='dark'] section .bg-white\/95 {
+	background-color: color-mix(in oklch, var(--dark-card-hover) 88%, var(--dark-brand) 12%);
+	color: var(--dark-text);
+}
+
+/* Borders that were hairline grey become hairline slate. */
+[data-theme='dark'] .border-slate-100,
+[data-theme='dark'] .border-slate-200,
+[data-theme='dark'] .border-slate-300 {
+	border-color: var(--dark-border);
+}
+
+/* "About" stat tiles, news card shadows, etc. use shadow-slate-200/* — soften
+   them in dark since the contrast from a coloured shadow is gone. */
+[data-theme='dark'] .shadow-slate-200\/40,
+[data-theme='dark'] .shadow-slate-200\/50,
+[data-theme='dark'] .shadow-slate-200\/60,
+[data-theme='dark'] .shadow-slate-300\/40,
+[data-theme='dark'] .shadow-slate-300\/50 {
+	--tw-shadow-color: var(--dark-shadow) !important;
+	box-shadow: 0 12px 32px -10px var(--tw-shadow-color) !important;
+}
+
+/* ----- News listing page header / search / chips ----- */
+
+[data-theme='dark'] .search-input {
+	background: var(--dark-card-muted);
+	border-color: var(--dark-border);
+	color: var(--dark-text-strong);
+}
+
+[data-theme='dark'] .search-input::placeholder {
+	color: var(--dark-text-soft);
+}
+
+[data-theme='dark'] .search-input:focus {
+	border-color: var(--dark-accent);
+	box-shadow: 0 0 0 3px color-mix(in oklch, var(--dark-accent) 28%, transparent);
+}
+
+[data-theme='dark'] .search-btn {
+	background: var(--dark-accent);
+	color: var(--dark-canvas-deep);
+}
+
+[data-theme='dark'] .search-btn:hover {
+	background: var(--dark-accent-soft);
+}
+
+[data-theme='dark'] .chip {
+	background: var(--dark-card-muted);
+	border-color: var(--dark-border);
+	color: var(--dark-text-muted);
+}
+
+[data-theme='dark'] .chip:hover {
+	border-color: var(--dark-accent);
+	color: var(--dark-text-strong);
+}
+
+[data-theme='dark'] .chip.active {
+	background: var(--dark-brand);
+	border-color: var(--dark-brand);
+	color: var(--dark-canvas-deep);
+}
+
+[data-theme='dark'] .featured-img {
+	background: var(--dark-card-muted);
+	box-shadow: 0 24px 48px -16px var(--dark-shadow);
+}
+
+[data-theme='dark'] .page-link {
+	background: var(--dark-card-muted);
+	border-color: var(--dark-border);
+	color: var(--dark-text);
+}
+
+[data-theme='dark'] .page-link:hover {
+	background: var(--dark-accent);
+	border-color: var(--dark-accent);
+	color: var(--dark-canvas-deep);
+}
+
+[data-theme='dark'] .page-info {
+	color: var(--dark-text-soft);
+}
+
+/* Landing news carousel: the right fade must match the dark section, not the
+   light surface token baked into the Tailwind class. */
+[data-theme='dark'] .carousel-edge-fade {
+	background-image: linear-gradient(
+		to left,
+		var(--dark-canvas) 12%,
+		color-mix(in oklch, var(--dark-canvas) 82%, transparent) 58%,
+		transparent
+	) !important;
+}
+
+/* About section cards: replace the light slate hover haze with a warmer school
+   glow so cards lift cleanly on the colored night surface. */
+[data-theme='dark'] .about-stat-card {
+	background: color-mix(in oklch, var(--dark-card-hover) 86%, var(--dark-brand) 14%);
+	border-color: color-mix(in oklch, var(--dark-brand) 36%, var(--dark-border));
+	box-shadow:
+		0 22px 58px -26px color-mix(in oklch, var(--dark-brand) 52%, transparent),
+		0 0 0 1px color-mix(in oklch, var(--dark-accent) 14%, transparent);
+}
+
+[data-theme='dark'] .about-stat-card .bg-primary\/5 {
+	background-color: color-mix(in oklch, var(--dark-accent) 16%, var(--dark-card));
+	color: var(--dark-accent);
+}
+
+[data-theme='dark'] .about-feature-card:hover {
+	box-shadow:
+		0 18px 42px -22px color-mix(in oklch, var(--dark-brand) 48%, transparent),
+		0 0 0 1px color-mix(in oklch, var(--dark-accent) 22%, transparent) !important;
+}
+
+/* ----- News detail page (`<main class="post">`) ----- */
+
+[data-theme='dark'] .post .breadcrumb { color: var(--dark-text-soft); }
+[data-theme='dark'] .post .breadcrumb a:hover { color: var(--dark-accent); }
+[data-theme='dark'] .post .breadcrumb .sep { color: color-mix(in oklch, var(--dark-text-soft) 55%, var(--dark-canvas)); }
+[data-theme='dark'] .post .breadcrumb .current { color: var(--dark-text-strong); }
+
+[data-theme='dark'] .post .cat-pill {
+	background: color-mix(in oklch, var(--dark-coral) 22%, transparent);
+	border-color: color-mix(in oklch, var(--dark-coral) 45%, transparent);
+	color: var(--dark-coral-soft);
+}
+
+[data-theme='dark'] .post .dot { color: color-mix(in oklch, var(--dark-text-soft) 55%, var(--dark-canvas)); }
+[data-theme='dark'] .post .date { color: var(--dark-text-soft); }
+[data-theme='dark'] .post .post-title { color: var(--dark-text-strong); }
+[data-theme='dark'] .post .post-lede  { color: var(--dark-text-muted); }
+
+[data-theme='dark'] .post .reading-strip { color: var(--dark-text-soft); }
+[data-theme='dark'] .post .rs-item svg   { color: var(--dark-brand); }
+[data-theme='dark'] .post .rs-item strong { color: var(--dark-text-strong); }
+[data-theme='dark'] .post .rs-sep { color: color-mix(in oklch, var(--dark-border) 70%, var(--dark-canvas)); }
+
+[data-theme='dark'] .post .post-hero {
+	background: var(--dark-card-muted);
+	box-shadow: 0 30px 60px -25px var(--dark-shadow);
+}
+
+[data-theme='dark'] .post .share-btn {
+	background: var(--dark-card-muted);
+	border-color: var(--dark-border);
+	color: var(--dark-text);
+}
+
+[data-theme='dark'] .post .share-btn:hover {
+	background: var(--dark-card-hover);
+	border-color: var(--dark-accent);
+	color: var(--dark-text-strong);
+}
+
+[data-theme='dark'] .post .share-label { color: var(--dark-text-soft); }
+
+[data-theme='dark'] .post .post-end { border-top-color: var(--dark-border); }
+[data-theme='dark'] .post .back-to-list { color: var(--dark-text-strong); }
+[data-theme='dark'] .post .back-to-list:hover { color: var(--dark-coral-soft); }
+
+/* TOC */
+[data-theme='dark'] .post .toc-label { color: var(--dark-text-soft); }
+[data-theme='dark'] .post .toc-list { border-left-color: var(--dark-border); }
+[data-theme='dark'] .post .toc-list a { color: var(--dark-text-soft); }
+[data-theme='dark'] .post .toc-list a:hover { color: var(--dark-text-strong); }
+[data-theme='dark'] .post .toc-list li.active a {
+	color: var(--dark-text-strong);
+	border-left-color: var(--dark-coral);
+}
+
+/* Related section background sits a touch deeper than body. */
+[data-theme='dark'] .related-section { background: var(--dark-canvas-deep); }
+
+/* MD content — flip the public-facing light theme defined earlier. */
+[data-theme='dark'] .post .md-content {
+	color: var(--dark-text);
+}
+[data-theme='dark'] .post .md-content h1,
+[data-theme='dark'] .post .md-content h2,
+[data-theme='dark'] .post .md-content h3,
+[data-theme='dark'] .post .md-content h4 {
+	color: var(--dark-text-strong);
+}
+[data-theme='dark'] .post .md-content a {
+	color: var(--dark-accent);
+	text-decoration-color: var(--dark-coral);
+}
+[data-theme='dark'] .post .md-content blockquote {
+	border-left-color: var(--dark-coral);
+	background: color-mix(in oklch, var(--dark-coral) 12%, transparent);
+	color: var(--dark-text-muted);
+}
+[data-theme='dark'] .post .md-content code {
+	background: color-mix(in oklch, var(--dark-accent) 13%, var(--dark-card-muted));
+	color: var(--dark-text);
+}
+[data-theme='dark'] .post .md-content pre {
+	background: var(--dark-canvas-deep);
+	color: var(--dark-text-muted);
+	border: 1px solid var(--dark-border);
+}
+[data-theme='dark'] .post .md-content pre code { color: var(--dark-text-muted); }
+[data-theme='dark'] .post .md-content th,
+[data-theme='dark'] .post .md-content td {
+	border-color: var(--dark-border);
+}
+[data-theme='dark'] .post .md-content th { background: var(--dark-card-muted); }
+
+/* Reading-progress bar */
+[data-theme='dark'] .progress .bar {
+	background: linear-gradient(90deg, var(--dark-accent), var(--dark-brand), var(--dark-coral));
+	box-shadow: 0 0 14px color-mix(in oklch, var(--dark-coral) 48%, transparent);
+}
+
+/* Smooth color transition when toggling theme. */
+html, body, .post, .related-section,
+section .bg-white, section .bg-slate-50, section .bg-slate-100,
+.bg-surface, .bg-surface-2,
+.search-input, .chip, .page-link {
+	transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
