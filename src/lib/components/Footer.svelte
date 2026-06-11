@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { theme } from '$lib/theme.svelte';
 
 	interface Article {
 		date: string;
@@ -13,50 +12,47 @@
 		{
 			date: '20-05-2026',
 			time: '20:46',
-			tag: 'Artikel',
+			tag: 'Aksi',
 			title:
-				'Tim Robotik SMP 1 Anggana Boyong Juara 2 Provinsi #BeraniBerinovasi #PelajarUnggul'
+				'MAPFLOFA Tanam 500 Bibit Pohon di Kawasan Hulu Sungai #AksiHijau #PenyayangAlam'
 		},
 		{
 			date: '20-05-2026',
 			time: '07:40',
-			tag: 'Artikel',
+			tag: 'Konservasi',
 			title:
-				'Kurikulum STEAM Resmi Diterapkan Tahun Ini, Fokus pada Proyek Lintas Mapel'
+				'Pendataan Burung Ducula whartoni, Upaya Lindungi Satwa Endemik Pulau'
 		},
 		{
 			date: '18-05-2026',
 			time: '14:20',
-			tag: 'Artikel',
+			tag: 'Edukasi',
 			title:
-				'Renovasi Lab Komputer Selesai, 36 Unit Siap Mendukung Pembelajaran Digital'
+				'Sosialisasi Satwa Langka ke Sekolah Dasar, Tumbuhkan Cinta Lingkungan Sejak Dini'
 		}
 	];
 
 	const navLinks = [
-		'Profil Sekolah',
-		'Akademik',
-		'PPDB 2026',
+		'Beranda',
+		'Profil',
+		'Visi & Misi',
 		'Berita',
-		'Prestasi',
-		'Ekstrakurikuler',
-		'Karir Guru',
-		'Hubungi Kami',
-		'Peta Situs'
+		'Galeri',
+		'Kegiatan',
+		'Anggota',
+		'Kontak'
 	];
 
 	const socials = [
+		{ label: 'Instagram', href: 'https://instagram.com/mapflofa', d: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z' },
+		{ label: 'WhatsApp', href: 'https://wa.me/6281234567890', d: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z' },
 		{ label: 'Facebook', href: '#', d: 'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z' },
-		{ label: 'Instagram', href: '#', d: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z' },
-		{ label: 'Twitter / X', href: '#', d: 'M18 4l-12 16M6 4l12 16' },
-		{ label: 'LinkedIn', href: '#', d: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' },
 		{ label: 'YouTube', href: '#', d: 'M22.54 6.42A2.78 2.78 0 0 0 20.6 4.5C18.88 4 12 4 12 4s-6.88 0-8.6.5A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 11.5a29 29 0 0 0 .46 5.08 2.78 2.78 0 0 0 1.94 1.92C5.12 19 12 19 12 19s6.88 0 8.6-.5a2.78 2.78 0 0 0 1.94-1.92A29 29 0 0 0 23 11.5a29 29 0 0 0-.46-5.08zM10 15.02v-7l6 3.5z' }
 	];
 
 	let showScrollTop = $state(false);
 
 	onMount(() => {
-		theme.hydrate();
 		const onScroll = () => (showScrollTop = window.scrollY > 600);
 		window.addEventListener('scroll', onScroll, { passive: true });
 		onScroll();
@@ -65,17 +61,6 @@
 
 	function scrollTop() {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function themeLabel(): string {
-		switch (theme.pref) {
-			case 'light':
-				return 'Mode terang';
-			case 'dark':
-				return 'Mode gelap';
-			default:
-				return 'Otomatis';
-		}
 	}
 </script>
 
@@ -88,15 +73,17 @@
 	>
 		<!-- Logo + brand -->
 		<div class="flex items-center gap-3">
-			<div class="w-11 h-11 rounded-2xl bg-primary text-white grid place-items-center font-bold">
-				S1
+			<div class="w-11 h-11 rounded-2xl bg-primary text-white grid place-items-center">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 4c-1.2 0-2.2.6-2.8 1.6-.8-.4-1.8-.4-2.6.2-1 .8-1.4 2-1.2 3.2.8-.6 1.8-.8 2.6-.4-.6.6-.8 1.4-.6 2.2.6-.4 1.4-.6 2-.2l-.4 1c.6-.2 1.4-.2 2 .2.2-.8.2-1.6-.2-2.2.8.2 1.6 0 2.2-.6-.4-.8-1.2-1.2-2-1.2.6-.6 1-1.4 1-2.2.4.6 1.2 1 2 1 1.2 0 2.2-.8 2.6-1.8-1 .2-1.8 0-2.4-.6.8-.4 1.4-1.2 1.4-2.2-.8.4-1.6.4-2.2 0C13.8 4.6 13 4 12 4z"/>
+				</svg>
 			</div>
 			<div>
 				<div class="font-display font-extrabold text-primary tracking-tight leading-none">
-					SMP 1 Anggana
+					MAPFLOFA
 				</div>
 				<div class="text-[11px] text-slate-500 mt-1 font-medium">
-					the spirit of education
+					penyayang flora &amp; fauna
 				</div>
 			</div>
 		</div>
@@ -118,12 +105,12 @@
 			<!-- ===== COL 1: Contact info ===== -->
 			<div>
 				<address class="not-italic text-sm leading-relaxed text-white/80">
-					Jl. Anggana Raya, Kelurahan Sungai Meriam, Kecamatan Anggana,
-					Kabupaten Kutai Kartanegara, Kalimantan Timur 75381, Indonesia.
+					Sekretariat MAPFLOFA, Gedung Unit Kegiatan Mahasiswa,
+					Jl. Kampus Hijau No. 1, Indonesia.
 				</address>
-				<p class="mt-4 text-sm text-white/80">Phone: (0541) 555-0123</p>
-				<p class="text-sm text-white/80">Fax: (0541) 555-0124</p>
-				<p class="text-sm text-white/80">Email: info@smp1anggana.sch.id</p>
+				<p class="mt-4 text-sm text-white/80">WhatsApp: +62 812-3456-7890</p>
+				<p class="text-sm text-white/80">Instagram: @mapflofa</p>
+				<p class="text-sm text-white/80">Email: halo@mapflofa.org</p>
 
 				<!-- Social row -->
 				<ul class="mt-7 flex flex-wrap gap-2.5">
@@ -154,17 +141,17 @@
 					{/each}
 				</ul>
 
-				<!-- Partner / accreditation badge -->
+				<!-- Organisation badge -->
 				<div class="mt-9 inline-flex items-center gap-3 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-3">
 					<div class="w-9 h-9 rounded-xl bg-accent grid place-items-center text-white font-bold">
-						A
+						🌿
 					</div>
 					<div>
 						<div class="text-[11px] text-white/60 uppercase tracking-wider font-semibold">
-							Akreditasi Sekolah
+							Organisasi Mahasiswa
 						</div>
 						<div class="font-display font-bold text-white text-sm">
-							Unggul (A) — BAN-S/M
+							Pecinta Alam &amp; Konservasi
 						</div>
 					</div>
 				</div>
@@ -257,7 +244,7 @@
 
 		<!-- ================ Bottom bar ================ -->
 		<div class="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-white/55">
-			<div>© 2026 SMP 1 Anggana. All Rights Reserved.</div>
+			<div>© 2026 MAPFLOFA — Mahasiswa Penyayang Flora Fauna. All Rights Reserved.</div>
 			<div class="flex gap-6">
 				<a href="/" class="hover:text-white transition-colors">Kebijakan Privasi</a>
 				<a href="/" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
@@ -268,53 +255,6 @@
 
 	<!-- ================ Floating action buttons ================ -->
 	<div class="fixed right-5 md:right-7 bottom-5 md:bottom-7 z-40 flex flex-col gap-3">
-		<!-- Theme toggle -->
-		<button
-			type="button"
-			onclick={() => theme.cycle()}
-			aria-label={`Tema: ${themeLabel()}. Klik untuk ganti.`}
-			title={`Tema: ${themeLabel()}`}
-			class="theme-fab w-12 h-12 rounded-full grid place-items-center
-			       shadow-xl transition-all duration-300 hover:-translate-y-0.5
-			       focus:outline-none focus-visible:ring-4"
-		>
-			{#if theme.pref === 'dark'}
-				<!-- moon -->
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-				</svg>
-			{:else if theme.pref === 'light'}
-				<!-- sun -->
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<circle cx="12" cy="12" r="4" />
-					<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-				</svg>
-			{:else}
-				<!-- auto: half-disc -->
-				<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<circle cx="12" cy="12" r="9" />
-					<path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" />
-				</svg>
-			{/if}
-		</button>
-
-		<!-- Accessibility shortcut -->
-		<button
-			type="button"
-			aria-label="Pengaturan aksesibilitas"
-			class="w-12 h-12 rounded-full bg-accent text-white grid place-items-center
-			       shadow-xl shadow-accent/40
-			       transition-all duration-300
-			       hover:bg-accent-600 hover:-translate-y-0.5
-			       focus:outline-none focus-visible:ring-4 focus-visible:ring-accent/30"
-		>
-			<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<circle cx="12" cy="4" r="2" />
-				<path d="M19 13a7 7 0 1 0-13.3 3" />
-				<path d="M12 8v8M8 12h8M9 22l3-6 3 6" />
-			</svg>
-		</button>
-
 		<!-- Scroll to top -->
 		<button
 			type="button"
@@ -335,22 +275,5 @@
 </footer>
 
 <style>
-	/* Theme toggle FAB — colored to match the brand in light mode and the
-	   dark surface in dark mode. Uses CSS variables so theme flip is
-	   instant without re-rendering. */
-	.theme-fab {
-		background: var(--color-primary, #0b2e4f);
-		color: #ffffff;
-		box-shadow: 0 14px 30px -10px rgba(11, 46, 79, 0.55);
-	}
-
-	.theme-fab:focus-visible {
-		--tw-ring-color: rgba(11, 46, 79, 0.4);
-	}
-
-	:global([data-theme='dark']) .theme-fab {
-		background: #ffffff;
-		color: #0b2e4f;
-		box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.7);
-	}
+	/* Footer uses brand tokens directly; no theme-toggle styling needed. */
 </style>

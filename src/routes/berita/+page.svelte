@@ -61,10 +61,10 @@
 </script>
 
 <svelte:head>
-	<title>Berita — SMP 1 Anggana</title>
+	<title>Berita — MAPFLOFA</title>
 	<meta
 		name="description"
-		content="Kabar terbaru, prestasi, dan kegiatan SMP 1 Anggana — diperbarui rutin oleh tim sekolah."
+		content="Kabar terbaru seputar konservasi, edukasi, dan aksi lingkungan MAPFLOFA — diperbarui rutin oleh tim pengurus."
 	/>
 </svelte:head>
 
@@ -99,7 +99,7 @@
 						Berita Sekolah
 					</h1>
 					<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed max-w-xl">
-						Prestasi, kegiatan, dan pengumuman penting dari SMP 1 Anggana.
+						Konservasi, edukasi, dan aksi lingkungan dari MAPFLOFA.
 						{data.totalCount} berita telah dipublikasikan.
 					</p>
 				</div>

@@ -33,9 +33,9 @@
 		}}
 	>
 		<div class="header">
-			<span class="brand-mark">SMP</span>
+			<span class="brand-mark">MF</span>
 			<div>
-				<div class="brand-title">SMP 1 Anggana</div>
+				<div class="brand-title">MAPFLOFA</div>
 				<div class="brand-sub">Admin Dashboard</div>
 			</div>
 		</div>

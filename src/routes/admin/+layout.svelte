@@ -30,7 +30,7 @@
 </script>
 
 <svelte:head>
-	<title>Admin · SMP 1 Anggana</title>
+	<title>Admin · MAPFLOFA</title>
 	<meta name="robots" content="noindex,nofollow" />
 </svelte:head>
 

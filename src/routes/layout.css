@@ -5,22 +5,26 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 /* ==========================================================
-   Modern Corporate Design Tokens — SMP 1 Anggana
+   MAPFLOFA Design Tokens — Mahasiswa Penyayang Flora Fauna
+   Light, airy, nature-forward. Sky blue brand + leaf green accent.
    ========================================================== */
 @theme {
-	/* Brand */
-	--color-primary: #0b2e4f;       /* deep navy — headings, brand */
-	--color-primary-600: #103d68;
-	--color-primary-700: #082439;
-	--color-accent: #e11d48;        /* rose — CTA pop */
-	--color-accent-600: #be123c;
+	/* Brand — Biru Langit (#6EAEE8) */
+	--color-primary: #6eaee8;       /* sky blue — brand, headings, links */
+	--color-primary-600: #4f97d6;   /* hover */
+	--color-primary-700: #3e7cb8;   /* deep sky — footer, gradients */
 
-	/* Neutrals */
-	--color-ink: #0f172a;           /* body text */
-	--color-muted: #64748b;
-	--color-line: #e5e7eb;
-	--color-surface: #f7f8fb;       /* page bg */
-	--color-surface-2: #eef1f6;
+	/* Accent — Leaf green for "asri" CTA pop */
+	--color-accent: #4faf7c;        /* fresh leaf green */
+	--color-accent-600: #3d9968;
+
+	/* Neutrals — no pure black anywhere */
+	--color-ink: #333333;           /* body text (soft charcoal) */
+	--color-muted: #6b7b8c;         /* secondary text */
+	--color-line: #e3eef7;          /* hairline borders */
+	--color-surface: #ffffff;       /* page bg — clean white */
+	--color-surface-2: #e8f4fd;     /* very light blue section bg */
+	--color-surface-3: #f0f8ff;     /* alice blue — alt section bg */
 	--color-card: #ffffff;
 
 	/* Type */

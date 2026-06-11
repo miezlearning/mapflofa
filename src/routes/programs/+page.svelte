@@ -10,10 +10,10 @@
 </script>
 
 <svelte:head>
-	<title>Program Sekolah | SMP 1 Anggana</title>
+	<title>Kegiatan | MAPFLOFA</title>
 	<meta
 		name="description"
-		content="Jelajahi program akademik, karakter, seni, teknologi, olahraga, dan bahasa di SMP 1 Anggana."
+		content="Jelajahi kegiatan konservasi, edukasi, aksi lingkungan, dan ekspedisi alam MAPFLOFA."
 	/>
 </svelte:head>
 

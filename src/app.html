@@ -5,22 +5,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
 		<script>
-			/* Anti-FOUC theme bootstrap. Reads the saved preference and the
-			   OS color-scheme, then sets data-theme on <html> BEFORE first
-			   paint so the page never flashes the wrong palette. */
-			(function () {
-				try {
-					var saved = localStorage.getItem('smp1a-theme');
-					var pref = saved === 'light' || saved === 'dark' || saved === 'auto' ? saved : 'auto';
-					var resolved =
-						pref === 'auto'
-							? window.matchMedia('(prefers-color-scheme: dark)').matches
-								? 'dark'
-								: 'light'
-							: pref;
-					document.documentElement.setAttribute('data-theme', resolved);
-				} catch (e) {}
-			})();
+			/* MAPFLOFA is light-mode only — always paint the bright sky-blue
+			   palette and never flash a dark theme. */
+			document.documentElement.setAttribute('data-theme', 'light');
 		</script>
 		%sveltekit.head%
 	</head>

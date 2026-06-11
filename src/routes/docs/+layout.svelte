@@ -41,10 +41,10 @@
 </script>
 
 <svelte:head>
-	<title>API Docs — SMP 1 Anggana</title>
+	<title>API Docs — MAPFLOFA</title>
 	<meta
 		name="description"
-		content="Dokumentasi REST API SMP 1 Anggana — programs, news, events."
+		content="Dokumentasi REST API MAPFLOFA — programs, news, events."
 	/>
 </svelte:head>
 

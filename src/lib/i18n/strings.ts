@@ -22,7 +22,7 @@ export const docsStrings = {
 		'intro.eyebrow': 'REST API · v1',
 		'intro.heading': 'Dokumentasi API',
 		'intro.description':
-			'Dokumentasi lengkap REST API untuk situs SMP 1 Anggana. Mencakup data programs, news, dan events, dengan validasi Zod, rate limiting per-IP, serta auth bearer token untuk operasi tulis.',
+			'Dokumentasi lengkap REST API untuk situs MAPFLOFA. Mencakup data programs, news, dan events, dengan validasi Zod, rate limiting per-IP, serta auth bearer token untuk operasi tulis.',
 		'intro.specBtn': '↗ Spec siap-mesin',
 		'intro.authBtn': '🔐 Autentikasi',
 		'intro.baseUrlTitle': 'Base URL',
@@ -111,7 +111,7 @@ export const docsStrings = {
 		'intro.eyebrow': 'REST API · v1',
 		'intro.heading': 'API Documentation',
 		'intro.description':
-			'Complete REST API reference for the SMP 1 Anggana website. Covers programs, news, and events data with Zod validation, per-IP rate limiting, and bearer-token auth for write operations.',
+			'Complete REST API reference for the MAPFLOFA website. Covers programs, news, and events data with Zod validation, per-IP rate limiting, and bearer-token auth for write operations.',
 		'intro.specBtn': '↗ Machine-readable spec',
 		'intro.authBtn': '🔐 Authentication',
 		'intro.baseUrlTitle': 'Base URL',

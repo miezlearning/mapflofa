@@ -14,12 +14,12 @@
 	let {
 		items = [
 			{ label: "Beranda", href: "/" },
-			{ label: "Tentang", href: "/#tentang" },
-			{ label: "Program", href: "/programs" },
+			{ label: "Profil", href: "/profil" },
 			{ label: "Berita", href: "/berita" },
+			{ label: "Galeri", href: "/galeri" },
 			{ label: "Kontak", href: "/#kontak" },
 		],
-		brand = "SMP 1 Anggana",
+		brand = "MAPFLOFA",
 	}: Props = $props();
 
 	/**
@@ -99,9 +99,11 @@
 		<a href={brandHref} class="flex items-center gap-2.5 shrink-0 group">
 			<span
 				class="w-8 h-8 rounded-xl bg-primary text-white grid place-items-center
-				       font-bold text-sm transition-transform duration-300 group-hover:rotate-6"
+				       transition-transform duration-300 group-hover:rotate-6"
 			>
-				S1
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+					<path d="M12 4c-1.2 0-2.2.6-2.8 1.6-.8-.4-1.8-.4-2.6.2-1 .8-1.4 2-1.2 3.2.8-.6 1.8-.8 2.6-.4-.6.6-.8 1.4-.6 2.2.6-.4 1.4-.6 2-.2l-.4 1c.6-.2 1.4-.2 2 .2.2-.8.2-1.6-.2-2.2.8.2 1.6 0 2.2-.6-.4-.8-1.2-1.2-2-1.2.6-.6 1-1.4 1-2.2.4.6 1.2 1 2 1 1.2 0 2.2-.8 2.6-1.8-1 .2-1.8 0-2.4-.6.8-.4 1.4-1.2 1.4-2.2-.8.4-1.6.4-2.2 0C13.8 4.6 13 4 12 4z"/>
+				</svg>
 			</span>
 			<span
 				class="hidden sm:block font-bold text-primary tracking-tight text-sm md:text-base"
@@ -156,14 +158,14 @@
 		<a
 			href={ctaHref}
 			class="inline-flex items-center gap-2 shrink-0
-			       bg-primary hover:bg-primary-600 text-white
+			       bg-accent hover:bg-accent-600 text-white
 			       text-xs md:text-sm font-semibold
 			       px-4 md:px-5 py-2.5 rounded-full
 			       transition-all duration-300
-			       shadow-lg shadow-primary/20
-			       hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+			       shadow-lg shadow-accent/20
+			       hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5"
 		>
-			Daftar
+			Gabung
 			<svg
 				width="14"
 				height="14"

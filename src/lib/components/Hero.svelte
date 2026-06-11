@@ -15,53 +15,53 @@
 
 	const slides: Slide[] = [
 		{
-			hashtag: '#BeraniBerprestasi',
-			titleA: 'Mendidik',
-			titleB: 'Pemimpin Masa Depan',
-			desc: 'Membentuk pelajar yang berani berkarya, unggul secara akademik, dan siap berkompetisi di tingkat nasional.',
+			hashtag: '#PenyayangFloraFauna',
+			titleA: 'Menjaga',
+			titleB: 'Alam & Satwa',
+			desc: 'Komunitas mahasiswa pecinta alam yang bergerak nyata untuk konservasi flora, fauna, dan ekosistem Indonesia.',
 			image:
-				'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1600&auto=format&fit=crop',
-			previewLabel: 'BerikutnyaUntukmu',
-			previewTitle: 'Karakter\nUnggul'
+				'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1600&auto=format&fit=crop',
+			previewLabel: 'KegiatanKami',
+			previewTitle: 'Penanaman\nPohon'
 		},
 		{
-			hashtag: '#KarakterUnggul',
-			titleA: 'Membangun',
-			titleB: 'Generasi Berkarakter',
-			desc: 'Pendidikan karakter terintegrasi dalam setiap kegiatan, menumbuhkan integritas dan empati siswa.',
+			hashtag: '#KonservasiSatwa',
+			titleA: 'Melindungi',
+			titleB: 'Satwa Langka',
+			desc: 'Edukasi dan aksi pelestarian satwa endemik, dari burung Ducula whartoni hingga habitat di sekitar kita.',
 			image:
-				'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1600&auto=format&fit=crop',
-			previewLabel: 'BerikutnyaUntukmu',
-			previewTitle: 'Inovasi\nTanpa Batas'
+				'https://images.unsplash.com/photo-1500534623283-312aade485b7?q=80&w=1600&auto=format&fit=crop',
+			previewLabel: 'KegiatanKami',
+			previewTitle: 'Sosialisasi\nSatwa'
 		},
 		{
-			hashtag: '#InovasiPelajar',
-			titleA: 'Menginspirasi',
-			titleB: 'Inovasi Tanpa Batas',
-			desc: 'Lab modern, ekosistem coding, dan klub robotik membuka jalan bagi imajinasi pelajar SMP 1 Anggana.',
+			hashtag: '#AksiHijau',
+			titleA: 'Menanam',
+			titleB: 'Harapan Hijau',
+			desc: 'Gerakan penanaman pohon, bersih sungai, dan reboisasi bersama untuk bumi yang lebih asri.',
 			image:
-				'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1600&auto=format&fit=crop',
-			previewLabel: 'BerikutnyaUntukmu',
-			previewTitle: 'Prestasi\nGemilang'
+				'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1600&auto=format&fit=crop',
+			previewLabel: 'KegiatanKami',
+			previewTitle: 'Edukasi\nLingkungan'
 		},
 		{
-			hashtag: '#PrestasiGemilang',
-			titleA: 'Merayakan',
-			titleB: 'Prestasi Gemilang',
-			desc: 'Ratusan medali, juara olimpiade, dan pencapaian seni-olahraga yang membanggakan setiap tahun.',
+			hashtag: '#JelajahAlam',
+			titleA: 'Menjelajah',
+			titleB: 'Keanekaragaman Hayati',
+			desc: 'Ekspedisi dan pendataan flora fauna di alam liar, sambil menumbuhkan kecintaan pada lingkungan.',
 			image:
-				'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1600&auto=format&fit=crop',
-			previewLabel: 'BerikutnyaUntukmu',
-			previewTitle: 'Berani\nBerprestasi'
+				'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600&auto=format&fit=crop',
+			previewLabel: 'KegiatanKami',
+			previewTitle: 'Ekspedisi\nKonservasi'
 		}
 	];
 
 	const discover = [
-		{ label: 'Tentang SMP 1 Anggana', href: '#tentang' },
-		{ label: 'Sejarah & Visi Misi', href: '#tentang' },
-		{ label: 'Program Unggulan', href: '#program' },
-		{ label: 'Prestasi & Akreditasi', href: '#tentang' },
-		{ label: 'Berita & Agenda', href: '#berita' }
+		{ label: 'Tentang MAPFLOFA', href: '/profil' },
+		{ label: 'Visi & Misi', href: '/profil' },
+		{ label: 'Kegiatan & Aksi', href: '#program' },
+		{ label: 'Galeri Kegiatan', href: '/galeri' },
+		{ label: 'Berita Lingkungan', href: '#berita' }
 	];
 
 	let index = $state(0);
@@ -160,8 +160,7 @@
 			       font-display font-extrabold uppercase tracking-tighter
 			       text-[28vw] leading-[0.85] text-slate-900/[0.04] dark:text-white/[0.02] md:text-[18vw]"
 		>
-			ANGGANA · ANGGANA · ANGGANA
-		</div>
+			MAPFLOFA · FLORA · FAUNA</div>
 	</div>
 
 	<div class="relative z-10 max-w-7xl mx-auto">
@@ -171,7 +170,7 @@
 				class="relative min-w-0"
 				role="region"
 				aria-roledescription="carousel"
-				aria-label="Sorotan SMP 1 Anggana"
+				aria-label="Sorotan MAPFLOFA"
 				onmouseenter={stopAuto}
 				onmouseleave={startAuto}
 				onfocusin={stopAuto}
@@ -233,7 +232,7 @@
 							</p>
 
 							<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3 md:mt-8">
-								<Button href="/programs" variant="accent" size="lg" class="max-sm:w-full">Jelajahi Sekarang</Button>
+								<Button href="/galeri" variant="accent" size="lg" class="max-sm:w-full">Lihat Kegiatan</Button>
 
 								<!-- Counter -->
 								<div class="flex min-h-11 items-center gap-3 sm:ml-2">
@@ -305,7 +304,7 @@
 				</div>
 
 				<!-- Touch-friendly shortcuts -->
-				<nav aria-label="Jelajahi sekolah" class="mt-4 overflow-x-auto scrollbar-hide lg:hidden">
+				<nav aria-label="Jelajahi MAPFLOFA" class="mt-4 overflow-x-auto scrollbar-hide lg:hidden">
 					<ul class="flex w-max gap-2 pr-4">
 						{#each discover as d}
 							<li>
@@ -375,7 +374,7 @@
 
 				<!-- Discover list -->
 				<div class="bg-white dark:bg-slate-800 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/50 dark:shadow-black/20 p-6">
-					<div class="font-display font-bold text-primary dark:text-white">Jelajahi Sekolah</div>
+					<div class="font-display font-bold text-primary dark:text-white">Jelajahi MAPFLOFA</div>
 					<ul class="mt-4 divide-y divide-slate-100 dark:divide-slate-700">
 						{#each discover as d}
 							<li>

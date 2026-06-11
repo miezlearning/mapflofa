@@ -19,18 +19,19 @@ function readSaved(): Pref {
 }
 
 function osPrefersDark(): boolean {
-	if (typeof window === 'undefined' || !window.matchMedia) return false;
-	return window.matchMedia('(prefers-color-scheme: dark)').matches;
+	return false;
 }
 
 function effectiveTheme(pref: Pref): 'light' | 'dark' {
-	if (pref === 'auto') return osPrefersDark() ? 'dark' : 'light';
-	return pref;
+	// MAPFLOFA is light-mode only. Ignore saved/OS preference and always
+	// resolve to light so no black/dark palette ever appears.
+	void pref;
+	return 'light';
 }
 
-function applyToDocument(pref: Pref) {
+function applyToDocument(_pref: Pref) {
 	if (typeof document === 'undefined') return;
-	document.documentElement.setAttribute('data-theme', effectiveTheme(pref));
+	document.documentElement.setAttribute('data-theme', 'light');
 }
 
 class ThemeStore {

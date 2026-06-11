@@ -42,7 +42,7 @@
 </script>
 
 <svelte:head>
-	<title>{post.title} — SMP 1 Anggana</title>
+	<title>{post.title} — MAPFLOFA</title>
 	<meta name="description" content={post.excerpt} />
 	<meta property="og:title" content={post.title} />
 	<meta property="og:description" content={post.excerpt} />

@@ -59,7 +59,7 @@
 </script>
 
 <svelte:head>
-	<title>{program.title} | Program SMP 1 Anggana</title>
+	<title>{program.title} | Kegiatan MAPFLOFA</title>
 	<meta name="description" content={program.excerpt} />
 </svelte:head>
 

@@ -175,3 +175,113 @@ export const pageViews = pgTable(
 
 export type PageView = typeof pageViews.$inferSelect;
 export type NewPageView = typeof pageViews.$inferInsert;
+
+/* ============================================================
+   MAPFLOFA CMS tables
+   ------------------------------------------------------------
+   Added for the Mahasiswa Penyayang Flora Fauna redesign:
+   editable profile content, photo gallery (album → photos),
+   and member / organisation-structure records.
+   ============================================================ */
+
+/**
+ * site_content — editable key/value blocks for the "Profil" page and
+ * global settings, so the admin can change Visi, Misi, Sejarah, and
+ * contact details without code changes.
+ *
+ * Suggested keys:
+ *   'profile.visi'        → markdown/plain text
+ *   'profile.misi'        → markdown bullet list
+ *   'profile.sejarah'     → markdown
+ *   'contact.address'     → string
+ *   'contact.email'       → string
+ *   'contact.whatsapp'    → string (E.164, e.g. +6281234567890)
+ *   'contact.instagram'   → handle or URL
+ *   'home.tagline'        → hero tagline
+ *
+ * `group` lets the admin UI cluster fields (e.g. "profile", "contact").
+ */
+export const siteContent = pgTable('site_content', {
+	id: serial('id').primaryKey(),
+	key: text('key').notNull().unique(),
+	group: text('group').notNull().default('general'),
+	label: text('label').notNull(),
+	value: text('value').notNull().default(''),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+/**
+ * gallery_albums — "Galeri Aksi & Kegiatan".
+ * Each album groups photos for a single activity, e.g.
+ * "Penanaman Pohon", "Sosialisasi Satwa Langka".
+ */
+export const galleryAlbums = pgTable('gallery_albums', {
+	id: serial('id').primaryKey(),
+	title: text('title').notNull(),
+	slug: text('slug').notNull().unique(),
+	description: text('description'),
+	coverImage: text('cover_image'),
+	eventDate: text('event_date'),
+	isPublished: boolean('is_published').notNull().default(true),
+	sortOrder: integer('sort_order').notNull().default(0),
+	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+});
+
+/**
+ * gallery_photos — individual images that belong to an album.
+ * Deleting an album cascades to its photos.
+ */
+export const galleryPhotos = pgTable(
+	'gallery_photos',
+	{
+		id: serial('id').primaryKey(),
+		albumId: integer('album_id')
+			.notNull()
+			.references(() => galleryAlbums.id, { onDelete: 'cascade' }),
+		image: text('image').notNull(),
+		caption: text('caption'),
+		sortOrder: integer('sort_order').notNull().default(0),
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+	},
+	(t) => ({
+		byAlbum: index('gallery_photos_album_idx').on(t.albumId, t.sortOrder)
+	})
+);
+
+/**
+ * members — anggota & struktur organisasi.
+ * Powers the visual org chart on the Profil page. `position` is the role
+ * title (e.g. "Ketua Umum", "Divisi Konservasi"); `parentId` lets you nest
+ * positions to render the bagan. `period` is the kepengurusan year.
+ */
+export const members = pgTable(
+	'members',
+	{
+		id: serial('id').primaryKey(),
+		name: text('name').notNull(),
+		position: text('position').notNull(),
+		division: text('division'),
+		parentId: integer('parent_id'),
+		photo: text('photo'),
+		period: text('period'),
+		isActive: boolean('is_active').notNull().default(true),
+		sortOrder: integer('sort_order').notNull().default(0),
+		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+	},
+	(t) => ({
+		byOrder: index('members_order_idx').on(t.sortOrder)
+	})
+);
+
+export type SiteContent = typeof siteContent.$inferSelect;
+export type NewSiteContent = typeof siteContent.$inferInsert;
+
+export type GalleryAlbum = typeof galleryAlbums.$inferSelect;
+export type NewGalleryAlbum = typeof galleryAlbums.$inferInsert;
+
+export type GalleryPhoto = typeof galleryPhotos.$inferSelect;
+export type NewGalleryPhoto = typeof galleryPhotos.$inferInsert;
+
+export type Member = typeof members.$inferSelect;
+export type NewMember = typeof members.$inferInsert;
