@@ -137,23 +137,26 @@
 		role="dialog"
 		aria-modal="true"
 		aria-label="Pratinjau foto"
-		onclick={close}
 		tabindex="-1"
+		onclick={(e) => {
+			if (e.target === e.currentTarget) close();
+		}}
+		onkeydown={(e) => {
+			if (e.key === 'Escape') close();
+		}}
 	>
-		<img src={photos[lightbox].image} alt={photos[lightbox].caption ?? album.title} onclick={(e) => e.stopPropagation()} />
+		<img src={photos[lightbox].image} alt={photos[lightbox].caption ?? album.title} />
 
 		{#if photos[lightbox].caption}
-			<div class="lb-caption" role="presentation" onclick={(e) => e.stopPropagation()}>
-				{photos[lightbox].caption}
-			</div>
+			<div class="lb-caption">{photos[lightbox].caption}</div>
 		{/if}
 
 		<div class="lb-counter">{lightbox + 1} / {photos.length}</div>
 
 		<button type="button" class="lb-btn lb-close" aria-label="Tutup" onclick={close}>✕</button>
 		{#if photos.length > 1}
-			<button type="button" class="lb-btn lb-prev" aria-label="Sebelumnya" onclick={(e) => { e.stopPropagation(); prev(); }}>‹</button>
-			<button type="button" class="lb-btn lb-next" aria-label="Berikutnya" onclick={(e) => { e.stopPropagation(); next(); }}>›</button>
+			<button type="button" class="lb-btn lb-prev" aria-label="Sebelumnya" onclick={prev}>‹</button>
+			<button type="button" class="lb-btn lb-next" aria-label="Berikutnya" onclick={next}>›</button>
 		{/if}
 	</div>
 {/if}

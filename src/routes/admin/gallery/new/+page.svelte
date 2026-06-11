@@ -4,10 +4,10 @@
 
 	let { form }: { form: ActionData } = $props();
 
-	let title = $state((form?.values?.title as string) ?? '');
-	let slug = $state((form?.values?.slug as string) ?? '');
+	let title = $state('');
+	let slug = $state('');
 	let slugTouched = $state(false);
-	let coverPreview = $state((form?.values?.coverImage as string) ?? '');
+	let coverPreview = $state('');
 	let submitting = $state(false);
 
 	function autoSlug(t: string) {

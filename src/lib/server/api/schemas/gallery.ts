@@ -46,10 +46,12 @@ export const createPhotoSchema = z.object({
 	sortOrder: z.coerce.number().int().min(0).default(0)
 });
 
-export const updatePhotoSchema = z.object({
-	caption: optionalText(300),
-	sortOrder: z.coerce.number().int().min(0).optional()
-});
+export const updatePhotoSchema = z
+	.object({
+		caption: optionalText(300),
+		sortOrder: z.coerce.number().int().min(0)
+	})
+	.partial();
 
 export type CreateAlbumInput = z.infer<typeof createAlbumSchema>;
 export type UpdateAlbumInput = z.infer<typeof updateAlbumSchema>;

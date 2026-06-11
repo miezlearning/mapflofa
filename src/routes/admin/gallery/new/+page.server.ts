@@ -22,7 +22,11 @@ export const actions: Actions = {
 		if (coverFile instanceof File && coverFile.size > 0) {
 			const result = await saveUpload(coverFile);
 			if ('error' in result) {
-				return fail(400, { values: rawValues(form), message: `Sampul: ${result.error}` });
+				return fail(400, {
+					values: rawValues(form),
+					fieldErrors: undefined,
+					message: `Sampul: ${result.error}`
+				});
 			}
 			coverImage = result.url;
 		}
@@ -51,6 +55,7 @@ export const actions: Actions = {
 		if (existing) {
 			return fail(409, {
 				values: rawValues(form, coverImage),
+				fieldErrors: undefined,
 				message: `Slug "${parsed.data.slug}" sudah dipakai album lain.`
 			});
 		}
@@ -67,7 +72,11 @@ export const actions: Actions = {
 		} catch (err) {
 			if (err && typeof err === 'object' && 'status' in err && 'location' in err) throw err;
 			console.error('[admin/gallery/new]', err);
-			return fail(500, { values: rawValues(form, coverImage), message: 'Gagal menyimpan ke database.' });
+			return fail(500, {
+				values: rawValues(form, coverImage),
+				fieldErrors: undefined,
+				message: 'Gagal menyimpan ke database.'
+			});
 		}
 	}
 };
