@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Icon from '$lib/components/Icon.svelte';
 
 	interface Article {
 		date: string;
@@ -143,8 +144,8 @@
 
 				<!-- Organisation badge -->
 				<div class="mt-9 inline-flex items-center gap-3 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 px-4 py-3">
-					<div class="w-9 h-9 rounded-xl bg-accent grid place-items-center text-white font-bold">
-						🌿
+					<div class="w-9 h-9 rounded-xl bg-accent grid place-items-center text-white">
+						<Icon name="leaf" size={18} />
 					</div>
 					<div>
 						<div class="text-[11px] text-white/60 uppercase tracking-wider font-semibold">

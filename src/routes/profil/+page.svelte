@@ -2,6 +2,7 @@
 	import FloatingNavbar from '$lib/components/FloatingNavbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Button from '$lib/components/Button.svelte';
+	import Icon, { type IconName } from '$lib/components/Icon.svelte';
 	import { reveal } from '$lib/actions/reveal';
 
 	/**
@@ -19,11 +20,11 @@
 		'Menumbuhkan rasa cinta terhadap alam melalui aksi nyata dan ekspedisi.'
 	];
 
-	const nilai = [
-		{ icon: '🌱', title: 'Lestari', desc: 'Menjaga alam untuk generasi mendatang' },
-		{ icon: '🤝', title: 'Gotong Royong', desc: 'Bergerak bersama, berdampak lebih besar' },
-		{ icon: '📚', title: 'Edukatif', desc: 'Berbagi ilmu dan kesadaran lingkungan' },
-		{ icon: '🧭', title: 'Integritas', desc: 'Jujur dan bertanggung jawab pada bumi' }
+	const nilai: { icon: IconName; title: string; desc: string }[] = [
+		{ icon: 'sprout', title: 'Lestari', desc: 'Menjaga alam untuk generasi mendatang' },
+		{ icon: 'users', title: 'Gotong Royong', desc: 'Bergerak bersama, berdampak lebih besar' },
+		{ icon: 'book', title: 'Edukatif', desc: 'Berbagi ilmu dan kesadaran lingkungan' },
+		{ icon: 'shield', title: 'Integritas', desc: 'Jujur dan bertanggung jawab pada bumi' }
 	];
 
 	// Struktur organisasi (bagan sederhana)
@@ -33,11 +34,11 @@
 		{ name: 'Sekretaris', sub: 'Administrasi & surat' },
 		{ name: 'Bendahara', sub: 'Keuangan organisasi' }
 	];
-	const divisi = [
-		{ name: 'Divisi Konservasi', sub: 'Penanaman & pelestarian', icon: '🌳' },
-		{ name: 'Divisi Edukasi', sub: 'Sosialisasi & kampanye', icon: '📣' },
-		{ name: 'Divisi Ekspedisi', sub: 'Pendataan satwa & alam', icon: '🧭' },
-		{ name: 'Divisi Humas & Media', sub: 'Publikasi & kerja sama', icon: '📷' }
+	const divisi: { name: string; sub: string; icon: IconName }[] = [
+		{ name: 'Divisi Konservasi', sub: 'Penanaman & pelestarian', icon: 'tree' },
+		{ name: 'Divisi Edukasi', sub: 'Sosialisasi & kampanye', icon: 'megaphone' },
+		{ name: 'Divisi Ekspedisi', sub: 'Pendataan satwa & alam', icon: 'compass' },
+		{ name: 'Divisi Humas & Media', sub: 'Publikasi & kerja sama', icon: 'camera' }
 	];
 </script>
 
@@ -119,7 +120,9 @@
 						class="rounded-3xl bg-white border border-slate-100 p-6 text-center shadow-sm
 						       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 					>
-						<div class="text-3xl">{n.icon}</div>
+						<div class="w-12 h-12 mx-auto rounded-2xl bg-accent/10 text-accent grid place-items-center">
+							<Icon name={n.icon} size={24} />
+						</div>
 						<div class="mt-3 font-display font-bold text-primary">{n.title}</div>
 						<div class="mt-1 text-xs text-slate-500 leading-relaxed">{n.desc}</div>
 					</div>
@@ -198,7 +201,9 @@
 				<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
 					{#each divisi as d, i}
 						<div use:reveal={{ from: 'up', delay: i * 70 }} class="org-node org-node--division">
-							<div class="text-2xl">{d.icon}</div>
+							<div class="w-11 h-11 mx-auto rounded-xl bg-primary/5 text-primary grid place-items-center">
+								<Icon name={d.icon} size={22} />
+							</div>
 							<div class="mt-2 font-display font-bold text-primary text-sm md:text-base">{d.name}</div>
 							<div class="text-xs text-slate-500 mt-0.5">{d.sub}</div>
 						</div>

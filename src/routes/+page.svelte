@@ -5,6 +5,7 @@
 	import Carousel from '$lib/components/Carousel.svelte';
 	import NewsCard from '$lib/components/NewsCard.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import Icon, { type IconName } from '$lib/components/Icon.svelte';
 	import { reveal } from '$lib/actions/reveal';
 	import { parallax } from '$lib/actions/parallax';
 	import type { PageData } from './$types';
@@ -37,11 +38,26 @@
 	];
 
 	// Dampak & pencapaian — evergreen stats, no DB needed.
-	const impactStats = [
-		{ value: '1.200+', label: 'Pohon ditanam', icon: '🌳' },
-		{ value: '45+', label: 'Kegiatan terlaksana', icon: '📅' },
-		{ value: '120+', label: 'Anggota aktif', icon: '🧑‍🤝‍🧑' },
-		{ value: '8', label: 'Spesies satwa didata', icon: '🦜' }
+	const impactStats: { value: string; label: string; icon: IconName }[] = [
+		{ value: '1.200+', label: 'Pohon ditanam', icon: 'tree' },
+		{ value: '45+', label: 'Kegiatan terlaksana', icon: 'calendar' },
+		{ value: '120+', label: 'Anggota aktif', icon: 'users' },
+		{ value: '8', label: 'Spesies satwa didata', icon: 'bird' }
+	];
+
+	// Pilar kegiatan untuk bagian "Tentang Kami".
+	const pilar: { icon: IconName; title: string; desc: string }[] = [
+		{ icon: 'sprout', title: 'Konservasi', desc: 'Penanaman pohon & reboisasi rutin' },
+		{ icon: 'bird', title: 'Satwa Langka', desc: 'Edukasi & pelestarian fauna endemik' },
+		{ icon: 'book', title: 'Edukasi', desc: 'Sosialisasi lingkungan ke masyarakat' },
+		{ icon: 'users', title: 'Kolaborasi', desc: 'Aksi bersama komunitas & kampus' }
+	];
+
+	// Info kontak untuk bagian CTA.
+	const kontak: { icon: IconName; label: string; value: string }[] = [
+		{ icon: 'map-pin', label: 'Sekretariat', value: 'Gedung UKM Kampus, Jl. Kampus Hijau No. 1, Indonesia' },
+		{ icon: 'mail', label: 'Email', value: 'halo@mapflofa.org' },
+		{ icon: 'instagram', label: 'Instagram', value: '@mapflofa' }
 	];
 </script>
 
@@ -83,10 +99,7 @@
 				>
 					<div class="flex items-center gap-3">
 						<div class="w-12 h-12 rounded-2xl bg-primary/5 grid place-items-center text-primary">
-							<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M12 14l9-5-9-5-9 5 9 5z" />
-								<path d="M12 14l6.16-3.422A12 12 0 0 1 12 21a12 12 0 0 1-6.16-10.422L12 14z" />
-							</svg>
+							<Icon name="users" size={22} />
 						</div>
 						<div>
 							<div class="font-display font-extrabold text-3xl text-primary leading-none">120+</div>
@@ -115,19 +128,16 @@
 				</p>
 
 				<div class="mt-8 grid sm:grid-cols-2 gap-4">
-					{#each [
-						{ icon: '🌱', title: 'Konservasi', desc: 'Penanaman pohon & reboisasi rutin' },
-						{ icon: '🦅', title: 'Satwa Langka', desc: 'Edukasi & pelestarian fauna endemik' },
-						{ icon: '📚', title: 'Edukasi', desc: 'Sosialisasi lingkungan ke masyarakat' },
-						{ icon: '🤝', title: 'Kolaborasi', desc: 'Aksi bersama komunitas & kampus' }
-					] as item, i}
+					{#each pilar as item, i}
 						<div
 							use:reveal={{ from: 'up', delay: 200 + i * 80 }}
 							class="about-feature-card rounded-2xl bg-white border border-slate-100 p-4 shadow-sm
 							       transition-all duration-300
 							       hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 						>
-							<div class="text-2xl">{item.icon}</div>
+							<div class="w-10 h-10 rounded-xl bg-accent/10 text-accent grid place-items-center">
+								<Icon name={item.icon} size={20} />
+							</div>
 							<div class="mt-2 font-bold text-primary text-sm">{item.title}</div>
 							<div class="text-xs text-slate-500 mt-1">{item.desc}</div>
 						</div>
@@ -238,8 +248,10 @@
 						class="rounded-3xl bg-surface-3 border border-slate-100 p-6 md:p-8 text-center
 						       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 					>
-						<div class="text-3xl md:text-4xl">{s.icon}</div>
-						<div class="mt-3 font-display font-extrabold text-3xl md:text-4xl text-primary leading-none">
+						<div class="w-14 h-14 mx-auto rounded-2xl bg-accent/10 text-accent grid place-items-center">
+							<Icon name={s.icon} size={28} />
+						</div>
+						<div class="mt-4 font-display font-extrabold text-3xl md:text-4xl text-primary leading-none">
 							{s.value}
 						</div>
 						<div class="mt-2 text-sm text-slate-500 font-medium">{s.label}</div>
@@ -304,14 +316,10 @@
 					<div use:reveal={{ from: 'right', delay: 200 }} class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-3xl p-8">
 						<h3 class="font-display font-bold text-2xl">Hubungi Kami</h3>
 						<ul class="mt-6 space-y-5">
-							{#each [
-								{ icon: '📍', label: 'Sekretariat', value: 'Gedung UKM Kampus, Jl. Kampus Hijau No. 1, Indonesia' },
-								{ icon: '✉', label: 'Email', value: 'halo@mapflofa.org' },
-								{ icon: '📱', label: 'Instagram', value: '@mapflofa' }
-							] as c}
+							{#each kontak as c}
 								<li class="flex gap-4">
-									<div class="w-11 h-11 rounded-2xl bg-white/15 grid place-items-center shrink-0 text-lg">
-										{c.icon}
+									<div class="w-11 h-11 rounded-2xl bg-white/15 grid place-items-center shrink-0 text-white">
+										<Icon name={c.icon} size={20} />
 									</div>
 									<div>
 										<div class="text-xs uppercase tracking-wider text-white/65 font-semibold">{c.label}</div>
