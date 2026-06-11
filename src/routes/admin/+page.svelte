@@ -157,6 +157,9 @@
 	.tile.amber {
 		--glow: rgba(248, 113, 113, 0.2);
 	}
+	.tile.emerald {
+		--glow: rgba(52, 211, 153, 0.2);
+	}
 	.label {
 		color: #94a3b8;
 		font-size: 0.75rem;
