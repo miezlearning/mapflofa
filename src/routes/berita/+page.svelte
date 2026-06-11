@@ -3,6 +3,7 @@
 	import FloatingNavbar from '$lib/components/FloatingNavbar.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import NewsCard from '$lib/components/NewsCard.svelte';
+	import Icon from '$lib/components/Icon.svelte';
 	import { reveal } from '$lib/actions/reveal';
 	import { goto } from '$app/navigation';
 	import { page as pageStore } from '$app/state';
@@ -168,13 +169,15 @@
 		{#if data.items.length === 0}
 			<section class="px-4 md:px-8 pb-20" transition:fade={{ duration: 200 }}>
 				<div class="max-w-3xl mx-auto text-center py-16 px-6 rounded-3xl bg-surface-2 border border-slate-200">
-					<div class="text-5xl mb-4" aria-hidden="true">📰</div>
+					<div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary/5 text-primary grid place-items-center" aria-hidden="true">
+						<Icon name="newspaper" size={30} />
+					</div>
 					<h2 class="font-display font-bold text-xl text-primary">Belum ada berita yang cocok</h2>
 					<p class="mt-2 text-slate-600">
 						{#if data.filters.q || data.filters.category}
 							Coba hapus filter atau ubah kata kunci pencarian.
 						{:else}
-							Tim sekolah akan segera memperbarui halaman ini.
+							Tim MAPFLOFA akan segera memperbarui halaman ini.
 						{/if}
 					</p>
 					{#if data.filters.q || data.filters.category}
