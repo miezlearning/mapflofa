@@ -11,6 +11,7 @@
 		{ href: '/admin', label: 'Overview', icon: '◧' },
 		{ href: '/admin/programs', label: 'Programs', icon: '◇' },
 		{ href: '/admin/news', label: 'News', icon: '✦' },
+		{ href: '/admin/gallery', label: 'Galeri', icon: '▦' },
 		{ href: '/admin/events', label: 'Events', icon: '◆' },
 		{ href: '/admin/users', label: 'Users', icon: '◉', adminOnly: true },
 		{ href: '/admin/audit', label: 'Audit log', icon: '◎', adminOnly: true },
@@ -46,8 +47,8 @@
 	<!-- Authenticated dashboard chrome -->
 	<header class="mobile-bar">
 		<a href="/admin" class="brand">
-			<span class="brand-mark">SMP</span>
-			<span class="brand-text">1A <span class="brand-accent">Admin</span></span>
+			<span class="brand-mark">MF</span>
+			<span class="brand-text">MAPFLOFA <span class="brand-accent">Admin</span></span>
 		</a>
 		<button
 			type="button"
@@ -63,8 +64,8 @@
 		<aside class="sidebar">
 			<div class="brand-block">
 				<a href="/admin" class="brand">
-					<span class="brand-mark">SMP</span>
-					<span class="brand-text">1A <span class="brand-accent">Admin</span></span>
+					<span class="brand-mark">MF</span>
+					<span class="brand-text">MAPFLOFA <span class="brand-accent">Admin</span></span>
 				</a>
 			</div>
 

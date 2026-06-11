@@ -13,29 +13,15 @@
 	let { data }: { data: PageData } = $props();
 	const news = $derived(data.news);
 
-	// Galeri preview — a few highlight albums linking to the full /galeri page.
-	const galleryPreview = [
-		{
-			title: 'Penanaman Pohon',
-			category: 'Aksi',
-			image: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop'
-		},
-		{
-			title: 'Sosialisasi Satwa Langka',
-			category: 'Edukasi',
-			image: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?q=80&w=1000&auto=format&fit=crop'
-		},
-		{
-			title: 'Bersih Sungai Bersama',
-			category: 'Aksi',
-			image: 'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=1000&auto=format&fit=crop'
-		},
-		{
-			title: 'Ekspedisi Pendataan Burung',
-			category: 'Konservasi',
-			image: 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=1000&auto=format&fit=crop'
-		}
+	// Galeri preview — real published albums, with a static fallback when the
+	// gallery is still empty so the homepage never looks broken.
+	const fallbackAlbums = [
+		{ title: 'Penanaman Pohon', slug: '', cover: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1000&auto=format&fit=crop', photoCount: 0, eventDate: '' },
+		{ title: 'Sosialisasi Satwa Langka', slug: '', cover: 'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?q=80&w=1000&auto=format&fit=crop', photoCount: 0, eventDate: '' },
+		{ title: 'Bersih Sungai Bersama', slug: '', cover: 'https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=1000&auto=format&fit=crop', photoCount: 0, eventDate: '' },
+		{ title: 'Ekspedisi Pendataan Burung', slug: '', cover: 'https://images.unsplash.com/photo-1452570053594-1b985d6ea890?q=80&w=1000&auto=format&fit=crop', photoCount: 0, eventDate: '' }
 	];
+	const galleryPreview = $derived(data.albums.length > 0 ? data.albums : fallbackAlbums);
 
 	// Dampak & pencapaian — evergreen stats, no DB needed.
 	const impactStats: { value: string; label: string; icon: IconName }[] = [
@@ -184,24 +170,36 @@
 			<div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 				{#each galleryPreview as g, i}
 					<a
-						href="/galeri"
+						href={g.slug ? `/galeri/${g.slug}` : '/galeri'}
 						use:reveal={{ from: 'up', delay: i * 90 }}
 						class="group relative block overflow-hidden rounded-3xl bg-slate-100 aspect-[3/4]
 						       shadow-sm shadow-slate-200/50 transition-all duration-300
 						       hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/40"
 					>
-						<img
-							src={g.image}
-							alt={g.title}
-							loading="lazy"
-							class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-						/>
+						{#if g.cover}
+							<img
+								src={g.cover}
+								alt={g.title}
+								loading="lazy"
+								class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+							/>
+						{:else}
+							<div class="w-full h-full grid place-items-center text-primary/40">
+								<Icon name="camera" size={32} />
+							</div>
+						{/if}
 						<div class="absolute inset-0 bg-gradient-to-t from-primary-700/75 via-primary-700/10 to-transparent"></div>
-						<span class="absolute top-4 left-4 inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-primary">
-							{g.category}
-						</span>
+						{#if g.photoCount > 0}
+							<span class="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-primary">
+								<Icon name="camera" size={12} />
+								{g.photoCount}
+							</span>
+						{/if}
 						<div class="absolute inset-x-0 bottom-0 p-4">
 							<div class="font-display font-bold text-white text-base leading-snug">{g.title}</div>
+							{#if g.eventDate}
+								<div class="text-white/70 text-xs mt-0.5">{g.eventDate}</div>
+							{/if}
 						</div>
 					</a>
 				{/each}
