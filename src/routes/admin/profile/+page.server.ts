@@ -44,7 +44,8 @@ export const load: PageServerLoad = async (event) => {
 			whatsapp: content['contact.whatsapp'] ?? '',
 			instagram: content['contact.instagram'] ?? '',
 			email: content['contact.email'] ?? '',
-			extra: content['contact.extra'] ?? ''
+			extra: content['contact.extra'] ?? '',
+			socials: content['contact.socials'] ?? ''
 		}
 	};
 };

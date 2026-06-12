@@ -26,6 +26,7 @@
 	let contactInstagram = $state(data.contact.instagram);
 	let contactEmail = $state(data.contact.email);
 	let contactExtra = $state(data.contact.extra);
+	let contactSocials = $state(data.contact.socials);
 
 	// Icon options for the visual picker, with friendly Indonesian labels.
 	const iconOptions: { name: IconName; label: string }[] = [
@@ -146,6 +147,7 @@
 	<input type="hidden" name="content__contact.instagram" value={contactInstagram} />
 	<input type="hidden" name="content__contact.email" value={contactEmail} />
 	<input type="hidden" name="content__contact.extra" value={contactExtra} />
+	<input type="hidden" name="content__contact.socials" value={contactSocials} />
 
 	<!-- ===== Section: Header ===== -->
 	<section class="card">

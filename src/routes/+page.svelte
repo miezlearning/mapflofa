@@ -39,12 +39,23 @@
 		{ icon: 'users', title: 'Kolaborasi', desc: 'Aksi bersama komunitas & kampus' }
 	];
 
-	// Info kontak untuk bagian CTA.
-	const kontak: { icon: IconName; label: string; value: string }[] = [
-		{ icon: 'map-pin', label: 'Sekretariat', value: 'Gedung UKM Kampus, Jl. Kampus Hijau No. 1, Indonesia' },
-		{ icon: 'mail', label: 'Email', value: 'halo@mapflofa.org' },
-		{ icon: 'instagram', label: 'Instagram', value: '@mapflofa' }
-	];
+	// Info kontak dari root layout data (sinkron dengan footer & admin).
+	import { page } from '$app/state';
+	type ContactInfo = { address: string; whatsapp: string; instagram: string; email: string };
+	const siteContact = $derived((page.data as { contact?: ContactInfo })?.contact ?? {
+		address: '', whatsapp: '', instagram: '', email: ''
+	});
+
+	const kontak = $derived([
+		{ icon: 'map-pin' as IconName, label: 'Sekretariat', value: siteContact.address },
+		{ icon: 'mail' as IconName, label: 'Email', value: siteContact.email },
+		{ icon: 'instagram' as IconName, label: 'Instagram', value: siteContact.instagram }
+	].filter(c => c.value));
+
+	const waLink = $derived(() => {
+		const num = (siteContact.whatsapp ?? '').replace(/[^0-9+]/g, '');
+		return num ? `https://wa.me/${num.replace('+', '')}` : '#';
+	});
 </script>
 
 <svelte:head>
@@ -296,7 +307,7 @@
 						<div class="mt-10 flex flex-wrap gap-4">
 							<Button variant="accent" size="lg">Daftar Anggota</Button>
 							<a
-								href="https://wa.me/6281234567890"
+								href={waLink()}
 								class="inline-flex items-center gap-3 px-7 py-3.5
 								       text-white border border-white/25 rounded-full
 								       font-semibold text-base

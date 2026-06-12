@@ -146,11 +146,13 @@
 
 				<!-- Social row -->
 				<ul class="mt-7 flex flex-wrap gap-2.5">
-					{#each socials as s}
+					{#each contact.socials as s (s.platform)}
 						<li>
 							<a
-								href={s.href}
-								aria-label={s.label}
+								href={s.url}
+								aria-label={s.platform}
+								target="_blank"
+								rel="noopener"
 								class="group w-10 h-10 rounded-full
 								       border border-white/20
 								       grid place-items-center
@@ -166,7 +168,7 @@
 									stroke-linecap="round"
 									stroke-linejoin="round"
 								>
-									<path d={s.d} />
+									<path d={getSocialIcon(s.platform)} />
 								</svg>
 							</a>
 						</li>
