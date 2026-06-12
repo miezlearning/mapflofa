@@ -90,16 +90,16 @@
 			</nav>
 			<div class="flex items-end justify-between gap-6 flex-wrap">
 				<div>
-					<div class="text-xs font-bold uppercase tracking-widest text-accent">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">
 						Update Terbaru
 					</div>
 					<h1
 						class="mt-3 font-display font-extrabold tracking-tight
-						       text-4xl md:text-6xl text-primary leading-[1.05]"
+						       text-4xl md:text-6xl text-ink leading-[1.05]"
 					>
 						Berita Sekolah
 					</h1>
-					<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed max-w-xl">
+					<p class="mt-5 text-muted text-base md:text-lg leading-relaxed max-w-xl">
 						Konservasi, edukasi, dan aksi lingkungan dari MAPFLOFA.
 						{data.totalCount} berita telah dipublikasikan.
 					</p>
@@ -200,12 +200,12 @@
 								<span class="featured-cat">{featured.category}</span>
 							</div>
 							<div class="featured-meta">
-								<div class="text-xs font-semibold uppercase tracking-widest text-accent">
+								<div class="text-xs font-semibold uppercase tracking-widest text-muted">
 									Sorotan · {featured.date}
 								</div>
 								<h2
-									class="mt-3 font-display font-extrabold text-3xl md:text-4xl text-primary
-									       leading-[1.15] transition-colors duration-300 group-hover:text-accent"
+									class="mt-3 font-display font-extrabold text-3xl md:text-4xl text-ink
+									       leading-[1.15] transition-colors duration-300 group-hover:text-primary"
 								>
 									{featured.title}
 								</h2>
@@ -280,17 +280,17 @@
 		padding: 0.625rem 0.875rem;
 		padding-right: 2.5rem;
 		border-radius: 9999px;
-		border: 1px solid #e5e7eb;
+		border: 1px solid var(--color-line, #e2e8f0);
 		background: #ffffff;
-		color: #0f172a;
+		color: var(--color-ink, #1e293b);
 		font-size: 0.875rem;
 		outline: none;
 		transition: border-color 150ms ease, box-shadow 150ms ease;
 	}
 
 	.search-input:focus {
-		border-color: #0b2e4f;
-		box-shadow: 0 0 0 3px rgba(11, 46, 79, 0.08);
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 0 3px rgba(110, 174, 232, 0.12);
 	}
 
 	.search-clear {
@@ -313,7 +313,7 @@
 	}
 
 	.search-clear:hover {
-		background: #0b2e4f;
+		background: var(--color-primary, #6eaee8);
 		color: #fff;
 	}
 
@@ -324,7 +324,7 @@
 		width: 2.5rem;
 		height: 2.5rem;
 		border-radius: 9999px;
-		background: #0b2e4f;
+		background: var(--color-primary, #6eaee8);
 		color: #fff;
 		border: 0;
 		cursor: pointer;
@@ -332,32 +332,33 @@
 	}
 
 	.search-btn:hover {
-		background: #103d68;
+		background: var(--color-primary-600, #4f97d6);
 		transform: translateY(-1px);
 	}
 
 	.chip {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.4375rem 0.875rem;
+		padding: 0.5rem 1rem;
 		border-radius: 9999px;
 		background: #ffffff;
-		border: 1px solid #e5e7eb;
-		color: #475569;
+		border: 1px solid var(--color-line, #e2e8f0);
+		color: var(--color-muted, #64748b);
 		font-size: 0.8125rem;
 		font-weight: 600;
 		text-decoration: none;
 		transition: all 150ms ease;
+		white-space: nowrap;
 	}
 
 	.chip:hover {
-		border-color: #0b2e4f;
-		color: #0b2e4f;
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
 	}
 
 	.chip.active {
-		background: #0b2e4f;
-		border-color: #0b2e4f;
+		background: var(--color-primary, #6eaee8);
+		border-color: var(--color-primary, #6eaee8);
 		color: #ffffff;
 	}
 
@@ -381,19 +382,10 @@
 	.featured-img {
 		position: relative;
 		overflow: hidden;
-		border-top-left-radius: 8rem;
-		border-bottom-right-radius: 8rem;
-		border-top-right-radius: 1.25rem;
-		border-bottom-left-radius: 1.25rem;
+		border-radius: 1.5rem;
 		aspect-ratio: 4/3;
 		background: #f1f5f9;
-		box-shadow: 0 24px 48px -16px rgba(11, 46, 79, 0.25);
-	}
-
-	@media (max-width: 768px) {
-		.featured-img {
-			border-radius: 1.75rem;
-		}
+		box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.12);
 	}
 
 	.featured-img img {
@@ -410,17 +402,17 @@
 
 	.featured-cat {
 		position: absolute;
-		top: 1.25rem;
-		left: 1.25rem;
+		top: 1rem;
+		left: 1rem;
 		display: inline-block;
-		padding: 0.4375rem 0.875rem;
-		border-radius: 9999px;
-		background: #e11d48;
+		padding: 0.375rem 0.75rem;
+		border-radius: 0.5rem;
+		background: var(--color-primary, #6eaee8);
 		color: #fff;
-		font-size: 0.7rem;
+		font-size: 0.6875rem;
 		font-weight: 700;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.06em;
 	}
 
 	.card-wrap {
@@ -447,8 +439,8 @@
 		padding: 0.625rem 1.25rem;
 		border-radius: 9999px;
 		background: #ffffff;
-		border: 1px solid #e5e7eb;
-		color: #0b2e4f;
+		border: 1px solid var(--color-line, #e2e8f0);
+		color: var(--color-ink, #1e293b);
 		font-size: 0.875rem;
 		font-weight: 600;
 		text-decoration: none;
@@ -456,20 +448,20 @@
 	}
 
 	.page-link:hover {
-		border-color: #0b2e4f;
-		background: #0b2e4f;
+		border-color: var(--color-primary, #6eaee8);
+		background: var(--color-primary, #6eaee8);
 		color: #ffffff;
 	}
 
 	.page-info {
 		font-size: 0.875rem;
-		color: #64748b;
+		color: var(--color-muted, #64748b);
 	}
 
 	.adm-btn-link {
 		font-size: 0.875rem;
 		font-weight: 600;
-		color: #0b2e4f;
+		color: var(--color-primary, #6eaee8);
 		text-decoration: none;
 	}
 
