@@ -276,7 +276,9 @@
 	}
 
 	.search-input {
-		min-width: 14rem;
+		min-width: 0;
+		width: 100%;
+		max-width: 14rem;
 		padding: 0.625rem 0.875rem;
 		padding-right: 2.5rem;
 		border-radius: 9999px;
@@ -286,6 +288,16 @@
 		font-size: 0.875rem;
 		outline: none;
 		transition: border-color 150ms ease, box-shadow 150ms ease;
+	}
+
+	@media (max-width: 480px) {
+		.search-form {
+			width: 100%;
+		}
+		.search-input {
+			max-width: none;
+			flex: 1;
+		}
 	}
 
 	.search-input:focus {

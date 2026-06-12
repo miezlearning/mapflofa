@@ -48,6 +48,7 @@
 	// doesn't grow from the corner). After that it slides smoothly.
 	let pill = $state({ x: 0, w: 0, h: 0, visible: false, instant: false });
 	let reducedMotion = $state(false);
+	let mobileMenuOpen = $state(false);
 
 	onMount(() => {
 		const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -107,7 +108,7 @@
 			</span>
 		</a>
 
-		<!-- Nav list -->
+		<!-- Desktop nav list -->
 		<ul
 			bind:this={listEl}
 			onmouseleave={leave}
@@ -149,29 +150,90 @@
 			{/each}
 		</ul>
 
-		<!-- CTA -->
-		<a
-			href={ctaHref}
-			class="inline-flex items-center gap-2 shrink-0
-			       bg-accent hover:bg-accent-600 text-white
-			       text-xs md:text-sm font-semibold
-			       px-4 md:px-5 py-2.5 rounded-full
-			       transition-all duration-300
-			       shadow-lg shadow-accent/20
-			       hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5"
-		>
-			Gabung
-			<svg
-				width="14"
-				height="14"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2.5"
-				stroke-linecap="round"
+		<div class="flex items-center gap-2">
+			<!-- CTA -->
+			<a
+				href={ctaHref}
+				class="inline-flex items-center gap-2 shrink-0
+				       bg-accent hover:bg-accent-600 text-white
+				       text-xs md:text-sm font-semibold
+				       px-4 md:px-5 py-2.5 rounded-full
+				       transition-all duration-300
+				       shadow-lg shadow-accent/20
+				       hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5"
 			>
-				<path d="M5 12h14M13 5l7 7-7 7" />
-			</svg>
-		</a>
+				Gabung
+				<svg
+					width="14"
+					height="14"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					stroke-linecap="round"
+				>
+					<path d="M5 12h14M13 5l7 7-7 7" />
+				</svg>
+			</a>
+
+			<!-- Mobile hamburger toggle -->
+			<button
+				type="button"
+				class="md:hidden inline-flex items-center justify-center
+				       w-10 h-10 rounded-full
+				       text-slate-700 hover:bg-slate-100
+				       transition-colors duration-200
+				       focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+				onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
+				aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+				aria-expanded={mobileMenuOpen}
+			>
+				{#if mobileMenuOpen}
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+						<path d="M18 6L6 18M6 6l12 12"/>
+					</svg>
+				{:else}
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+						<path d="M4 6h16M4 12h16M4 18h16"/>
+					</svg>
+				{/if}
+			</button>
+		</div>
 	</div>
+
+	<!-- Mobile dropdown menu -->
+	{#if mobileMenuOpen}
+		<div
+			class="md:hidden mt-2 mx-2 rounded-2xl bg-white/95 backdrop-blur-lg
+			       border border-slate-200 shadow-xl shadow-slate-300/30
+			       p-4 animate-in"
+		>
+			<ul class="flex flex-col gap-1">
+				{#each items as item (item.href)}
+					<li>
+						<a
+							href={resolveHref(item.href)}
+							onclick={() => (mobileMenuOpen = false)}
+							class="block px-4 py-3 rounded-xl text-sm font-semibold
+							       text-slate-700 hover:bg-slate-50 hover:text-primary
+							       transition-colors duration-150"
+						>
+							{item.label}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
 </nav>
+
+<style>
+	.animate-in {
+		animation: menuSlideIn 200ms ease-out;
+	}
+
+	@keyframes menuSlideIn {
+		from { opacity: 0; transform: translateY(-8px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+</style>

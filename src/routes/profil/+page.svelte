@@ -1189,12 +1189,15 @@
 		.sc-stage { min-height: auto; }
 		.sc-select { display: flex; flex-direction: column; }
 		.sc-left { order: 2; }
-		.sc-right { order: 1; height: 22rem; }
+		.sc-right { order: 1; height: 20rem; }
 		.sc-dots { display: none; }
 		.sc-text__name { font-size: 1.75rem; }
 		.sc-peek { display: none; }
 		.sc-decor { transform: translateX(-50%); }
-		.sc-bios { bottom: 0.5rem; }
-		.sc-detail__visual { min-height: 18rem; }
+		.sc-person__frame { width: 12rem; height: 18rem; }
+		.sc-bios { position: relative; bottom: auto; right: auto; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
+		.sc-detail { grid-template-columns: 1fr; }
+		.sc-detail__visual { min-height: 16rem; }
+		.sc-detail__role { font-size: 1.5rem; }
 	}
 </style>

@@ -335,6 +335,15 @@
 				<textarea bind:value={contactExtra} rows="3" placeholder="Satu kontak per baris, format: Label|Nilai&#10;cth: YouTube|youtube.com/@mapflofa"></textarea>
 				<span class="field-hint">Satu per baris. Format: Label|Nilai (mis. Facebook|fb.com/mapflofa). Akan ditampilkan di footer.</span>
 			</label>
+			<label class="field">
+				<span class="lbl">Link sosial media</span>
+				<textarea bind:value={contactSocials} rows="4" placeholder="Satu per baris, format: Platform|URL&#10;cth: Instagram|https://instagram.com/mapflofa&#10;WhatsApp|https://wa.me/6281234567890"></textarea>
+				<span class="field-hint">
+					Satu per baris. Format: NamaPlatform|URL.
+					Platform yang tersedia ikonnya: Instagram, WhatsApp, Facebook, YouTube, Twitter, TikTok, LinkedIn.
+					Ikon otomatis muncul di footer.
+				</span>
+			</label>
 		</div>
 	</section>
 
