@@ -23,42 +23,145 @@
 		{ icon: 'shield', title: 'Integritas', desc: 'Jujur dan bertanggung jawab pada bumi' }
 	];
 
-	// ===== Struktur Organisasi — Synchronized Carousel Data =====
+	// ===== Struktur Organisasi — Character Select + Detail Zoom =====
 	type OrgMember = {
 		id: number;
 		role: string;
 		description: string;
 		name: string;
 		imageUrl: string;
+		tupoksi: string[];
 	};
 
 	const orgMembers: OrgMember[] = [
-		{ id: 1, role: 'Ketua Umum', description: 'Pemimpin organisasi', name: 'Ahmad Fauzan', imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop' },
-		{ id: 2, role: 'Wakil Ketua', description: 'Pendamping ketua', name: 'Rizki Pratama', imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop' },
-		{ id: 3, role: 'Sekretaris', description: 'Administrasi & surat', name: 'Siti Nurhaliza', imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=600&auto=format&fit=crop' },
-		{ id: 4, role: 'Bendahara', description: 'Keuangan organisasi', name: 'Dewi Anggraini', imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=600&auto=format&fit=crop' },
-		{ id: 5, role: 'Divisi Konservasi', description: 'Penanaman & pelestarian', name: 'Budi Santoso', imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=600&auto=format&fit=crop' },
-		{ id: 6, role: 'Divisi Edukasi', description: 'Sosialisasi & kampanye', name: 'Anisa Putri', imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop' },
-		{ id: 7, role: 'Divisi Ekspedisi', description: 'Pendataan satwa & alam', name: 'Reza Mahendra', imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop' },
-		{ id: 8, role: 'Divisi Humas & Media', description: 'Publikasi & kerja sama', name: 'Maya Sari', imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop' }
+		{
+			id: 1,
+			role: 'Ketua Umum',
+			description: 'Pemimpin organisasi',
+			name: 'Ahmad Fauzan',
+			imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Memimpin dan mengarahkan jalannya organisasi sesuai visi dan misi MAPFLOFA.',
+				'Mengambil keputusan strategis terkait program kerja dan kebijakan organisasi.',
+				'Mewakili organisasi dalam hubungan dengan kampus, mitra, dan lembaga konservasi.',
+				'Mengkoordinasikan seluruh pengurus dan divisi agar berjalan selaras.',
+				'Bertanggung jawab atas keberlangsungan dan perkembangan organisasi.'
+			]
+		},
+		{
+			id: 2,
+			role: 'Wakil Ketua',
+			description: 'Pendamping ketua',
+			name: 'Rizki Pratama',
+			imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Mendampingi dan membantu ketua dalam menjalankan tugas organisasi.',
+				'Menggantikan peran ketua apabila berhalangan hadir.',
+				'Mengawasi pelaksanaan program kerja tiap divisi.',
+				'Menjadi penghubung antara ketua dan pengurus harian.'
+			]
+		},
+		{
+			id: 3,
+			role: 'Sekretaris',
+			description: 'Administrasi & surat',
+			name: 'Siti Nurhaliza',
+			imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Mengelola seluruh administrasi dan surat-menyurat organisasi.',
+				'Menyusun notulen rapat dan mendokumentasikan kegiatan.',
+				'Mengarsipkan dokumen penting organisasi secara rapi.',
+				'Membantu ketua dalam penyusunan laporan kegiatan.'
+			]
+		},
+		{
+			id: 4,
+			role: 'Bendahara',
+			description: 'Keuangan organisasi',
+			name: 'Dewi Anggraini',
+			imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Mengelola dan mencatat seluruh pemasukan dan pengeluaran organisasi.',
+				'Menyusun laporan keuangan secara transparan dan berkala.',
+				'Mengatur anggaran untuk setiap kegiatan organisasi.',
+				'Bertanggung jawab atas keamanan dana organisasi.'
+			]
+		},
+		{
+			id: 5,
+			role: 'Divisi Konservasi',
+			description: 'Penanaman & pelestarian',
+			name: 'Budi Santoso',
+			imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Merencanakan dan melaksanakan kegiatan penanaman pohon dan reboisasi.',
+				'Melakukan pelestarian flora dan fauna endemik di sekitar kampus.',
+				'Menjalin kerja sama dengan lembaga konservasi terkait.',
+				'Memantau perkembangan area konservasi yang dikelola.'
+			]
+		},
+		{
+			id: 6,
+			role: 'Divisi Edukasi',
+			description: 'Sosialisasi & kampanye',
+			name: 'Anisa Putri',
+			imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Menyelenggarakan sosialisasi dan kampanye lingkungan.',
+				'Membuat materi edukasi tentang konservasi flora dan fauna.',
+				'Mengadakan kelas atau workshop untuk anggota dan masyarakat.',
+				'Menumbuhkan kesadaran lingkungan di kalangan mahasiswa.'
+			]
+		},
+		{
+			id: 7,
+			role: 'Divisi Ekspedisi',
+			description: 'Pendataan satwa & alam',
+			name: 'Reza Mahendra',
+			imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Merencanakan dan memimpin ekspedisi pendataan flora dan fauna.',
+				'Mendokumentasikan temuan spesies di alam liar.',
+				'Menyusun laporan hasil ekspedisi dan pendataan.',
+				'Memastikan keselamatan tim selama kegiatan lapangan.'
+			]
+		},
+		{
+			id: 8,
+			role: 'Divisi Humas & Media',
+			description: 'Publikasi & kerja sama',
+			name: 'Maya Sari',
+			imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=700&auto=format&fit=crop',
+			tupoksi: [
+				'Mengelola publikasi dan media sosial organisasi.',
+				'Mendokumentasikan setiap kegiatan dalam bentuk foto dan video.',
+				'Menjalin kerja sama dan komunikasi dengan pihak eksternal.',
+				'Mempromosikan kegiatan dan citra positif organisasi.'
+			]
+		}
 	];
 
 	let activeIndex = $state(0);
-	let isTransitioning = $state(false);
+	let detailOpen = $state(false);
 
 	const current = $derived(orgMembers[activeIndex]);
 	const nextIndex = $derived((activeIndex + 1) % orgMembers.length);
 	const nextMember = $derived(orgMembers[nextIndex]);
 
 	function goTo(index: number) {
-		if (index === activeIndex || isTransitioning) return;
-		isTransitioning = true;
-		activeIndex = index;
-		setTimeout(() => (isTransitioning = false), 400);
+		activeIndex = ((index % orgMembers.length) + orgMembers.length) % orgMembers.length;
 	}
 
 	function goNext() {
-		goTo(nextIndex);
+		goTo(activeIndex + 1);
+	}
+
+	function openDetail() {
+		detailOpen = true;
+	}
+
+	function closeDetail() {
+		detailOpen = false;
 	}
 </script>
 
@@ -179,93 +282,123 @@
 		</div>
 	</section>
 
-	<!-- ===== Struktur Organisasi — Synchronized Hero Carousel ===== -->
-	<section id="struktur" class="sc-section scroll-mt-24">
-		<div class="sc-container">
-			<!-- LEFT COLUMN: Text Info + Pagination -->
-			<div class="sc-left">
-				<!-- Vertical Pagination Dots -->
-				<div class="sc-pagination" aria-label="Navigasi pengurus">
-					<div class="sc-pagination__track"></div>
-					{#each orgMembers as member, i (member.id)}
+	<!-- ===== Struktur Organisasi — Character Select + Detail Zoom ===== -->
+	<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
+		<div class="sc-stage">
+			<!-- ===== SELECT VIEW ===== -->
+			<div class="sc-select" class:hidden={detailOpen} aria-hidden={detailOpen}>
+				<!-- LEFT: dots + info -->
+				<div class="sc-left">
+					<!-- Vertical pagination dots -->
+					<div class="sc-dots">
+						<div class="sc-dots__track"></div>
+						{#each orgMembers as member, i (member.id)}
+							<button
+								type="button"
+								class="sc-dot"
+								class:active={i === activeIndex}
+								onclick={() => goTo(i)}
+								aria-label={`Lihat ${member.role}`}
+								aria-current={i === activeIndex ? 'true' : undefined}
+							></button>
+						{/each}
+					</div>
+
+					<!-- Text info -->
+					<div class="sc-text">
+						<div class="sc-text__org">Pengurus MAPFLOFA</div>
+						{#key activeIndex}
+							<div class="sc-text__content">
+								<div class="sc-text__role">{current.role}</div>
+								<h2 class="sc-text__name">{current.name}</h2>
+								<p class="sc-text__desc">{current.description}</p>
+							</div>
+						{/key}
+						<button type="button" class="sc-btn" onclick={openDetail}>
+							Selengkapnya
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+						</button>
+					</div>
+				</div>
+
+				<!-- RIGHT: main person + next peeking + biodata cards -->
+				<div class="sc-right">
+					<div class="sc-decor" aria-hidden="true"></div>
+
+					<!-- Fixed-size stage so layout never shifts regardless of image dimensions -->
+					<div class="sc-stage-area">
+						<!-- Next person peeking from the right edge -->
 						<button
 							type="button"
-							class="sc-pagination__dot"
-							class:active={i === activeIndex}
-							onclick={() => goTo(i)}
-							aria-label={`Lihat ${member.role}`}
-							aria-current={i === activeIndex ? 'true' : undefined}
+							class="sc-peek"
+							onclick={goNext}
+							aria-label={`Berikutnya: ${nextMember.name}`}
 						>
-							<span class="sc-pagination__dot-inner"></span>
+							<div class="sc-peek__frame">
+								{#key nextIndex}
+									<img src={nextMember.imageUrl} alt="" class="sc-portrait__img" />
+								{/key}
+							</div>
 						</button>
-					{/each}
-				</div>
 
-				<!-- Text Content -->
-				<div class="sc-info">
-					<div class="sc-info__label">PENGURUS MAPFLOFA</div>
-
-					{#key activeIndex}
-						<div class="sc-info__content">
-							<h2 class="sc-info__role">{current.role}</h2>
-							<p class="sc-info__desc">{current.description}</p>
-							<div class="sc-info__name">{current.name}</div>
-						</div>
-					{/key}
-
-					<div class="sc-info__counter">
-						<span class="sc-info__counter-current">{String(activeIndex + 1).padStart(2, '0')}</span>
-						<span class="sc-info__counter-sep">/</span>
-						<span class="sc-info__counter-total">{String(orgMembers.length).padStart(2, '0')}</span>
+						<!-- Main person image (fixed frame) -->
+						<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
+							<div class="sc-person__frame">
+								{#key activeIndex}
+									<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" />
+								{/key}
+							</div>
+							<span class="sc-person__hint">
+								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+								Lihat detail
+							</span>
+						</button>
 					</div>
 
-					<button type="button" class="sc-cta" onclick={goNext}>
-						Profil Lengkap
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M5 12h14M13 5l7 7-7 7" />
-						</svg>
-					</button>
+					<!-- Biodata cards (current + next) -->
+					<div class="sc-bios">
+						<div class="sc-bio sc-bio--current">
+							<span class="sc-bio__label">Biodata</span>
+							<span class="sc-bio__name">{current.name}</span>
+						</div>
+						<button type="button" class="sc-bio sc-bio--next" onclick={goNext}>
+							<span class="sc-bio__label">Selanjutnya</span>
+							<span class="sc-bio__name">{nextMember.name}</span>
+							<span class="sc-bio__arrow">
+								<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+							</span>
+						</button>
+					</div>
 				</div>
 			</div>
 
-			<!-- RIGHT COLUMN: Visual Carousel -->
-			<div class="sc-right">
-				<!-- Decorative elements -->
-				<div class="sc-decor sc-decor--circle" aria-hidden="true"></div>
-				<div class="sc-decor sc-decor--ring" aria-hidden="true"></div>
+			<!-- ===== DETAIL VIEW (zoom in) ===== -->
+			{#if detailOpen}
+				<div class="sc-detail">
+					<!-- LEFT: large person -->
+					<div class="sc-detail__visual">
+						<img src={current.imageUrl} alt={current.name} class="sc-detail__img" />
+					</div>
 
-				<!-- Main image -->
-				<div class="sc-visual">
-					{#each orgMembers as member, i (member.id)}
-						<div
-							class="sc-visual__slide"
-							class:active={i === activeIndex}
-						>
-							<img
-								src={member.imageUrl}
-								alt={member.name}
-								loading={i < 2 ? 'eager' : 'lazy'}
-							/>
-						</div>
-					{/each}
+					<!-- RIGHT: tupoksi -->
+					<div class="sc-detail__body">
+						<button type="button" class="sc-back" onclick={closeDetail}>
+							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+							Kembali
+						</button>
+
+						<div class="sc-detail__name">{current.name}</div>
+						<h2 class="sc-detail__role">{current.role}</h2>
+
+						<div class="sc-detail__label">Tugas Pokok &amp; Fungsi</div>
+						<ol class="sc-tupoksi">
+							{#each current.tupoksi as task, i (i)}
+								<li>{task}</li>
+							{/each}
+						</ol>
+					</div>
 				</div>
-
-				<!-- Next/Mini Card -->
-				<button type="button" class="sc-next-card" onclick={goNext}>
-					<div class="sc-next-card__img">
-						<img src={nextMember.imageUrl} alt={nextMember.name} />
-					</div>
-					<div class="sc-next-card__info">
-						<div class="sc-next-card__label">Selanjutnya</div>
-						<div class="sc-next-card__name">{nextMember.name}</div>
-					</div>
-					<div class="sc-next-card__arrow">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-							<path d="M5 12h14M13 5l7 7-7 7" />
-						</svg>
-					</div>
-				</button>
-			</div>
+			{/if}
 		</div>
 	</section>
 
@@ -290,405 +423,608 @@
 
 <style>
 	/* ==========================================================
-	   Synchronized Hero Carousel — Struktur Organisasi
-	   ----------------------------------------------------------
-	   Color variables used (swap to match your brand):
-	   --color-primary     : #6eaee8  (links, accents)
-	   --color-primary-600 : #4f97d6  (hover)
-	   --color-ink         : #1e293b  (headings)
-	   --color-muted       : #64748b  (secondary text)
-	   --color-line        : #e2e8f0  (borders)
-	   --color-surface-2   : #f8fafc  (section bg)
-	   --color-surface-3   : #f1f5f9  (card bg)
+	   Character Select + Detail Zoom — Struktur Organisasi
+	   Pick a position (like a game character roster), then click
+	   to zoom into the detail / tupoksi view.
 	   ========================================================== */
 
 	.sc-section {
-		background: var(--color-surface, #ffffff);
-		padding: 5rem 1.5rem;
+		position: relative;
 		overflow: hidden;
+		padding: 5rem 1.5rem;
+		background: var(--color-surface-2, #f8fafc);
 	}
 
 	@media (min-width: 768px) {
-		.sc-section {
-			padding: 6rem 2rem;
-		}
+		.sc-section { padding: 6rem 2.5rem; }
 	}
 
-	.sc-container {
-		max-width: 72rem;
+	.sc-stage {
+		position: relative;
+		max-width: 68rem;
 		margin: 0 auto;
+		min-height: 30rem;
+	}
+
+	@media (min-width: 768px) {
+		.sc-stage { min-height: 34rem; }
+	}
+
+	/* ==========================================================
+	   SELECT VIEW
+	   ========================================================== */
+	.sc-select {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 3rem;
+		gap: 2rem;
 		align-items: center;
-		min-height: 28rem;
+		transition: opacity 400ms ease, transform 400ms ease;
 	}
 
 	@media (min-width: 768px) {
-		.sc-container {
-			grid-template-columns: 1fr 1.1fr;
-			gap: 3rem;
-			min-height: 32rem;
+		.sc-select {
+			grid-template-columns: 0.85fr 1.15fr;
+			gap: 2rem;
 		}
 	}
 
-	@media (min-width: 1024px) {
-		.sc-container {
-			gap: 4rem;
-			min-height: 36rem;
-		}
+	/* When detail opens, select view zooms out & fades */
+	.sc-select.hidden {
+		opacity: 0;
+		transform: scale(1.08);
+		pointer-events: none;
+		position: absolute;
+		inset: 0;
 	}
 
-	/* ===== LEFT COLUMN ===== */
+	/* --- Left: dots + text --- */
 	.sc-left {
 		display: flex;
-		gap: 2rem;
-		align-items: stretch;
-	}
-
-	/* --- Pagination --- */
-	.sc-pagination {
-		position: relative;
-		display: flex;
-		flex-direction: column;
+		gap: 1.5rem;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0;
-	}
-
-	.sc-pagination__track {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 50%;
-		width: 2px;
-		background: var(--color-line, #e2e8f0);
-		transform: translateX(-50%);
-		z-index: 0;
-	}
-
-	.sc-pagination__dot {
-		position: relative;
-		z-index: 1;
-		width: 1.25rem;
-		height: 1.25rem;
-		border-radius: 50%;
-		border: 0;
-		background: transparent;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0;
-		transition: transform 200ms ease;
-	}
-
-	.sc-pagination__dot:hover {
-		transform: scale(1.2);
-	}
-
-	.sc-pagination__dot:focus-visible {
-		outline: 2px solid var(--color-primary, #6eaee8);
-		outline-offset: 2px;
-		border-radius: 50%;
-	}
-
-	.sc-pagination__dot-inner {
-		width: 0.5rem;
-		height: 0.5rem;
-		border-radius: 50%;
-		background: var(--color-line, #e2e8f0);
-		transition: all 250ms ease;
-	}
-
-	.sc-pagination__dot.active .sc-pagination__dot-inner {
-		width: 0.625rem;
-		height: 0.625rem;
-		background: var(--color-primary, #6eaee8);
-		box-shadow: 0 0 0 4px rgba(110, 174, 232, 0.15);
-	}
-
-	/* --- Info Text --- */
-	.sc-info {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		min-width: 0;
 	}
 
-	.sc-info__label {
+	/* Vertical dots */
+	.sc-dots {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+		padding: 0.5rem 0;
+		flex-shrink: 0;
+	}
+
+	.sc-dots__track {
+		position: absolute;
+		top: 0.5rem;
+		bottom: 0.5rem;
+		left: 50%;
+		width: 1px;
+		background: var(--color-line, #e2e8f0);
+		transform: translateX(-50%);
+	}
+
+	.sc-dot {
+		position: relative;
+		z-index: 1;
+		width: 0.875rem;
+		height: 0.875rem;
+		border-radius: 50%;
+		border: 2px solid var(--color-line, #e2e8f0);
+		background: var(--color-surface-2, #f8fafc);
+		cursor: pointer;
+		padding: 0;
+		transition: all 250ms ease;
+	}
+
+	.sc-dot:hover {
+		border-color: var(--color-primary, #6eaee8);
+	}
+
+	.sc-dot:focus-visible {
+		outline: 2px solid var(--color-primary, #6eaee8);
+		outline-offset: 2px;
+	}
+
+	.sc-dot.active {
+		border-color: var(--color-primary, #6eaee8);
+		background: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 0 4px rgba(110, 174, 232, 0.18);
+	}
+
+	/* Text block */
+	.sc-text {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.sc-text__org {
 		font-size: 0.6875rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.12em;
 		color: var(--color-primary, #6eaee8);
-		margin-bottom: 1.25rem;
+		margin-bottom: 0.75rem;
 	}
 
-	.sc-info__content {
-		animation: sc-fadeIn 350ms ease-out;
+	.sc-text__content {
+		animation: scSlideIn 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
 	}
 
-	@keyframes sc-fadeIn {
-		from { opacity: 0; transform: translateY(8px); }
-		to   { opacity: 1; transform: translateY(0); }
+	@keyframes scSlideIn {
+		from { opacity: 0; transform: translateX(-14px); }
+		to   { opacity: 1; transform: translateX(0); }
 	}
 
-	.sc-info__role {
+	.sc-text__role {
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--color-muted, #64748b);
+	}
+
+	.sc-text__name {
 		font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
 		font-size: 2rem;
 		font-weight: 800;
 		color: var(--color-ink, #1e293b);
-		letter-spacing: -0.02em;
-		line-height: 1.15;
-		margin: 0;
+		letter-spacing: -0.025em;
+		line-height: 1.1;
+		margin: 0.375rem 0 0;
 	}
 
-	@media (min-width: 768px) {
-		.sc-info__role {
-			font-size: 2.5rem;
-		}
-	}
+	@media (min-width: 768px) { .sc-text__name { font-size: 2.5rem; } }
+	@media (min-width: 1024px) { .sc-text__name { font-size: 3rem; } }
 
-	.sc-info__desc {
-		font-size: 1rem;
+	.sc-text__desc {
+		font-size: 0.9375rem;
 		color: var(--color-muted, #64748b);
 		margin: 0.5rem 0 0;
 		line-height: 1.5;
 	}
 
-	.sc-info__name {
-		font-size: 1.25rem;
-		font-weight: 700;
-		color: var(--color-primary, #6eaee8);
-		margin-top: 1.5rem;
-	}
-
-	.sc-info__counter {
-		display: flex;
-		align-items: baseline;
-		gap: 0.25rem;
-		margin-top: 2rem;
-		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-		font-size: 0.8125rem;
-		color: var(--color-muted, #64748b);
-	}
-
-	.sc-info__counter-current {
-		font-weight: 700;
-		font-size: 1.125rem;
-		color: var(--color-ink, #1e293b);
-	}
-
-	/* --- CTA Button --- */
-	.sc-cta {
+	.sc-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		margin-top: 1.5rem;
-		padding: 0.75rem 1.5rem;
-		border-radius: 0.75rem;
-		border: 1px solid var(--color-primary, #6eaee8);
-		background: transparent;
-		color: var(--color-primary, #6eaee8);
+		margin-top: 1.75rem;
+		padding: 0.6875rem 1.5rem;
+		border-radius: 0.625rem;
+		border: 0;
+		background: var(--color-primary, #6eaee8);
+		color: #fff;
 		font-weight: 700;
 		font-size: 0.8125rem;
 		cursor: pointer;
 		transition: all 200ms ease;
-		width: fit-content;
 	}
 
-	.sc-cta:hover {
-		background: var(--color-primary, #6eaee8);
-		color: #fff;
+	.sc-btn:hover {
+		background: var(--color-primary-600, #4f97d6);
 		transform: translateY(-2px);
 		box-shadow: 0 6px 20px rgba(110, 174, 232, 0.25);
 	}
 
-	.sc-cta:focus-visible {
+	.sc-btn:focus-visible {
 		outline: 2px solid var(--color-primary, #6eaee8);
-		outline-offset: 2px;
+		outline-offset: 3px;
 	}
 
-	/* ===== RIGHT COLUMN ===== */
+	/* --- Right: person stage (FIXED dimensions, no layout shift) --- */
 	.sc-right {
 		position: relative;
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
 		justify-content: center;
-		min-height: 20rem;
+		/* Absolute height so the column never resizes with the image */
+		height: 24rem;
 	}
 
-	@media (min-width: 768px) {
-		.sc-right {
-			min-height: 28rem;
-		}
-	}
+	@media (min-width: 768px) { .sc-right { height: 28rem; } }
+	@media (min-width: 1024px) { .sc-right { height: 32rem; } }
 
-	/* --- Decorative elements --- */
 	.sc-decor {
 		position: absolute;
+		width: 18rem;
+		height: 18rem;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(110, 174, 232, 0.1) 0%, transparent 70%);
+		border: 1px dashed var(--color-line, #e2e8f0);
+		bottom: 2rem;
+		left: 50%;
+		transform: translateX(-58%);
 		pointer-events: none;
 	}
 
-	.sc-decor--circle {
-		width: 85%;
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background: var(--color-surface-2, #f8fafc);
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+	@media (min-width: 768px) { .sc-decor { width: 22rem; height: 22rem; } }
+
+	/* Stage area: a centered, fixed-size box that holds the portraits.
+	   Everything is absolutely positioned inside it, so changing the
+	   image (any width/height) never moves the controls. */
+	.sc-stage-area {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
 	}
 
-	.sc-decor--ring {
-		width: 70%;
-		aspect-ratio: 1;
-		border-radius: 50%;
-		border: 2px dashed var(--color-line, #e2e8f0);
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		opacity: 0.6;
-	}
-
-	/* --- Main Visual --- */
-	.sc-visual {
+	/*
+	   PORTRAIT FRAME — the key to stable layout + clean "cut-out" look.
+	   ------------------------------------------------------------------
+	   - Frame has an ABSOLUTE, fixed size (width/height in rem).
+	   - The photo fills it with `object-fit: cover` + `object-position:
+	     top center`, so ANY photo dimension looks uniform.
+	   - A soft mask feathers the bottom edge so the portrait melts into
+	     the section background instead of showing a hard rectangle —
+	     a more robust "transparent" feel than mix-blend alone.
+	*/
+	.sc-person {
 		position: relative;
-		width: 70%;
-		aspect-ratio: 3/4;
-		border-radius: 1.5rem;
-		overflow: hidden;
-		box-shadow: 0 20px 50px -16px rgba(0, 0, 0, 0.12);
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		padding: 0;
 		z-index: 2;
 	}
 
-	.sc-visual__slide {
+	.sc-person:focus-visible {
+		outline: 2px solid var(--color-primary, #6eaee8);
+		outline-offset: 4px;
+		border-radius: 1.5rem;
+	}
+
+	.sc-person__frame {
+		position: relative;
+		width: 15rem;
+		height: 22rem;
+		overflow: hidden;
+		border-radius: 1.5rem 1.5rem 0 0;
+		/* feather bottom edge to blend into background */
+		-webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+		mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+	}
+
+	@media (min-width: 768px) {
+		.sc-person__frame { width: 17rem; height: 26rem; }
+	}
+
+	@media (min-width: 1024px) {
+		.sc-person__frame { width: 19rem; height: 30rem; }
+	}
+
+	/* Universal portrait image — fills its frame consistently */
+	.sc-portrait__img {
 		position: absolute;
 		inset: 0;
-		opacity: 0;
-		transform: scale(1.04);
-		transition: opacity 400ms ease, transform 400ms ease;
-	}
-
-	.sc-visual__slide.active {
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	.sc-visual__slide img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		object-position: top center;
 		display: block;
+		animation: scPersonIn 500ms cubic-bezier(0.34, 1.2, 0.64, 1);
 	}
 
-	/* --- Next/Mini Card --- */
-	.sc-next-card {
+	@keyframes scPersonIn {
+		from { opacity: 0; transform: scale(1.04); }
+		to   { opacity: 1; transform: scale(1); }
+	}
+
+	/* Hover hint badge */
+	.sc-person__hint {
 		position: absolute;
-		bottom: 1rem;
-		right: 0;
+		bottom: 1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
 		z-index: 3;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 0.75rem;
-		padding: 0.75rem 1rem;
-		background: #fff;
+		gap: 0.375rem;
+		padding: 0.5rem 0.875rem;
+		border-radius: 9999px;
+		background: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(8px);
 		border: 1px solid var(--color-line, #e2e8f0);
-		border-radius: 1rem;
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+		color: var(--color-primary, #6eaee8);
+		font-size: 0.75rem;
+		font-weight: 700;
+		opacity: 0;
+		transition: opacity 200ms ease;
+		pointer-events: none;
+		white-space: nowrap;
+	}
+
+	.sc-person:hover .sc-person__hint { opacity: 1; }
+
+	/* Next person peeking — fixed-size frame, partially off to the right */
+	.sc-peek {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		border: 0;
+		background: transparent;
+		padding: 0;
 		cursor: pointer;
-		transition: all 200ms ease;
-		max-width: 14rem;
+		z-index: 1;
+		opacity: 0.5;
+		transition: opacity 250ms ease, transform 250ms ease;
 	}
 
-	.sc-next-card:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-		border-color: var(--color-primary, #6eaee8);
-	}
+	.sc-peek:hover { opacity: 0.8; transform: translateX(-8px); }
 
-	.sc-next-card:focus-visible {
+	.sc-peek:focus-visible {
 		outline: 2px solid var(--color-primary, #6eaee8);
 		outline-offset: 2px;
 	}
 
-	.sc-next-card__img {
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 0.625rem;
+	.sc-peek__frame {
+		position: relative;
+		width: 8rem;
+		height: 18rem;
 		overflow: hidden;
-		flex-shrink: 0;
+		border-radius: 1.25rem 1.25rem 0 0;
+		/* fade left + bottom so only the right slice shows */
+		-webkit-mask-image: linear-gradient(to right, transparent, #000 70%), linear-gradient(to bottom, #000 80%, transparent);
+		-webkit-mask-composite: source-in;
+		mask-image: linear-gradient(to right, transparent, #000 70%), linear-gradient(to bottom, #000 80%, transparent);
+		mask-composite: intersect;
 	}
 
-	.sc-next-card__img img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
+	@media (min-width: 768px) {
+		.sc-peek__frame { width: 9rem; height: 22rem; }
 	}
 
-	.sc-next-card__info {
-		flex: 1;
+	/* Biodata cards — anchored to the section, fixed position */
+	.sc-bios {
+		position: absolute;
+		bottom: 0.75rem;
+		right: 0;
+		display: flex;
+		gap: 0.5rem;
+		z-index: 5;
+	}
+
+	.sc-bio {
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
+		padding: 0.625rem 0.875rem;
+		border-radius: 0.75rem;
+		background: #fff;
+		border: 1px solid var(--color-line, #e2e8f0);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 		min-width: 0;
+		text-align: left;
 	}
 
-	.sc-next-card__label {
-		font-size: 0.625rem;
+	.sc-bio--next {
+		cursor: pointer;
+		padding-right: 2rem;
+		position: relative;
+		transition: all 200ms ease;
+	}
+
+	.sc-bio--next:hover {
+		border-color: var(--color-primary, #6eaee8);
+		transform: translateY(-2px);
+	}
+
+	.sc-bio--next:focus-visible {
+		outline: 2px solid var(--color-primary, #6eaee8);
+		outline-offset: 2px;
+	}
+
+	.sc-bio__label {
+		font-size: 0.5625rem;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: var(--color-muted, #64748b);
 		font-weight: 600;
 	}
 
-	.sc-next-card__name {
-		font-size: 0.8125rem;
+	.sc-bio--current .sc-bio__label {
+		color: var(--color-primary, #6eaee8);
+	}
+
+	.sc-bio__name {
+		font-size: 0.75rem;
 		font-weight: 700;
 		color: var(--color-ink, #1e293b);
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		max-width: 7rem;
 	}
 
-	.sc-next-card__arrow {
-		width: 1.75rem;
-		height: 1.75rem;
+	.sc-bio__arrow {
+		position: absolute;
+		right: 0.625rem;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 1.25rem;
+		height: 1.25rem;
 		border-radius: 50%;
 		background: var(--color-surface-3, #f1f5f9);
 		color: var(--color-primary, #6eaee8);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		flex-shrink: 0;
-		transition: background 200ms ease, color 200ms ease;
 	}
 
-	.sc-next-card:hover .sc-next-card__arrow {
+	.sc-bio--next:hover .sc-bio__arrow {
 		background: var(--color-primary, #6eaee8);
 		color: #fff;
 	}
 
-	/* ===== Mobile: Stack vertically ===== */
+	/* ==========================================================
+	   DETAIL VIEW (zoom-in)
+	   ========================================================== */
+	.sc-detail {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		background: #ffffff;
+		border: 1px solid var(--color-line, #e2e8f0);
+		border-radius: 1.5rem;
+		overflow: hidden;
+		box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.15);
+		animation: scZoomIn 450ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	@media (min-width: 768px) {
+		.sc-detail {
+			grid-template-columns: 0.8fr 1.2fr;
+		}
+	}
+
+	@keyframes scZoomIn {
+		from { opacity: 0; transform: scale(0.9); }
+		to   { opacity: 1; transform: scale(1); }
+	}
+
+	/* Left visual */
+	.sc-detail__visual {
+		position: relative;
+		background: linear-gradient(160deg, var(--color-primary, #6eaee8), var(--color-primary-700, #2c5f7f));
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		min-height: 16rem;
+		overflow: hidden;
+	}
+
+	@media (min-width: 768px) { .sc-detail__visual { min-height: 30rem; } }
+
+	.sc-detail__img {
+		height: 96%;
+		width: auto;
+		max-width: 100%;
+		object-fit: cover;
+		object-position: top center;
+		filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
+		animation: scImgRise 600ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	@keyframes scImgRise {
+		from { opacity: 0; transform: translateY(24px) scale(1.05); }
+		to   { opacity: 1; transform: translateY(0) scale(1); }
+	}
+
+	/* Right body */
+	.sc-detail__body {
+		padding: 1.75rem;
+	}
+
+	@media (min-width: 768px) { .sc-detail__body { padding: 2.5rem; } }
+
+	.sc-back {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.5rem 0.875rem;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-line, #e2e8f0);
+		background: #fff;
+		color: var(--color-muted, #64748b);
+		font-size: 0.75rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 180ms ease;
+		margin-bottom: 1.5rem;
+	}
+
+	.sc-back:hover {
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
+	}
+
+	.sc-back:focus-visible {
+		outline: 2px solid var(--color-primary, #6eaee8);
+		outline-offset: 2px;
+	}
+
+	.sc-detail__name {
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-primary, #6eaee8);
+	}
+
+	.sc-detail__role {
+		font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
+		font-size: 1.75rem;
+		font-weight: 800;
+		color: var(--color-ink, #1e293b);
+		letter-spacing: -0.02em;
+		line-height: 1.15;
+		margin: 0.25rem 0 0;
+	}
+
+	@media (min-width: 768px) { .sc-detail__role { font-size: 2.25rem; } }
+
+	.sc-detail__label {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-muted, #64748b);
+		margin-top: 1.75rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--color-line, #e2e8f0);
+	}
+
+	.sc-tupoksi {
+		list-style: none;
+		counter-reset: tupoksi;
+		margin: 1rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+	}
+
+	.sc-tupoksi li {
+		counter-increment: tupoksi;
+		position: relative;
+		padding-left: 2.25rem;
+		font-size: 0.9375rem;
+		color: var(--color-ink, #1e293b);
+		line-height: 1.55;
+	}
+
+	.sc-tupoksi li::before {
+		content: counter(tupoksi);
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 50%;
+		background: var(--color-surface-3, #f1f5f9);
+		color: var(--color-primary, #6eaee8);
+		font-size: 0.75rem;
+		font-weight: 800;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* ===== Mobile ===== */
 	@media (max-width: 767px) {
-		.sc-left {
-			order: 2;
-		}
-		.sc-right {
-			order: 1;
-			min-height: 18rem;
-		}
-		.sc-pagination {
-			display: none;
-		}
-		.sc-next-card {
-			bottom: 0.5rem;
-			right: 0.5rem;
-		}
-		.sc-visual {
-			width: 80%;
-		}
-		.sc-info__role {
-			font-size: 1.75rem;
-		}
+		.sc-section { padding: 3rem 1rem; }
+		.sc-stage { min-height: auto; }
+		.sc-select { display: flex; flex-direction: column; }
+		.sc-left { order: 2; }
+		.sc-right { order: 1; min-height: 18rem; }
+		.sc-dots { display: none; }
+		.sc-text__name { font-size: 1.75rem; }
+		.sc-peek { display: none; }
+		.sc-person__img { max-width: 70%; }
+		.sc-bios { position: relative; bottom: auto; right: auto; margin-top: 0.75rem; justify-content: center; flex-wrap: wrap; }
+		.sc-detail__visual { min-height: 18rem; }
 	}
 </style>
