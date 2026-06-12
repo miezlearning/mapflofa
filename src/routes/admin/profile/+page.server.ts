@@ -38,7 +38,14 @@ export const load: PageServerLoad = async (event) => {
 		visi: content['profile.visi'] ?? '',
 		misi,
 		sejarah,
-		nilai
+		nilai,
+		contact: {
+			address: content['contact.address'] ?? '',
+			whatsapp: content['contact.whatsapp'] ?? '',
+			instagram: content['contact.instagram'] ?? '',
+			email: content['contact.email'] ?? '',
+			extra: content['contact.extra'] ?? ''
+		}
 	};
 };
 

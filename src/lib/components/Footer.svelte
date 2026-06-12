@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Icon from '$lib/components/Icon.svelte';
+	import { page } from '$app/state';
 
 	interface Article {
 		date: string;
@@ -8,6 +9,20 @@
 		tag: string;
 		title: string;
 	}
+
+	// Contact data from the root layout (loaded from site_content DB).
+	type ContactData = {
+		address: string;
+		whatsapp: string;
+		instagram: string;
+		email: string;
+		extra: { label: string; value: string }[];
+		socials: { platform: string; url: string }[];
+	};
+
+	const contact = $derived((page.data as { contact?: ContactData })?.contact ?? {
+		address: '', whatsapp: '', instagram: '', email: '', extra: [], socials: []
+	});
 
 	const recentArticles: Article[] = [
 		{
@@ -44,12 +59,21 @@
 		'Kontak'
 	];
 
-	const socials = [
-		{ label: 'Instagram', href: 'https://instagram.com/mapflofa', d: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z' },
-		{ label: 'WhatsApp', href: 'https://wa.me/6281234567890', d: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z' },
-		{ label: 'Facebook', href: '#', d: 'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z' },
-		{ label: 'YouTube', href: '#', d: 'M22.54 6.42A2.78 2.78 0 0 0 20.6 4.5C18.88 4 12 4 12 4s-6.88 0-8.6.5A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 11.5a29 29 0 0 0 .46 5.08 2.78 2.78 0 0 0 1.94 1.92C5.12 19 12 19 12 19s6.88 0 8.6-.5a2.78 2.78 0 0 0 1.94-1.92A29 29 0 0 0 23 11.5a29 29 0 0 0-.46-5.08zM10 15.02v-7l6 3.5z' }
-	];
+	// Social icon paths by platform name (case-insensitive match)
+	const SOCIAL_ICONS: Record<string, string> = {
+		instagram: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z',
+		whatsapp: 'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z',
+		facebook: 'M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z',
+		youtube: 'M22.54 6.42A2.78 2.78 0 0 0 20.6 4.5C18.88 4 12 4 12 4s-6.88 0-8.6.5A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 11.5a29 29 0 0 0 .46 5.08 2.78 2.78 0 0 0 1.94 1.92C5.12 19 12 19 12 19s6.88 0 8.6-.5a2.78 2.78 0 0 0 1.94-1.92A29 29 0 0 0 23 11.5a29 29 0 0 0-.46-5.08zM10 15.02v-7l6 3.5z',
+		twitter: 'M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z',
+		tiktok: 'M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5',
+		linkedin: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'
+	};
+
+	function getSocialIcon(platform: string): string {
+		const key = platform.toLowerCase().replace(/\s/g, '');
+		return SOCIAL_ICONS[key] ?? SOCIAL_ICONS['instagram'];
+	}
 
 	let showScrollTop = $state(false);
 
@@ -74,11 +98,10 @@
 	>
 		<!-- Logo + brand -->
 		<div class="flex items-center gap-3">
-			<div class="w-11 h-11 rounded-2xl bg-primary text-white grid place-items-center">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-					<path d="M12 4c-1.2 0-2.2.6-2.8 1.6-.8-.4-1.8-.4-2.6.2-1 .8-1.4 2-1.2 3.2.8-.6 1.8-.8 2.6-.4-.6.6-.8 1.4-.6 2.2.6-.4 1.4-.6 2-.2l-.4 1c.6-.2 1.4-.2 2 .2.2-.8.2-1.6-.2-2.2.8.2 1.6 0 2.2-.6-.4-.8-1.2-1.2-2-1.2.6-.6 1-1.4 1-2.2.4.6 1.2 1 2 1 1.2 0 2.2-.8 2.6-1.8-1 .2-1.8 0-2.4-.6.8-.4 1.4-1.2 1.4-2.2-.8.4-1.6.4-2.2 0C13.8 4.6 13 4 12 4z"/>
-				</svg>
+			<div class="w-11 h-11 rounded-2xl overflow-hidden">
+				<img src="/logo.png" alt="MAPFLOFA" class="w-full h-full object-contain" />
 			</div>
+
 			<div>
 				<div class="font-display font-extrabold text-primary tracking-tight leading-none">
 					MAPFLOFA
@@ -106,12 +129,20 @@
 			<!-- ===== COL 1: Contact info ===== -->
 			<div>
 				<address class="not-italic text-sm leading-relaxed text-white/80">
-					Sekretariat MAPFLOFA, Gedung Unit Kegiatan Mahasiswa,
-					Jl. Kampus Hijau No. 1, Indonesia.
+					{contact.address}
 				</address>
-				<p class="mt-4 text-sm text-white/80">WhatsApp: +62 812-3456-7890</p>
-				<p class="text-sm text-white/80">Instagram: @mapflofa</p>
-				<p class="text-sm text-white/80">Email: halo@mapflofa.org</p>
+				{#if contact.whatsapp}
+					<p class="mt-4 text-sm text-white/80">WhatsApp: {contact.whatsapp}</p>
+				{/if}
+				{#if contact.instagram}
+					<p class="text-sm text-white/80">Instagram: {contact.instagram}</p>
+				{/if}
+				{#if contact.email}
+					<p class="text-sm text-white/80">Email: {contact.email}</p>
+				{/if}
+				{#each contact.extra as c}
+					<p class="text-sm text-white/80">{c.label}: {c.value}</p>
+				{/each}
 
 				<!-- Social row -->
 				<ul class="mt-7 flex flex-wrap gap-2.5">

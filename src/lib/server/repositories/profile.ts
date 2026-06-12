@@ -46,6 +46,20 @@ export const PROFILE_DEFAULTS: Record<string, { label: string; value: string }> 
 			'book|Edukatif|Berbagi ilmu dan kesadaran lingkungan',
 			'shield|Integritas|Jujur dan bertanggung jawab pada bumi'
 		].join('\n')
+	},
+	'contact.address': { label: 'Alamat', value: 'Sekretariat MAPFLOFA, Gedung Unit Kegiatan Mahasiswa, Jl. Kampus Hijau No. 1, Indonesia.' },
+	'contact.whatsapp': { label: 'WhatsApp', value: '+62 812-3456-7890' },
+	'contact.instagram': { label: 'Instagram', value: '@mapflofa' },
+	'contact.email': { label: 'Email', value: 'halo@mapflofa.org' },
+	'contact.extra': { label: 'Kontak tambahan (satu per baris, format: label|value)', value: '' },
+	'contact.socials': {
+		label: 'Link sosial media (satu per baris, format: platform|url)',
+		value: [
+			'Instagram|https://instagram.com/mapflofa',
+			'WhatsApp|https://wa.me/6281234567890',
+			'Facebook|#',
+			'YouTube|#'
+		].join('\n')
 	}
 };
 

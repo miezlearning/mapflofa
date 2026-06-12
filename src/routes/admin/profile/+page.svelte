@@ -20,6 +20,13 @@
 			: [{ icon: 'sprout', title: '', desc: '' }]
 	);
 
+	// Contact
+	let contactAddress = $state(data.contact.address);
+	let contactWhatsapp = $state(data.contact.whatsapp);
+	let contactInstagram = $state(data.contact.instagram);
+	let contactEmail = $state(data.contact.email);
+	let contactExtra = $state(data.contact.extra);
+
 	// Icon options for the visual picker, with friendly Indonesian labels.
 	const iconOptions: { name: IconName; label: string }[] = [
 		{ name: 'sprout', label: 'Tunas' },
@@ -134,6 +141,11 @@
 	<input type="hidden" name="content__profile.misi" value={misiValue} />
 	<input type="hidden" name="content__profile.sejarah" value={sejarahValue} />
 	<input type="hidden" name="content__profile.nilai" value={nilaiValue} />
+	<input type="hidden" name="content__contact.address" value={contactAddress} />
+	<input type="hidden" name="content__contact.whatsapp" value={contactWhatsapp} />
+	<input type="hidden" name="content__contact.instagram" value={contactInstagram} />
+	<input type="hidden" name="content__contact.email" value={contactEmail} />
+	<input type="hidden" name="content__contact.extra" value={contactExtra} />
 
 	<!-- ===== Section: Header ===== -->
 	<section class="card">
@@ -289,6 +301,39 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
 			Tambah paragraf
 		</button>
+	</section>
+
+	<!-- ===== Section: Kontak (Footer) ===== -->
+	<section class="card">
+		<div class="card-head">
+			<h2 class="card-title">Kontak &amp; Footer</h2>
+			<p class="card-desc">Info kontak yang tampil di bagian bawah website. Tambah kontak baru kapan saja.</p>
+		</div>
+		<div class="fields">
+			<label class="field">
+				<span class="lbl">Alamat</span>
+				<textarea bind:value={contactAddress} rows="2" placeholder="Sekretariat MAPFLOFA, Gedung UKM..."></textarea>
+			</label>
+			<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+				<label class="field">
+					<span class="lbl">WhatsApp</span>
+					<input type="text" bind:value={contactWhatsapp} placeholder="+62 812-3456-7890" />
+				</label>
+				<label class="field">
+					<span class="lbl">Instagram</span>
+					<input type="text" bind:value={contactInstagram} placeholder="@mapflofa" />
+				</label>
+			</div>
+			<label class="field">
+				<span class="lbl">Email</span>
+				<input type="text" bind:value={contactEmail} placeholder="halo@mapflofa.org" />
+			</label>
+			<label class="field">
+				<span class="lbl">Kontak tambahan <span class="opt">(opsional)</span></span>
+				<textarea bind:value={contactExtra} rows="3" placeholder="Satu kontak per baris, format: Label|Nilai&#10;cth: YouTube|youtube.com/@mapflofa"></textarea>
+				<span class="field-hint">Satu per baris. Format: Label|Nilai (mis. Facebook|fb.com/mapflofa). Akan ditampilkan di footer.</span>
+			</label>
+		</div>
 	</section>
 
 	<!-- Sticky save bar -->

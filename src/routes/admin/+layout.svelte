@@ -47,7 +47,7 @@
 	<!-- Mobile top bar -->
 	<header class="mobile-bar">
 		<a href="/admin" class="brand">
-			<span class="brand-mark">MF</span>
+			<span class="brand-mark"><img src="/logo.png" alt="" class="brand-logo" /></span>
 			<span class="brand-text">MAPFLOFA</span>
 		</a>
 		<button
@@ -70,7 +70,7 @@
 		<aside class="sidebar">
 			<div class="brand-block">
 				<a href="/admin" class="brand">
-					<span class="brand-mark">MF</span>
+					<span class="brand-mark"><img src="/logo.png" alt="" class="brand-logo" /></span>
 					<span class="brand-text">MAPFLOFA <span class="brand-accent">Admin</span></span>
 				</a>
 			</div>
@@ -231,10 +231,13 @@
 		height: 2rem;
 		border-radius: 0.5rem;
 		background: var(--color-primary, #6eaee8);
-		color: #fff;
-		font-weight: 800;
-		font-size: 0.7rem;
-		letter-spacing: 0.02em;
+		overflow: hidden;
+	}
+
+	.brand-mark :global(.brand-logo) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 
 	.brand-text {
@@ -638,3 +641,4 @@
 		color: #16a34a;
 	}
 </style>
+

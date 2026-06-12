@@ -34,7 +34,13 @@ export const PROFILE_CONTENT_KEYS = [
 	'profile.visi',
 	'profile.misi',
 	'profile.sejarah',
-	'profile.nilai'
+	'profile.nilai',
+	'contact.address',
+	'contact.whatsapp',
+	'contact.instagram',
+	'contact.email',
+	'contact.extra',
+	'contact.socials'
 ] as const;
 
 export type ProfileContentKey = (typeof PROFILE_CONTENT_KEYS)[number];

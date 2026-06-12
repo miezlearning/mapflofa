@@ -33,7 +33,9 @@
 		}}
 	>
 		<div class="header">
-			<span class="brand-mark">MF</span>
+			<span class="brand-mark">
+				<img src="/logo.png" alt="MAPFLOFA" />
+			</span>
 			<div>
 				<div class="brand-title">MAPFLOFA</div>
 				<div class="brand-sub">Admin Dashboard</div>
@@ -130,9 +132,13 @@
 		height: 2.5rem;
 		border-radius: 0.625rem;
 		background: var(--color-primary, #6eaee8);
-		color: #fff;
-		font-weight: 800;
-		font-size: 0.8rem;
+		overflow: hidden;
+	}
+
+	.brand-mark img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 
 	.brand-title {
