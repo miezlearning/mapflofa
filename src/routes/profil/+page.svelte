@@ -13,6 +13,8 @@
 	const misi = $derived(data.misi);
 	const sejarah = $derived(data.sejarah);
 	const nilai = $derived(data.nilai as { icon: IconName; title: string; desc: string }[]);
+	const council = $derived(data.council);
+	const divisions = $derived(data.divisions);
 
 	// ===== Struktur Organisasi — Character Select + Detail Zoom =====
 	type OrgMember = {
@@ -20,6 +22,7 @@
 		role: string;
 		description: string;
 		name: string;
+		nim: string;
 		imageUrl: string;
 		tupoksi: string[];
 	};
@@ -169,6 +172,44 @@
 		</div>
 	</section>
 
+	<!-- ===== Dewan Pembina ===== -->
+	{#if council.length > 0}
+		<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
+			<div class="max-w-7xl mx-auto">
+				<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Dewan Pembina</div>
+					<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">
+						Pelindung &amp; Pembina
+					</h2>
+					<p class="mt-3 text-muted text-sm md:text-base">
+						Para pengarah dan pembina yang menaungi MAPFLOFA FKLT UNMUL.
+					</p>
+				</div>
+
+				<div class="mt-12 flex flex-col gap-8">
+					{#each council as block (block.group)}
+						<div use:reveal={{ from: 'up' }}>
+							<div class="council-label">{block.label}</div>
+							<div class="council-grid">
+								{#each block.people as person (person.id)}
+									<div class="council-card">
+										<div class="council-avatar">
+											<Icon name="shield" size={20} />
+										</div>
+										<div class="council-info">
+											<div class="council-name">{person.name}</div>
+											<div class="council-role">{person.position}</div>
+										</div>
+									</div>
+								{/each}
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</section>
+	{/if}
+
 	<!-- ===== Struktur Organisasi — Character Select + Detail Zoom ===== -->
 	{#if hasMembers && current && nextMember}
 		<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
@@ -199,7 +240,11 @@
 								<div class="sc-text__content">
 									<div class="sc-text__role">{current.role}</div>
 									<h2 class="sc-text__name">{current.name}</h2>
-									<p class="sc-text__desc">{current.description}</p>
+									{#if current.nim}
+										<div class="sc-text__nim">NIM. {current.nim}</div>
+									{:else if current.description}
+										<p class="sc-text__desc">{current.description}</p>
+									{/if}
 								</div>
 							{/key}
 							<button type="button" class="sc-btn" onclick={openDetail}>
@@ -281,6 +326,9 @@
 
 							<div class="sc-detail__name">{current.name}</div>
 							<h2 class="sc-detail__role">{current.role}</h2>
+							{#if current.nim}
+								<div class="sc-detail__nim">NIM. {current.nim}</div>
+							{/if}
 
 							{#if current.tupoksi.length > 0}
 								<div class="sc-detail__label">Tugas Pokok &amp; Fungsi</div>
@@ -295,6 +343,53 @@
 						</div>
 					</div>
 				{/if}
+			</div>
+		</section>
+	{/if}
+
+	<!-- ===== Divisi & Anggota ===== -->
+	{#if divisions.length > 0}
+		<section class="py-16 md:py-24 px-4 md:px-8">
+			<div class="max-w-7xl mx-auto">
+				<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Divisi</div>
+					<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">
+						Divisi &amp; Anggota
+					</h2>
+					<p class="mt-3 text-muted text-sm md:text-base">
+						Tim yang menjalankan program kerja di tiap bidang.
+					</p>
+				</div>
+
+				<div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{#each divisions as div, i (div.name)}
+						<div use:reveal={{ from: 'up', delay: i * 80 }} class="div-card">
+							<h3 class="div-title">{div.name}</h3>
+
+							{#if div.koordinator}
+								<div class="div-koord">
+									<span class="div-koord-badge">Koordinator</span>
+									<div class="div-koord-name">{div.koordinator.name}</div>
+									{#if div.koordinator.nim}
+										<div class="div-nim">NIM. {div.koordinator.nim}</div>
+									{/if}
+								</div>
+							{/if}
+
+							{#if div.anggota.length > 0}
+								<div class="div-members-label">Anggota</div>
+								<ul class="div-members">
+									{#each div.anggota as a (a.id)}
+										<li class="div-member">
+											<span class="div-member-name">{a.name}</span>
+											{#if a.nim}<span class="div-member-nim">{a.nim}</span>{/if}
+										</li>
+									{/each}
+								</ul>
+							{/if}
+						</div>
+					{/each}
+				</div>
 			</div>
 		</section>
 	{/if}
@@ -481,6 +576,178 @@
 		color: var(--color-muted, #64748b);
 		margin: 0.5rem 0 0;
 		line-height: 1.5;
+	}
+
+	.sc-text__nim {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--color-primary, #6eaee8);
+		margin-top: 0.5rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	}
+
+	.sc-detail__nim {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--color-primary, #6eaee8);
+		margin-top: 0.375rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	}
+
+	/* ===== Dewan Pembina ===== */
+	:global(.council-label) {
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-primary, #6eaee8);
+		margin-bottom: 0.875rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid var(--color-line, #e2e8f0);
+	}
+
+	:global(.council-grid) {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 0.875rem;
+	}
+
+	:global(.council-card) {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+		background: #fff;
+		border: 1px solid var(--color-line, #e2e8f0);
+		border-radius: 0.875rem;
+		padding: 1rem 1.125rem;
+		transition: border-color 200ms ease, box-shadow 200ms ease;
+	}
+
+	:global(.council-card:hover) {
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 4px 16px rgba(110, 174, 232, 0.1);
+	}
+
+	:global(.council-avatar) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 0.625rem;
+		background: var(--color-surface-2, #f8fafc);
+		color: var(--color-primary, #6eaee8);
+		flex-shrink: 0;
+	}
+
+	:global(.council-info) {
+		min-width: 0;
+	}
+
+	:global(.council-name) {
+		font-size: 0.9375rem;
+		font-weight: 700;
+		color: var(--color-ink, #1e293b);
+		line-height: 1.25;
+	}
+
+	:global(.council-role) {
+		font-size: 0.75rem;
+		color: var(--color-muted, #64748b);
+		margin-top: 0.125rem;
+	}
+
+	/* ===== Divisi & Anggota ===== */
+	:global(.div-card) {
+		background: #fff;
+		border: 1px solid var(--color-line, #e2e8f0);
+		border-radius: 1rem;
+		padding: 1.5rem;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+	}
+
+	:global(.div-title) {
+		font-family: var(--font-display, 'Plus Jakarta Sans', system-ui, sans-serif);
+		font-size: 1.125rem;
+		font-weight: 800;
+		color: var(--color-ink, #1e293b);
+		margin: 0 0 1rem;
+	}
+
+	:global(.div-koord) {
+		background: var(--color-surface-2, #f8fafc);
+		border: 1px solid var(--color-line, #e2e8f0);
+		border-radius: 0.75rem;
+		padding: 0.875rem 1rem;
+		margin-bottom: 1rem;
+	}
+
+	:global(.div-koord-badge) {
+		display: inline-block;
+		font-size: 0.625rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #fff;
+		background: var(--color-primary, #6eaee8);
+		padding: 0.125rem 0.5rem;
+		border-radius: 0.375rem;
+	}
+
+	:global(.div-koord-name) {
+		font-size: 0.9375rem;
+		font-weight: 700;
+		color: var(--color-ink, #1e293b);
+		margin-top: 0.5rem;
+	}
+
+	:global(.div-nim) {
+		font-size: 0.75rem;
+		color: var(--color-muted, #64748b);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		margin-top: 0.125rem;
+	}
+
+	:global(.div-members-label) {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: var(--color-muted, #64748b);
+		margin-bottom: 0.5rem;
+	}
+
+	:global(.div-members) {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	:global(.div-member) {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding: 0.5rem 0.625rem;
+		border-radius: 0.5rem;
+		background: var(--color-surface-3, #f1f5f9);
+	}
+
+	:global(.div-member-name) {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--color-ink, #1e293b);
+		min-width: 0;
+	}
+
+	:global(.div-member-nim) {
+		font-size: 0.6875rem;
+		color: var(--color-muted, #64748b);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		flex-shrink: 0;
 	}
 
 	.sc-btn {

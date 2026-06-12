@@ -36,11 +36,14 @@ export const actions: Actions = {
 		const raw = {
 			name: String(form.get('name') ?? ''),
 			position: String(form.get('position') ?? ''),
+			nim: form.get('nim'),
+			group: String(form.get('group') ?? 'pengurus'),
 			description: form.get('description'),
 			photo,
 			tupoksi: form.get('tupoksi'),
 			period: form.get('period'),
 			division: form.get('division'),
+			isFeatured: form.get('isFeatured') === 'on' || form.get('isFeatured') === 'true',
 			isActive: form.get('isActive') === 'on' || form.get('isActive') === 'true',
 			sortOrder: Number(form.get('sortOrder') ?? '0') || 0
 		};
@@ -74,11 +77,14 @@ function rawValues(form: FormData, photo: string | null = null) {
 	return {
 		name: form.get('name'),
 		position: form.get('position'),
+		nim: form.get('nim'),
+		group: form.get('group') ?? 'pengurus',
 		description: form.get('description'),
 		photo: photo ?? form.get('photo'),
 		tupoksi: form.get('tupoksi'),
 		period: form.get('period'),
 		division: form.get('division'),
+		isFeatured: form.get('isFeatured') === 'on' || form.get('isFeatured') === 'true',
 		isActive: form.get('isActive') === 'on' || form.get('isActive') === 'true',
 		sortOrder: form.get('sortOrder')
 	};

@@ -49,14 +49,37 @@ export type UpdateContentInput = z.infer<typeof updateContentSchema>;
 
 /* ---------- members ---------- */
 
+/** Org-structure groups, in display order. */
+export const MEMBER_GROUPS = [
+	'pelindung',
+	'penanggung_jawab',
+	'pembina',
+	'pengurus',
+	'divisi'
+] as const;
+
+export type MemberGroup = (typeof MEMBER_GROUPS)[number];
+
+/** Friendly labels for the admin UI. */
+export const MEMBER_GROUP_LABELS: Record<MemberGroup, string> = {
+	pelindung: 'Pelindung',
+	penanggung_jawab: 'Penanggung Jawab',
+	pembina: 'Pembina',
+	pengurus: 'Pengurus Inti',
+	divisi: 'Divisi'
+};
+
 export const createMemberSchema = z.object({
 	name: z.string().trim().min(1, 'Nama wajib diisi.').max(160, 'Maksimal 160 karakter.'),
 	position: z.string().trim().min(1, 'Jabatan wajib diisi.').max(160, 'Maksimal 160 karakter.'),
+	nim: optionalText(40),
+	group: z.enum(MEMBER_GROUPS).default('pengurus'),
 	description: optionalText(300),
 	photo: imageRef,
 	tupoksi: optionalText(4000),
 	period: optionalText(60),
 	division: optionalText(160),
+	isFeatured: z.boolean().default(false),
 	isActive: z.boolean().default(true),
 	sortOrder: z.coerce.number().int().min(0).default(0)
 });

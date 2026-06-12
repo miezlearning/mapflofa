@@ -6,6 +6,18 @@
 	const items = $derived(data.items);
 
 	let confirmingId = $state<number | null>(null);
+
+	const groupLabels: Record<string, string> = {
+		pelindung: 'Pelindung',
+		penanggung_jawab: 'Penanggung Jawab',
+		pembina: 'Pembina',
+		pengurus: 'Pengurus Inti',
+		divisi: 'Divisi'
+	};
+
+	function groupLabel(g: string) {
+		return groupLabels[g] ?? g;
+	}
 </script>
 
 <svelte:head>
@@ -15,14 +27,14 @@
 <div class="adm-page-head">
 	<div>
 		<h1 class="adm-title">Pengurus / Struktur Organisasi</h1>
-		<p class="adm-sub">{items.length} pengurus. Urutan tampil mengikuti nomor urut.</p>
+		<p class="adm-sub">{items.length} orang terdaftar. Urutan tampil mengikuti nomor urut.</p>
 	</div>
-	<a class="adm-btn adm-btn-primary" href="/admin/members/new">+ Tambah Pengurus</a>
+	<a class="adm-btn adm-btn-primary" href="/admin/members/new">+ Tambah Orang</a>
 </div>
 
 {#if items.length === 0}
 	<div class="adm-empty">
-		Belum ada data pengurus. Klik <strong>Tambah Pengurus</strong> untuk menambahkan yang pertama.
+		Belum ada data. Klik <strong>Tambah Orang</strong> untuk menambahkan pengurus pertama.
 	</div>
 {:else}
 	<div class="adm-card" style="padding:0;overflow:hidden">
@@ -31,8 +43,8 @@
 				<tr>
 					<th style="width:4rem">Foto</th>
 					<th>Nama / Jabatan</th>
-					<th style="width:5rem">Urutan</th>
-					<th style="width:5rem">Status</th>
+					<th>Kelompok</th>
+					<th style="width:4rem">Urutan</th>
 					<th style="text-align:right">Aksi</th>
 				</tr>
 			</thead>
@@ -43,21 +55,23 @@
 							{#if m.photo}
 								<img src={m.photo} alt="" class="thumb" loading="lazy" />
 							{:else}
-								<div class="thumb thumb-empty">—</div>
+								<div class="thumb thumb-empty">
+									{m.name.charAt(0).toUpperCase()}
+								</div>
 							{/if}
 						</td>
 						<td>
-							<div class="name">{m.name}</div>
-							<div class="role">{m.position}</div>
+							<div class="name">
+								{m.name}
+								{#if m.isFeatured}<span class="star" title="Tampil menonjol di website">★</span>{/if}
+							</div>
+							<div class="role">
+								{m.position}{#if m.division} · {m.division}{/if}
+							</div>
+							{#if m.nim}<div class="nim">NIM. {m.nim}</div>{/if}
 						</td>
+						<td><span class="group-pill">{groupLabel(m.group)}</span></td>
 						<td><span class="dim">{m.sortOrder}</span></td>
-						<td>
-							{#if m.isActive}
-								<span class="badge badge-on">Aktif</span>
-							{:else}
-								<span class="badge badge-off">Nonaktif</span>
-							{/if}
-						</td>
 						<td>
 							<div class="actions">
 								<a class="adm-btn" href={`/admin/members/${m.id}`}>Edit</a>
@@ -101,39 +115,45 @@
 		place-items: center;
 		width: 3rem;
 		height: 3rem;
-		background: var(--color-surface-3, #f0f8ff);
-		color: var(--color-muted, #6b7b8c);
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-primary, #6eaee8);
 		border-radius: 0.5rem;
+		font-weight: 700;
 	}
 	.name {
 		font-weight: 600;
 		color: var(--color-ink, #333);
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+	}
+	.star {
+		color: #f59e0b;
+		font-size: 0.875rem;
 	}
 	.role {
 		font-size: 0.75rem;
 		color: var(--color-primary, #6eaee8);
 		margin-top: 0.125rem;
 	}
-	.dim {
+	.nim {
+		font-size: 0.6875rem;
 		color: var(--color-muted, #6b7b8c);
-		font-size: 0.8125rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		margin-top: 0.125rem;
 	}
-	.badge {
-		font-size: 0.7rem;
+	.group-pill {
+		display: inline-block;
+		font-size: 0.6875rem;
 		font-weight: 700;
 		padding: 0.125rem 0.5rem;
 		border-radius: 0.375rem;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
+		background: var(--color-surface-3, #f0f8ff);
+		color: var(--color-muted, #6b7b8c);
+		border: 1px solid var(--color-line, #e3eef7);
 	}
-	.badge-on {
-		color: #16a34a;
-		background: #f0fdf4;
-		border: 1px solid #bbf7d0;
-	}
-	.badge-off {
-		color: #ca8a04;
-		background: #fefce8;
-		border: 1px solid #fef08a;
+	.dim {
+		color: var(--color-muted, #6b7b8c);
+		font-size: 0.8125rem;
 	}
 </style>

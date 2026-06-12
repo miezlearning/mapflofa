@@ -261,6 +261,13 @@ export const members = pgTable(
 		id: serial('id').primaryKey(),
 		name: text('name').notNull(),
 		position: text('position').notNull(),
+		/** Nomor Induk Mahasiswa (student ID), shown for pengurus & anggota. */
+		nim: text('nim'),
+		/**
+		 * Grouping level for the org structure:
+		 *   'pelindung' | 'penanggung_jawab' | 'pembina' | 'pengurus' | 'divisi'
+		 */
+		group: text('group').notNull().default('pengurus'),
 		division: text('division'),
 		parentId: integer('parent_id'),
 		photo: text('photo'),
@@ -269,6 +276,8 @@ export const members = pgTable(
 		description: text('description'),
 		/** Tugas Pokok & Fungsi — one item per line, shown in the detail view. */
 		tupoksi: text('tupoksi'),
+		/** Featured members appear in the big "character select" carousel. */
+		isFeatured: boolean('is_featured').notNull().default(false),
 		isActive: boolean('is_active').notNull().default(true),
 		sortOrder: integer('sort_order').notNull().default(0),
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()

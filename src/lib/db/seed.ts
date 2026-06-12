@@ -362,6 +362,7 @@ async function main() {
 					'Mewakili organisasi dalam hubungan dengan kampus, mitra, dan lembaga konservasi.',
 					'Mengkoordinasikan seluruh pengurus dan divisi agar berjalan selaras.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 0
 			},
 			{
@@ -374,6 +375,7 @@ async function main() {
 					'Menggantikan peran ketua apabila berhalangan hadir.',
 					'Mengawasi pelaksanaan program kerja tiap divisi.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 1
 			},
 			{
@@ -386,6 +388,7 @@ async function main() {
 					'Menyusun notulen rapat dan mendokumentasikan kegiatan.',
 					'Mengarsipkan dokumen penting organisasi secara rapi.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 2
 			},
 			{
@@ -398,6 +401,7 @@ async function main() {
 					'Menyusun laporan keuangan secara transparan dan berkala.',
 					'Mengatur anggaran untuk setiap kegiatan organisasi.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 3
 			},
 			{
@@ -410,6 +414,7 @@ async function main() {
 					'Melakukan pelestarian flora dan fauna endemik di sekitar kampus.',
 					'Menjalin kerja sama dengan lembaga konservasi terkait.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 4
 			},
 			{
@@ -422,6 +427,7 @@ async function main() {
 					'Membuat materi edukasi tentang konservasi flora dan fauna.',
 					'Mengadakan kelas atau workshop untuk anggota dan masyarakat.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 5
 			},
 			{
@@ -434,6 +440,7 @@ async function main() {
 					'Mendokumentasikan temuan spesies di alam liar.',
 					'Menyusun laporan hasil ekspedisi dan pendataan.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 6
 			},
 			{
@@ -446,6 +453,7 @@ async function main() {
 					'Mendokumentasikan setiap kegiatan dalam bentuk foto dan video.',
 					'Menjalin kerja sama dan komunikasi dengan pihak eksternal.'
 				].join('\n'),
+				isFeatured: true,
 				sortOrder: 7
 			}
 		];
