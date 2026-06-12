@@ -11,7 +11,7 @@ import postgres from 'postgres';
 import { randomBytes, scrypt as scryptCb } from 'node:crypto';
 import { promisify } from 'node:util';
 import * as schema from './schema';
-import { events, news, programs, users } from './schema';
+import { events, members, news, programs, users } from './schema';
 
 const scrypt = promisify(scryptCb) as (
 	password: string | Buffer,
@@ -345,6 +345,114 @@ async function main() {
 		console.log(
 			'ℹ️  Skipped admin bootstrap (set BOOTSTRAP_ADMIN_EMAIL + BOOTSTRAP_ADMIN_PASSWORD).'
 		);
+	}
+
+	// --- Seed struktur organisasi (members) — only if table is empty ---
+	const existingMembers = await db.select().from(members).limit(1);
+	if (existingMembers.length === 0) {
+		const memberSeed: (typeof members.$inferInsert)[] = [
+			{
+				name: 'Ahmad Fauzan',
+				position: 'Ketua Umum',
+				description: 'Pemimpin organisasi',
+				photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Memimpin dan mengarahkan jalannya organisasi sesuai visi dan misi MAPFLOFA.',
+					'Mengambil keputusan strategis terkait program kerja dan kebijakan organisasi.',
+					'Mewakili organisasi dalam hubungan dengan kampus, mitra, dan lembaga konservasi.',
+					'Mengkoordinasikan seluruh pengurus dan divisi agar berjalan selaras.'
+				].join('\n'),
+				sortOrder: 0
+			},
+			{
+				name: 'Rizki Pratama',
+				position: 'Wakil Ketua',
+				description: 'Pendamping ketua',
+				photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Mendampingi dan membantu ketua dalam menjalankan tugas organisasi.',
+					'Menggantikan peran ketua apabila berhalangan hadir.',
+					'Mengawasi pelaksanaan program kerja tiap divisi.'
+				].join('\n'),
+				sortOrder: 1
+			},
+			{
+				name: 'Siti Nurhaliza',
+				position: 'Sekretaris',
+				description: 'Administrasi & surat',
+				photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Mengelola seluruh administrasi dan surat-menyurat organisasi.',
+					'Menyusun notulen rapat dan mendokumentasikan kegiatan.',
+					'Mengarsipkan dokumen penting organisasi secara rapi.'
+				].join('\n'),
+				sortOrder: 2
+			},
+			{
+				name: 'Dewi Anggraini',
+				position: 'Bendahara',
+				description: 'Keuangan organisasi',
+				photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Mengelola dan mencatat seluruh pemasukan dan pengeluaran organisasi.',
+					'Menyusun laporan keuangan secara transparan dan berkala.',
+					'Mengatur anggaran untuk setiap kegiatan organisasi.'
+				].join('\n'),
+				sortOrder: 3
+			},
+			{
+				name: 'Budi Santoso',
+				position: 'Divisi Konservasi',
+				description: 'Penanaman & pelestarian',
+				photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Merencanakan dan melaksanakan kegiatan penanaman pohon dan reboisasi.',
+					'Melakukan pelestarian flora dan fauna endemik di sekitar kampus.',
+					'Menjalin kerja sama dengan lembaga konservasi terkait.'
+				].join('\n'),
+				sortOrder: 4
+			},
+			{
+				name: 'Anisa Putri',
+				position: 'Divisi Edukasi',
+				description: 'Sosialisasi & kampanye',
+				photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Menyelenggarakan sosialisasi dan kampanye lingkungan.',
+					'Membuat materi edukasi tentang konservasi flora dan fauna.',
+					'Mengadakan kelas atau workshop untuk anggota dan masyarakat.'
+				].join('\n'),
+				sortOrder: 5
+			},
+			{
+				name: 'Reza Mahendra',
+				position: 'Divisi Ekspedisi',
+				description: 'Pendataan satwa & alam',
+				photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Merencanakan dan memimpin ekspedisi pendataan flora dan fauna.',
+					'Mendokumentasikan temuan spesies di alam liar.',
+					'Menyusun laporan hasil ekspedisi dan pendataan.'
+				].join('\n'),
+				sortOrder: 6
+			},
+			{
+				name: 'Maya Sari',
+				position: 'Divisi Humas & Media',
+				description: 'Publikasi & kerja sama',
+				photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=700&auto=format&fit=crop',
+				tupoksi: [
+					'Mengelola publikasi dan media sosial organisasi.',
+					'Mendokumentasikan setiap kegiatan dalam bentuk foto dan video.',
+					'Menjalin kerja sama dan komunikasi dengan pihak eksternal.'
+				].join('\n'),
+				sortOrder: 7
+			}
+		];
+		await db.insert(members).values(memberSeed);
+		console.log(`👥 Inserted ${memberSeed.length} members (struktur organisasi).`);
+	} else {
+		console.log('👥 Members already exist — skipped struktur organisasi seed.');
 	}
 
 	await client.end();
