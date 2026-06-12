@@ -9,6 +9,8 @@
 	type NavItem = { href: string; label: string; icon: string; adminOnly?: boolean };
 	const navItems: NavItem[] = [
 		{ href: '/admin', label: 'Overview', icon: 'overview' },
+		{ href: '/admin/profile', label: 'Profil', icon: 'profile' },
+		{ href: '/admin/members', label: 'Pengurus', icon: 'members' },
 		{ href: '/admin/programs', label: 'Programs', icon: 'programs' },
 		{ href: '/admin/news', label: 'News', icon: 'news' },
 		{ href: '/admin/gallery', label: 'Galeri', icon: 'gallery' },
@@ -84,6 +86,10 @@
 						<span class="nav-icon" aria-hidden="true">
 							{#if item.icon === 'overview'}
 								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="2" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="10.5" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/></svg>
+							{:else if item.icon === 'profile'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="2.5" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 13c0-1.8 1.5-2.8 3.5-2.8s3.5 1 3.5 2.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+							{:else if item.icon === 'members'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="6.5" cy="6.5" r="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="13" cy="7.5" r="2" stroke="currentColor" stroke-width="1.3"/><path d="M2 15c0-2.5 2-3.8 4.5-3.8S11 12.5 11 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 11.5c2 0 4 1 4 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
 							{:else if item.icon === 'programs'}
 								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5.5h12M3 9h8M3 12.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
 							{:else if item.icon === 'news'}

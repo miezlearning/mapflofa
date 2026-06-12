@@ -4,24 +4,15 @@
 	import Button from '$lib/components/Button.svelte';
 	import Icon, { type IconName } from '$lib/components/Icon.svelte';
 	import { reveal } from '$lib/actions/reveal';
+	import type { PageData } from './$types';
 
-	/**
-	 * Profil MAPFLOFA — Visi, Misi, Sejarah, Struktur Organisasi.
-	 */
-	const misi = [
-		'Melaksanakan kegiatan konservasi flora dan fauna secara berkelanjutan.',
-		'Mengedukasi mahasiswa dan masyarakat tentang pentingnya menjaga lingkungan.',
-		'Melakukan pendataan dan pelestarian satwa serta tumbuhan endemik.',
-		'Membangun kolaborasi dengan komunitas, kampus, dan lembaga konservasi.',
-		'Menumbuhkan rasa cinta terhadap alam melalui aksi nyata dan ekspedisi.'
-	];
+	let { data }: { data: PageData } = $props();
 
-	const nilai: { icon: IconName; title: string; desc: string }[] = [
-		{ icon: 'sprout', title: 'Lestari', desc: 'Menjaga alam untuk generasi mendatang' },
-		{ icon: 'users', title: 'Gotong Royong', desc: 'Bergerak bersama, berdampak lebih besar' },
-		{ icon: 'book', title: 'Edukatif', desc: 'Berbagi ilmu dan kesadaran lingkungan' },
-		{ icon: 'shield', title: 'Integritas', desc: 'Jujur dan bertanggung jawab pada bumi' }
-	];
+	const header = $derived(data.header);
+	const visi = $derived(data.visi);
+	const misi = $derived(data.misi);
+	const sejarah = $derived(data.sejarah);
+	const nilai = $derived(data.nilai as { icon: IconName; title: string; desc: string }[]);
 
 	// ===== Struktur Organisasi — Character Select + Detail Zoom =====
 	type OrgMember = {
@@ -33,131 +24,31 @@
 		tupoksi: string[];
 	};
 
-	const orgMembers: OrgMember[] = [
-		{
-			id: 1,
-			role: 'Ketua Umum',
-			description: 'Pemimpin organisasi',
-			name: 'Ahmad Fauzan',
-			imageUrl: 'https://diskominfo.samarindakota.go.id/storage/Personil/2025-09/29/ea6077b4-c49a-11eb-bf1d-b06ebf3af48c.png',
-			tupoksi: [
-				'Memimpin dan mengarahkan jalannya organisasi sesuai visi dan misi MAPFLOFA.',
-				'Mengambil keputusan strategis terkait program kerja dan kebijakan organisasi.',
-				'Mewakili organisasi dalam hubungan dengan kampus, mitra, dan lembaga konservasi.',
-				'Mengkoordinasikan seluruh pengurus dan divisi agar berjalan selaras.',
-				'Bertanggung jawab atas keberlangsungan dan perkembangan organisasi.'
-			]
-		},
-		{
-			id: 2,
-			role: 'Wakil Ketua',
-			description: 'Pendamping ketua',
-			name: 'Rizki Pratama',
-			imageUrl: 'https://diskominfo.samarindakota.go.id/storage/Personil/2021-06/27/ea60a888-c49a-11eb-9a31-b06ebf3af48c.png',
-			tupoksi: [
-				'Mendampingi dan membantu ketua dalam menjalankan tugas organisasi.',
-				'Menggantikan peran ketua apabila berhalangan hadir.',
-				'Mengawasi pelaksanaan program kerja tiap divisi.',
-				'Menjadi penghubung antara ketua dan pengurus harian.'
-			]
-		},
-		{
-			id: 3,
-			role: 'Sekretaris',
-			description: 'Administrasi & surat',
-			name: 'Siti Nurhaliza',
-			imageUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Mengelola seluruh administrasi dan surat-menyurat organisasi.',
-				'Menyusun notulen rapat dan mendokumentasikan kegiatan.',
-				'Mengarsipkan dokumen penting organisasi secara rapi.',
-				'Membantu ketua dalam penyusunan laporan kegiatan.'
-			]
-		},
-		{
-			id: 4,
-			role: 'Bendahara',
-			description: 'Keuangan organisasi',
-			name: 'Dewi Anggraini',
-			imageUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Mengelola dan mencatat seluruh pemasukan dan pengeluaran organisasi.',
-				'Menyusun laporan keuangan secara transparan dan berkala.',
-				'Mengatur anggaran untuk setiap kegiatan organisasi.',
-				'Bertanggung jawab atas keamanan dana organisasi.'
-			]
-		},
-		{
-			id: 5,
-			role: 'Divisi Konservasi',
-			description: 'Penanaman & pelestarian',
-			name: 'Budi Santoso',
-			imageUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Merencanakan dan melaksanakan kegiatan penanaman pohon dan reboisasi.',
-				'Melakukan pelestarian flora dan fauna endemik di sekitar kampus.',
-				'Menjalin kerja sama dengan lembaga konservasi terkait.',
-				'Memantau perkembangan area konservasi yang dikelola.'
-			]
-		},
-		{
-			id: 6,
-			role: 'Divisi Edukasi',
-			description: 'Sosialisasi & kampanye',
-			name: 'Anisa Putri',
-			imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Menyelenggarakan sosialisasi dan kampanye lingkungan.',
-				'Membuat materi edukasi tentang konservasi flora dan fauna.',
-				'Mengadakan kelas atau workshop untuk anggota dan masyarakat.',
-				'Menumbuhkan kesadaran lingkungan di kalangan mahasiswa.'
-			]
-		},
-		{
-			id: 7,
-			role: 'Divisi Ekspedisi',
-			description: 'Pendataan satwa & alam',
-			name: 'Reza Mahendra',
-			imageUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Merencanakan dan memimpin ekspedisi pendataan flora dan fauna.',
-				'Mendokumentasikan temuan spesies di alam liar.',
-				'Menyusun laporan hasil ekspedisi dan pendataan.',
-				'Memastikan keselamatan tim selama kegiatan lapangan.'
-			]
-		},
-		{
-			id: 8,
-			role: 'Divisi Humas & Media',
-			description: 'Publikasi & kerja sama',
-			name: 'Maya Sari',
-			imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=700&auto=format&fit=crop',
-			tupoksi: [
-				'Mengelola publikasi dan media sosial organisasi.',
-				'Mendokumentasikan setiap kegiatan dalam bentuk foto dan video.',
-				'Menjalin kerja sama dan komunikasi dengan pihak eksternal.',
-				'Mempromosikan kegiatan dan citra positif organisasi.'
-			]
-		}
-	];
+	const orgMembers = $derived(data.members as OrgMember[]);
+	const hasMembers = $derived(orgMembers.length > 0);
 
 	let activeIndex = $state(0);
 	let detailOpen = $state(false);
 
-	const current = $derived(orgMembers[activeIndex]);
-	const nextIndex = $derived((activeIndex + 1) % orgMembers.length);
-	const nextMember = $derived(orgMembers[nextIndex]);
+	// Keep activeIndex in range if members list changes
+	const safeIndex = $derived(
+		hasMembers ? Math.min(activeIndex, orgMembers.length - 1) : 0
+	);
+	const current = $derived(hasMembers ? orgMembers[safeIndex] : null);
+	const nextIndex = $derived(hasMembers ? (safeIndex + 1) % orgMembers.length : 0);
+	const nextMember = $derived(hasMembers ? orgMembers[nextIndex] : null);
 
 	function goTo(index: number) {
+		if (!hasMembers) return;
 		activeIndex = ((index % orgMembers.length) + orgMembers.length) % orgMembers.length;
 	}
 
 	function goNext() {
-		goTo(activeIndex + 1);
+		goTo(safeIndex + 1);
 	}
 
 	function openDetail() {
-		detailOpen = true;
+		if (hasMembers) detailOpen = true;
 	}
 
 	function closeDetail() {
@@ -180,13 +71,12 @@
 	<section class="bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="max-w-2xl">
-				<div class="text-xs font-bold uppercase tracking-widest text-primary">Profil Organisasi</div>
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">{header.label}</div>
 				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-ink leading-[1.05]">
-					Tentang MAPFLOFA
+					{header.title}
 				</h1>
 				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
-					Mahasiswa Penyayang Flora Fauna (MAPFLOFA) adalah organisasi mahasiswa pecinta alam
-					yang berfokus pada konservasi flora, fauna, dan kelestarian lingkungan.
+					{header.desc}
 				</p>
 			</div>
 		</div>
@@ -204,8 +94,7 @@
 				<div class="relative">
 					<div class="text-xs font-bold uppercase tracking-widest text-white/70">Visi</div>
 					<p class="mt-4 font-display font-extrabold text-2xl md:text-3xl leading-snug">
-						Menjadi wadah mahasiswa yang aktif menjaga keanekaragaman hayati dan
-						menumbuhkan budaya cinta lingkungan yang berkelanjutan.
+						{visi}
 					</p>
 				</div>
 			</div>
@@ -228,30 +117,32 @@
 	</section>
 
 	<!-- ===== Nilai ===== -->
-	<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
-		<div class="max-w-7xl mx-auto">
-			<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
-				<div class="text-xs font-bold uppercase tracking-widest text-primary">Nilai Kami</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Prinsip yang kami pegang
-				</h2>
-			</div>
-			<div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-				{#each nilai as n, i}
-					<div
-						use:reveal={{ from: 'up', delay: i * 80 }}
-						class="rounded-3xl bg-white border border-line p-6 text-center shadow-sm
-						       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
-					>
-						<div class="w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center">
-							<Icon name={n.icon} size={24} />
+	{#if nilai.length > 0}
+		<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
+			<div class="max-w-7xl mx-auto">
+				<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Nilai Kami</div>
+					<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Prinsip yang kami pegang
+					</h2>
+				</div>
+				<div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+					{#each nilai as n, i}
+						<div
+							use:reveal={{ from: 'up', delay: i * 80 }}
+							class="rounded-3xl bg-white border border-line p-6 text-center shadow-sm
+							       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
+						>
+							<div class="w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center">
+								<Icon name={n.icon} size={24} />
+							</div>
+							<div class="mt-3 font-display font-bold text-ink">{n.title}</div>
+							<div class="mt-1 text-xs text-muted leading-relaxed">{n.desc}</div>
 						</div>
-						<div class="mt-3 font-display font-bold text-ink">{n.title}</div>
-						<div class="mt-1 text-xs text-muted leading-relaxed">{n.desc}</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	{/if}
 
 	<!-- ===== Sejarah ===== -->
 	<section class="py-16 md:py-24 px-4 md:px-8">
@@ -269,138 +160,144 @@
 				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink leading-tight">
 					Berawal dari kepedulian
 				</h2>
-				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
-					MAPFLOFA lahir dari sekelompok mahasiswa yang resah melihat kerusakan lingkungan dan
-					menyusutnya habitat satwa di sekitar kampus. Berawal dari kegiatan penanaman pohon
-					kecil-kecilan, organisasi ini tumbuh menjadi komunitas konservasi yang aktif.
-				</p>
-				<p class="mt-4 text-muted text-base md:text-lg leading-relaxed">
-					Kini MAPFLOFA rutin menggelar aksi penghijauan, edukasi lingkungan, dan ekspedisi
-					pendataan flora fauna bersama berbagai mitra.
-				</p>
+				{#each sejarah as paragraph, i}
+					<p class="text-muted text-base md:text-lg leading-relaxed" class:mt-5={i === 0} class:mt-4={i > 0}>
+						{paragraph}
+					</p>
+				{/each}
 			</div>
 		</div>
 	</section>
 
 	<!-- ===== Struktur Organisasi — Character Select + Detail Zoom ===== -->
-	<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
-		<div class="sc-stage">
-			<!-- ===== SELECT VIEW ===== -->
-			<div class="sc-select" class:hidden={detailOpen} aria-hidden={detailOpen}>
-				<!-- LEFT: dots + info -->
-				<div class="sc-left">
-					<!-- Vertical pagination dots -->
-					<div class="sc-dots">
-						<div class="sc-dots__track"></div>
-						{#each orgMembers as member, i (member.id)}
-							<button
-								type="button"
-								class="sc-dot"
-								class:active={i === activeIndex}
-								onclick={() => goTo(i)}
-								aria-label={`Lihat ${member.role}`}
-								aria-current={i === activeIndex ? 'true' : undefined}
-							></button>
-						{/each}
-					</div>
-
-					<!-- Text info -->
-					<div class="sc-text">
-						<div class="sc-text__org">Pengurus MAPFLOFA</div>
-						{#key activeIndex}
-							<div class="sc-text__content">
-								<div class="sc-text__role">{current.role}</div>
-								<h2 class="sc-text__name">{current.name}</h2>
-								<p class="sc-text__desc">{current.description}</p>
-							</div>
-						{/key}
-						<button type="button" class="sc-btn" onclick={openDetail}>
-							Selengkapnya
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-						</button>
-					</div>
-				</div>
-
-				<!-- RIGHT: main person + next peeking + biodata cards -->
-				<div class="sc-right">
-					<div class="sc-decor" aria-hidden="true"></div>
-
-					<!-- Fixed-size stage so layout never shifts regardless of image dimensions -->
-					<div class="sc-stage-area">
-						<!-- Next person peeking from the right edge -->
-						<button
-							type="button"
-							class="sc-peek"
-							onclick={goNext}
-							aria-label={`Berikutnya: ${nextMember.name}`}
-						>
-							<div class="sc-peek__frame">
-								{#key nextIndex}
-									<img src={nextMember.imageUrl} alt="" class="sc-portrait__img" />
-								{/key}
-							</div>
-						</button>
-
-						<!-- Main person image (fixed frame) -->
-						<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
-							<div class="sc-person__frame">
-								{#key activeIndex}
-									<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" />
-								{/key}
-							</div>
-							<span class="sc-person__hint">
-								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
-								Lihat detail
-							</span>
-						</button>
-					</div>
-
-					<!-- Biodata cards (current + next) -->
-					<div class="sc-bios">
-						<div class="sc-bio sc-bio--current">
-							<span class="sc-bio__label">Biodata</span>
-							<span class="sc-bio__name">{current.name}</span>
-						</div>
-						<button type="button" class="sc-bio sc-bio--next" onclick={goNext}>
-							<span class="sc-bio__label">Selanjutnya</span>
-							<span class="sc-bio__name">{nextMember.name}</span>
-							<span class="sc-bio__arrow">
-								<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-							</span>
-						</button>
-					</div>
-				</div>
-			</div>
-
-			<!-- ===== DETAIL VIEW (zoom in) ===== -->
-			{#if detailOpen}
-				<div class="sc-detail">
-					<!-- LEFT: large person -->
-					<div class="sc-detail__visual">
-						<img src={current.imageUrl} alt={current.name} class="sc-detail__img" />
-					</div>
-
-					<!-- RIGHT: tupoksi -->
-					<div class="sc-detail__body">
-						<button type="button" class="sc-back" onclick={closeDetail}>
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-							Kembali
-						</button>
-
-						<div class="sc-detail__name">{current.name}</div>
-						<h2 class="sc-detail__role">{current.role}</h2>
-
-						<div class="sc-detail__label">Tugas Pokok &amp; Fungsi</div>
-						<ol class="sc-tupoksi">
-							{#each current.tupoksi as task, i (i)}
-								<li>{task}</li>
+	{#if hasMembers && current && nextMember}
+		<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
+			<div class="sc-stage">
+				<!-- ===== SELECT VIEW ===== -->
+				<div class="sc-select" class:hidden={detailOpen} aria-hidden={detailOpen}>
+					<!-- LEFT: dots + info -->
+					<div class="sc-left">
+						<!-- Vertical pagination dots -->
+						<div class="sc-dots">
+							<div class="sc-dots__track"></div>
+							{#each orgMembers as member, i (member.id)}
+								<button
+									type="button"
+									class="sc-dot"
+									class:active={i === safeIndex}
+									onclick={() => goTo(i)}
+									aria-label={`Lihat ${member.role}`}
+									aria-current={i === safeIndex ? 'true' : undefined}
+								></button>
 							{/each}
-						</ol>
+						</div>
+
+						<!-- Text info -->
+						<div class="sc-text">
+							<div class="sc-text__org">Pengurus MAPFLOFA</div>
+							{#key safeIndex}
+								<div class="sc-text__content">
+									<div class="sc-text__role">{current.role}</div>
+									<h2 class="sc-text__name">{current.name}</h2>
+									<p class="sc-text__desc">{current.description}</p>
+								</div>
+							{/key}
+							<button type="button" class="sc-btn" onclick={openDetail}>
+								Selengkapnya
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+							</button>
+						</div>
+					</div>
+
+					<!-- RIGHT: main person + next peeking + biodata cards -->
+					<div class="sc-right">
+						<div class="sc-decor" aria-hidden="true"></div>
+
+						<!-- Fixed-size stage so layout never shifts regardless of image dimensions -->
+						<div class="sc-stage-area">
+							<!-- Next person peeking from the right edge -->
+							{#if orgMembers.length > 1}
+								<button
+									type="button"
+									class="sc-peek"
+									onclick={goNext}
+									aria-label={`Berikutnya: ${nextMember.name}`}
+								>
+									<div class="sc-peek__frame">
+										{#key nextIndex}
+											<img src={nextMember.imageUrl} alt="" class="sc-portrait__img" />
+										{/key}
+									</div>
+								</button>
+							{/if}
+
+							<!-- Main person image (fixed frame) -->
+							<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
+								<div class="sc-person__frame">
+									{#key safeIndex}
+										<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" />
+									{/key}
+								</div>
+								<span class="sc-person__hint">
+									<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg>
+									Lihat detail
+								</span>
+							</button>
+						</div>
+
+						<!-- Biodata cards (current + next) -->
+						<div class="sc-bios">
+							<div class="sc-bio sc-bio--current">
+								<span class="sc-bio__label">Biodata</span>
+								<span class="sc-bio__name">{current.name}</span>
+							</div>
+							{#if orgMembers.length > 1}
+								<button type="button" class="sc-bio sc-bio--next" onclick={goNext}>
+									<span class="sc-bio__label">Selanjutnya</span>
+									<span class="sc-bio__name">{nextMember.name}</span>
+									<span class="sc-bio__arrow">
+										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+									</span>
+								</button>
+							{/if}
+						</div>
 					</div>
 				</div>
-			{/if}
-		</div>
-	</section>
+
+				<!-- ===== DETAIL VIEW (zoom in) ===== -->
+				{#if detailOpen}
+					<div class="sc-detail">
+						<!-- LEFT: large person -->
+						<div class="sc-detail__visual">
+							<img src={current.imageUrl} alt={current.name} class="sc-detail__img" />
+						</div>
+
+						<!-- RIGHT: tupoksi -->
+						<div class="sc-detail__body">
+							<button type="button" class="sc-back" onclick={closeDetail}>
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+								Kembali
+							</button>
+
+							<div class="sc-detail__name">{current.name}</div>
+							<h2 class="sc-detail__role">{current.role}</h2>
+
+							{#if current.tupoksi.length > 0}
+								<div class="sc-detail__label">Tugas Pokok &amp; Fungsi</div>
+								<ol class="sc-tupoksi">
+									{#each current.tupoksi as task, i (i)}
+										<li>{task}</li>
+									{/each}
+								</ol>
+							{:else if current.description}
+								<p class="sc-detail__desc">{current.description}</p>
+							{/if}
+						</div>
+					</div>
+				{/if}
+			</div>
+		</section>
+	{/if}
 
 	<!-- ===== CTA ===== -->
 	<section class="py-16 md:py-24 px-4 md:px-8">
@@ -964,6 +861,13 @@
 	}
 
 	@media (min-width: 768px) { .sc-detail__role { font-size: 2.25rem; } }
+
+	.sc-detail__desc {
+		font-size: 0.9375rem;
+		color: var(--color-muted, #64748b);
+		line-height: 1.6;
+		margin-top: 1.25rem;
+	}
 
 	.sc-detail__label {
 		font-size: 0.6875rem;

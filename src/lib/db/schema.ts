@@ -265,6 +265,10 @@ export const members = pgTable(
 		parentId: integer('parent_id'),
 		photo: text('photo'),
 		period: text('period'),
+		/** Short tagline shown under the name in the select carousel. */
+		description: text('description'),
+		/** Tugas Pokok & Fungsi — one item per line, shown in the detail view. */
+		tupoksi: text('tupoksi'),
 		isActive: boolean('is_active').notNull().default(true),
 		sortOrder: integer('sort_order').notNull().default(0),
 		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()

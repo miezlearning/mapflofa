@@ -1,0 +1,139 @@
+import { asc, eq, inArray } from 'drizzle-orm';
+import { db } from '$lib/db';
+import { members, siteContent } from '$lib/db/schema';
+import type { CreateMemberInput, UpdateMemberInput } from '$lib/server/api/schemas/profile';
+
+/**
+ * Default labels + values for the editable Profil content blocks.
+ * Used to seed missing rows so the admin form always has something to edit,
+ * and as the public fallback when the DB is empty.
+ */
+export const PROFILE_DEFAULTS: Record<string, { label: string; value: string }> = {
+	'profile.header_label': { label: 'Header — Label', value: 'Profil Organisasi' },
+	'profile.header_title': { label: 'Header — Judul', value: 'Tentang MAPFLOFA' },
+	'profile.header_desc': {
+		label: 'Header — Deskripsi',
+		value:
+			'Mahasiswa Penyayang Flora Fauna (MAPFLOFA) adalah organisasi mahasiswa pecinta alam yang berfokus pada konservasi flora, fauna, dan kelestarian lingkungan.'
+	},
+	'profile.visi': {
+		label: 'Visi',
+		value:
+			'Menjadi wadah mahasiswa yang aktif menjaga keanekaragaman hayati dan menumbuhkan budaya cinta lingkungan yang berkelanjutan.'
+	},
+	'profile.misi': {
+		label: 'Misi (satu poin per baris)',
+		value: [
+			'Melaksanakan kegiatan konservasi flora dan fauna secara berkelanjutan.',
+			'Mengedukasi mahasiswa dan masyarakat tentang pentingnya menjaga lingkungan.',
+			'Melakukan pendataan dan pelestarian satwa serta tumbuhan endemik.',
+			'Membangun kolaborasi dengan komunitas, kampus, dan lembaga konservasi.',
+			'Menumbuhkan rasa cinta terhadap alam melalui aksi nyata dan ekspedisi.'
+		].join('\n')
+	},
+	'profile.sejarah': {
+		label: 'Sejarah (satu paragraf per baris)',
+		value: [
+			'MAPFLOFA lahir dari sekelompok mahasiswa yang resah melihat kerusakan lingkungan dan menyusutnya habitat satwa di sekitar kampus. Berawal dari kegiatan penanaman pohon kecil-kecilan, organisasi ini tumbuh menjadi komunitas konservasi yang aktif.',
+			'Kini MAPFLOFA rutin menggelar aksi penghijauan, edukasi lingkungan, dan ekspedisi pendataan flora fauna bersama berbagai mitra.'
+		].join('\n')
+	},
+	'profile.nilai': {
+		label: 'Nilai (format: icon|judul|deskripsi per baris)',
+		value: [
+			'sprout|Lestari|Menjaga alam untuk generasi mendatang',
+			'users|Gotong Royong|Bergerak bersama, berdampak lebih besar',
+			'book|Edukatif|Berbagi ilmu dan kesadaran lingkungan',
+			'shield|Integritas|Jujur dan bertanggung jawab pada bumi'
+		].join('\n')
+	}
+};
+
+export const profileRepo = {
+	/** Read all profile content blocks as a key→value map (with defaults). */
+	async getContentMap(): Promise<Record<string, string>> {
+		const keys = Object.keys(PROFILE_DEFAULTS);
+		const rows = await db
+			.select()
+			.from(siteContent)
+			.where(inArray(siteContent.key, keys));
+
+		const map: Record<string, string> = {};
+		for (const key of keys) map[key] = PROFILE_DEFAULTS[key].value;
+		for (const row of rows) map[row.key] = row.value;
+		return map;
+	},
+
+	/** Admin view: every block as a row with label, ensuring defaults exist. */
+	async listContentBlocks() {
+		const keys = Object.keys(PROFILE_DEFAULTS);
+		const rows = await db
+			.select()
+			.from(siteContent)
+			.where(inArray(siteContent.key, keys));
+		const byKey = new Map(rows.map((r) => [r.key, r]));
+
+		return keys.map((key) => {
+			const existing = byKey.get(key);
+			return {
+				key,
+				label: existing?.label ?? PROFILE_DEFAULTS[key].label,
+				value: existing?.value ?? PROFILE_DEFAULTS[key].value
+			};
+		});
+	},
+
+	/** Upsert a single content block. */
+	async setContent(key: string, value: string) {
+		const label = PROFILE_DEFAULTS[key]?.label ?? key;
+		await db
+			.insert(siteContent)
+			.values({ key, group: 'profile', label, value })
+			.onConflictDoUpdate({
+				target: siteContent.key,
+				set: { value, label, updatedAt: new Date() }
+			});
+	},
+
+	/* ---------- members / struktur organisasi ---------- */
+
+	listMembers(opts?: { activeOnly?: boolean }) {
+		const where = opts?.activeOnly ? eq(members.isActive, true) : undefined;
+		return db
+			.select()
+			.from(members)
+			.where(where)
+			.orderBy(asc(members.sortOrder), asc(members.id));
+	},
+
+	findMemberById(id: number) {
+		return db
+			.select()
+			.from(members)
+			.where(eq(members.id, id))
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
+	},
+
+	async createMember(input: CreateMemberInput) {
+		const [row] = await db.insert(members).values(input).returning();
+		return row;
+	},
+
+	async updateMember(id: number, input: UpdateMemberInput) {
+		const [row] = await db
+			.update(members)
+			.set(input)
+			.where(eq(members.id, id))
+			.returning();
+		return row ?? null;
+	},
+
+	async removeMember(id: number) {
+		const [row] = await db
+			.delete(members)
+			.where(eq(members.id, id))
+			.returning({ id: members.id });
+		return row ?? null;
+	}
+};
