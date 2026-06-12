@@ -54,6 +54,11 @@
 		goTo(safeIndex + 1);
 	}
 
+	function goPrev() {
+		slideDirection = 'prev';
+		goTo(safeIndex - 1);
+	}
+
 	function openDetail() {
 		if (hasMembers) detailOpen = true;
 	}
@@ -352,11 +357,6 @@
 
 							<!-- Main person image (fixed frame) -->
 							<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
-								<!-- Decorative accent lines behind the frame -->
-								<div class="sc-slide-decor" aria-hidden="true">
-									<div class="sc-slide-decor__line-1"></div>
-									<div class="sc-slide-decor__line-2"></div>
-								</div>
 								<div class="sc-person__frame">
 									{#key safeIndex}
 										<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" class:slide-next={slideDirection === 'next'} class:slide-prev={slideDirection === 'prev'} />
@@ -369,8 +369,15 @@
 							</button>
 						</div>
 
-						<!-- Biodata cards (current + next) -->
+						<!-- Navigation + Biodata cards -->
 						<div class="sc-bios">
+							{#if orgMembers.length > 1}
+								<button type="button" class="sc-bio sc-bio--prev" onclick={goPrev} aria-label="Sebelumnya">
+									<span class="sc-bio__arrow-icon">
+										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M11 19l-7-7 7 7"/></svg>
+									</span>
+								</button>
+							{/if}
 							<div class="sc-bio sc-bio--current">
 								<span class="sc-bio__label">Biodata</span>
 								<span class="sc-bio__name">{current.name}</span>
@@ -964,8 +971,7 @@
 		border: 0;
 		background: transparent;
 		cursor: pointer;
-		padding: 1rem;
-		margin: -1rem;
+		padding: 0;
 		z-index: 2;
 		overflow: visible;
 	}
@@ -985,40 +991,7 @@
 		border-radius: 1.25rem;
 	}
 
-	/* ===== Slide Decor — Accent lines around person on dark backdrop ===== */
-	.sc-slide-decor {
-		position: absolute;
-		top: -0.75rem;
-		left: -0.75rem;
-		right: -0.75rem;
-		bottom: 20%;
-		pointer-events: none;
-		border: 2px solid rgba(255, 255, 255, 0.3);
-		border-bottom: none;
-		border-radius: 1.75rem 1.75rem 0 0;
-	}
-
-	/* Vertical accent line extending below */
-	.sc-slide-decor__line-1 {
-		position: absolute;
-		bottom: 0;
-		left: -2px;
-		width: 2px;
-		height: 4rem;
-		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
-	}
-
-	/* Small accent dot at intersection */
-	.sc-slide-decor__line-2 {
-		position: absolute;
-		top: -5px;
-		right: 2rem;
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: var(--color-primary, #6eaee8);
-		box-shadow: 0 0 8px var(--color-primary, #6eaee8);
-	}
+	/* ===== Slide Decor removed — using bold backdrop instead ===== */
 
 	@media (min-width: 768px) {
 		.sc-person__frame { width: 17rem; height: 26rem; }
@@ -1057,7 +1030,7 @@
 	/* Hover hint badge */
 	.sc-person__hint {
 		position: absolute;
-		bottom: 1.5rem;
+		bottom: 4rem;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 3;
@@ -1068,7 +1041,7 @@
 		border-radius: 9999px;
 		background: rgba(255, 255, 255, 0.95);
 		backdrop-filter: blur(8px);
-		border: 1px solid var(--color-line, #e2e8f0);
+		border: 1px solid rgba(255, 255, 255, 0.2);
 		color: var(--color-primary, #6eaee8);
 		font-size: 0.75rem;
 		font-weight: 700;
@@ -1153,6 +1126,37 @@
 		border-color: var(--color-primary, #6eaee8);
 		transform: translateY(-2px);
 		box-shadow: 0 6px 24px rgba(110, 174, 232, 0.2);
+	}
+
+	.sc-bio--prev {
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.625rem;
+		transition: all 200ms ease;
+	}
+
+	.sc-bio--prev:hover {
+		border-color: var(--color-primary, #6eaee8);
+		transform: translateY(-2px);
+		box-shadow: 0 6px 24px rgba(110, 174, 232, 0.2);
+	}
+
+	.sc-bio__arrow-icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.1);
+		color: var(--color-primary, #6eaee8);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.sc-bio--prev:hover .sc-bio__arrow-icon {
+		background: var(--color-primary, #6eaee8);
+		color: #fff;
 	}
 
 	.sc-bio--next:focus-visible {
