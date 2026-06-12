@@ -8,7 +8,8 @@ export default defineConfig(() => {
 		'localhost',
 		'127.0.0.1',
 		'pearl-canyon-6d4c00cb.tunnl.gg',
-		'keen-wave-1a2ec6b5.tunnl.gg'
+		'keen-wave-1a2ec6b5.tunnl.gg',
+		'b0f2ce7a9d4f46.lhr.life'
 	];
 
 	return {

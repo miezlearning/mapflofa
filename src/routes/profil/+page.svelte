@@ -72,9 +72,20 @@
 <main class="overflow-x-clip">
 	<!-- ===== Header ===== -->
 	<section class="profil-header relative overflow-hidden bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
-		<!-- Large watermark logo for identity -->
-		<div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 opacity-[0.04] pointer-events-none select-none" aria-hidden="true">
-			<img src="/logo.png" alt="" class="w-[28rem] md:w-[36rem] lg:w-[44rem] h-auto" />
+		<!-- Multi-layer page decor -->
+		<div class="page-decor" aria-hidden="true">
+			<div class="page-decor__ring page-decor__ring--1"></div>
+			<div class="page-decor__ring page-decor__ring--2"></div>
+			<div class="page-decor__line page-decor__line--1"></div>
+			<div class="page-decor__line page-decor__line--2"></div>
+			<div class="page-decor__dot page-decor__dot--1"></div>
+			<div class="page-decor__dot page-decor__dot--2"></div>
+			<div class="page-decor__dot page-decor__dot--3"></div>
+			<div class="page-decor__cross page-decor__cross--1"></div>
+			<div class="page-decor__cross page-decor__cross--2"></div>
+			<div class="page-decor__logo">
+				<img src="/logo.png" alt="" class="w-full h-full object-contain" />
+			</div>
 		</div>
 		<div class="max-w-7xl mx-auto relative">
 			<div use:reveal={{ from: 'up' }} class="max-w-2xl flex items-start gap-5 md:gap-6">
@@ -95,10 +106,14 @@
 
 	<!-- ===== Visi & Misi ===== -->
 	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
-		<!-- Subtle dot pattern background -->
-		<div class="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true"
-			style="background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 24px 24px;"
-		></div>
+		<!-- Geometric decor layers -->
+		<div class="section-decor" aria-hidden="true">
+			<div class="section-decor__diamond section-decor__diamond--1"></div>
+			<div class="section-decor__diamond section-decor__diamond--2"></div>
+			<div class="section-decor__stripe section-decor__stripe--1"></div>
+			<div class="section-decor__stripe section-decor__stripe--2"></div>
+			<div class="section-decor__stripe section-decor__stripe--3"></div>
+		</div>
 		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 items-start relative">
 			<!-- Visi -->
 			<div
@@ -161,9 +176,13 @@
 
 	<!-- ===== Sejarah ===== -->
 	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
-		<!-- Decorative blob background -->
-		<div class="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
-		<div class="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-primary/5 blur-2xl pointer-events-none" aria-hidden="true"></div>
+		<!-- Layered decor -->
+		<div class="sejarah-decor" aria-hidden="true">
+			<div class="sejarah-decor__arc sejarah-decor__arc--1"></div>
+			<div class="sejarah-decor__arc sejarah-decor__arc--2"></div>
+			<div class="sejarah-decor__grid"></div>
+			<div class="sejarah-decor__accent"></div>
+		</div>
 		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative">
 			<div use:reveal={{ from: 'left' }} class="mask-organic overflow-hidden aspect-[4/3] bg-slate-100">
 				<img
@@ -228,9 +247,14 @@
 	<!-- ===== Struktur Organisasi — Character Select + Detail Zoom ===== -->
 	{#if hasMembers && current && nextMember}
 		<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
-			<!-- Subtle logo watermark -->
-			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none select-none" aria-hidden="true">
-				<img src="/logo.png" alt="" class="w-[30rem] h-auto" />
+			<!-- Layered decor for struktur section -->
+			<div class="struktur-decor" aria-hidden="true">
+				<div class="struktur-decor__hex struktur-decor__hex--1"></div>
+				<div class="struktur-decor__hex struktur-decor__hex--2"></div>
+				<div class="struktur-decor__orbit"></div>
+				<div class="struktur-decor__scanline"></div>
+				<div class="struktur-decor__corner struktur-decor__corner--tl"></div>
+				<div class="struktur-decor__corner struktur-decor__corner--br"></div>
 			</div>
 			<!-- Section heading -->
 			<div class="max-w-7xl mx-auto mb-10 text-center relative">
@@ -304,6 +328,12 @@
 
 							<!-- Main person image (fixed frame) -->
 							<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
+								<!-- Decorative lines around the frame -->
+								<div class="sc-person__decor" aria-hidden="true">
+									<div class="sc-person__decor-line sc-person__decor-line--top"></div>
+									<div class="sc-person__decor-line sc-person__decor-line--right"></div>
+									<div class="sc-person__decor-line sc-person__decor-line--corner"></div>
+								</div>
 								<div class="sc-person__frame">
 									{#key safeIndex}
 										<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" />
@@ -422,8 +452,13 @@
 
 	<!-- ===== CTA ===== -->
 	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
-		<!-- Decorative gradient background -->
-		<div class="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-primary/[0.02] pointer-events-none" aria-hidden="true"></div>
+		<!-- CTA decor -->
+		<div class="cta-decor" aria-hidden="true">
+			<div class="cta-decor__ring"></div>
+			<div class="cta-decor__ray cta-decor__ray--1"></div>
+			<div class="cta-decor__ray cta-decor__ray--2"></div>
+			<div class="cta-decor__ray cta-decor__ray--3"></div>
+		</div>
 		<div class="max-w-7xl mx-auto text-center relative">
 			<h2 class="font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary">
 				Ingin bergabung bersama kami?
@@ -813,9 +848,10 @@
 		justify-content: center;
 		/* Absolute height so the column never resizes with the image */
 		height: 24rem;
+		margin-bottom: 3rem;
 	}
 
-	@media (min-width: 768px) { .sc-right { height: 28rem; } }
+	@media (min-width: 768px) { .sc-right { height: 28rem; margin-bottom: 3.5rem; } }
 	@media (min-width: 1024px) { .sc-right { height: 32rem; } }
 
 	.sc-decor {
@@ -875,12 +911,50 @@
 		height: 22rem;
 		overflow: hidden;
 		border-radius: 1.5rem 1.5rem 0 0;
-		border: 3px solid var(--color-line, #e2e8f0);
-		border-bottom: none;
-		box-shadow: 0 8px 32px rgba(110, 174, 232, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
 		/* feather bottom edge to blend into background */
 		-webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 		mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+	}
+
+	/* Decorative lines around person frame — team-player slide-decor style */
+	.sc-person__decor {
+		position: absolute;
+		inset: -0.75rem;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	.sc-person__decor-line {
+		position: absolute;
+		background: var(--color-primary, #6eaee8);
+	}
+
+	.sc-person__decor-line--top {
+		top: 0;
+		left: 1.5rem;
+		right: 1.5rem;
+		height: 2px;
+		border-radius: 1px;
+		opacity: 0.35;
+	}
+
+	.sc-person__decor-line--right {
+		top: 1.5rem;
+		right: 0;
+		width: 2px;
+		height: 60%;
+		border-radius: 1px;
+		opacity: 0.25;
+	}
+
+	.sc-person__decor-line--corner {
+		bottom: 30%;
+		left: 0;
+		width: 2px;
+		height: 30%;
+		border-radius: 1px;
+		opacity: 0.2;
+		background: linear-gradient(to bottom, var(--color-primary, #6eaee8), transparent);
 	}
 
 	@media (min-width: 768px) {
@@ -961,8 +1035,6 @@
 		height: 18rem;
 		overflow: hidden;
 		border-radius: 1.25rem 1.25rem 0 0;
-		border: 2px solid var(--color-line, #e2e8f0);
-		border-bottom: none;
 		/* fade left + bottom so only the right slice shows */
 		-webkit-mask-image: linear-gradient(to right, transparent, #000 70%), linear-gradient(to bottom, #000 80%, transparent);
 		-webkit-mask-composite: source-in;
@@ -974,11 +1046,12 @@
 		.sc-peek__frame { width: 9rem; height: 22rem; }
 	}
 
-	/* Biodata cards — anchored to the section, fixed position */
+	/* Biodata cards — anchored below the person in sc-right */
 	.sc-bios {
 		position: absolute;
-		bottom: 0.75rem;
-		right: 0;
+		bottom: -2.5rem;
+		left: 50%;
+		transform: translateX(-50%);
 		display: flex;
 		gap: 0.5rem;
 		z-index: 5;
@@ -1222,15 +1295,435 @@
 		.sc-stage { min-height: auto; }
 		.sc-select { display: flex; flex-direction: column; }
 		.sc-left { order: 2; }
-		.sc-right { order: 1; height: 20rem; }
+		.sc-right { order: 1; height: 20rem; margin-bottom: 2rem; }
 		.sc-dots { display: none; }
 		.sc-text__name { font-size: 1.75rem; }
 		.sc-peek { display: none; }
 		.sc-decor { transform: translateX(-50%); }
 		.sc-person__frame { width: 12rem; height: 18rem; }
-		.sc-bios { position: relative; bottom: auto; right: auto; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
+		.sc-bios { position: relative; bottom: auto; left: auto; transform: none; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
 		.sc-detail { grid-template-columns: 1fr; }
 		.sc-detail__visual { min-height: 16rem; }
 		.sc-detail__role { font-size: 1.5rem; }
+	}
+
+	/* ==========================================================
+	   PAGE DECOR — Header multi-layer decoration
+	   ========================================================== */
+	.page-decor {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.page-decor__ring {
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid var(--color-primary, #6eaee8);
+	}
+
+	.page-decor__ring--1 {
+		width: 28rem;
+		height: 28rem;
+		top: -8rem;
+		right: -6rem;
+		opacity: 0.12;
+	}
+
+	.page-decor__ring--2 {
+		width: 18rem;
+		height: 18rem;
+		top: -2rem;
+		right: -1rem;
+		opacity: 0.08;
+		border-style: dashed;
+	}
+
+	.page-decor__line {
+		position: absolute;
+		background: var(--color-primary, #6eaee8);
+	}
+
+	.page-decor__line--1 {
+		width: 1px;
+		height: 6rem;
+		top: 2rem;
+		right: 12rem;
+		opacity: 0.15;
+	}
+
+	.page-decor__line--2 {
+		width: 4rem;
+		height: 1px;
+		bottom: 3rem;
+		right: 8rem;
+		opacity: 0.12;
+	}
+
+	.page-decor__dot {
+		position: absolute;
+		border-radius: 50%;
+		background: var(--color-primary, #6eaee8);
+	}
+
+	.page-decor__dot--1 {
+		width: 6px;
+		height: 6px;
+		top: 30%;
+		right: 20%;
+		opacity: 0.25;
+	}
+
+	.page-decor__dot--2 {
+		width: 4px;
+		height: 4px;
+		top: 60%;
+		right: 35%;
+		opacity: 0.18;
+	}
+
+	.page-decor__dot--3 {
+		width: 8px;
+		height: 8px;
+		bottom: 20%;
+		right: 15%;
+		opacity: 0.12;
+	}
+
+	.page-decor__cross {
+		position: absolute;
+		width: 1rem;
+		height: 1rem;
+		opacity: 0.18;
+	}
+
+	.page-decor__cross::before,
+	.page-decor__cross::after {
+		content: '';
+		position: absolute;
+		background: var(--color-primary, #6eaee8);
+	}
+
+	.page-decor__cross::before {
+		width: 100%;
+		height: 1px;
+		top: 50%;
+		left: 0;
+	}
+
+	.page-decor__cross::after {
+		width: 1px;
+		height: 100%;
+		left: 50%;
+		top: 0;
+	}
+
+	.page-decor__cross--1 {
+		top: 25%;
+		right: 28%;
+	}
+
+	.page-decor__cross--2 {
+		bottom: 30%;
+		right: 10%;
+		transform: rotate(45deg);
+	}
+
+	.page-decor__logo {
+		position: absolute;
+		top: 50%;
+		right: 3%;
+		transform: translateY(-50%);
+		width: 20rem;
+		height: 20rem;
+		opacity: 0.06;
+	}
+
+	@media (min-width: 768px) {
+		.page-decor__logo { width: 28rem; height: 28rem; right: 5%; }
+	}
+
+	@media (min-width: 1024px) {
+		.page-decor__logo { width: 34rem; height: 34rem; }
+	}
+
+	/* ==========================================================
+	   SECTION DECOR — Visi & Misi
+	   ========================================================== */
+	.section-decor {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.section-decor__diamond {
+		position: absolute;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid var(--color-primary, #6eaee8);
+		transform: rotate(45deg);
+		opacity: 0.08;
+	}
+
+	.section-decor__diamond--1 {
+		top: 15%;
+		left: 5%;
+		width: 2rem;
+		height: 2rem;
+		opacity: 0.15;
+	}
+
+	.section-decor__diamond--2 {
+		bottom: 20%;
+		right: 8%;
+		width: 3.5rem;
+		height: 3.5rem;
+		border-style: dashed;
+		opacity: 0.1;
+	}
+
+	.section-decor__stripe {
+		position: absolute;
+		background: var(--color-primary, #6eaee8);
+		opacity: 0.07;
+	}
+
+	.section-decor__stripe--1 {
+		width: 100%;
+		height: 1px;
+		top: 30%;
+		left: 0;
+	}
+
+	.section-decor__stripe--2 {
+		width: 60%;
+		height: 1px;
+		top: 70%;
+		right: 0;
+	}
+
+	.section-decor__stripe--3 {
+		width: 1px;
+		height: 40%;
+		top: 20%;
+		left: 8%;
+		opacity: 0.06;
+	}
+
+	/* ==========================================================
+	   SEJARAH DECOR
+	   ========================================================== */
+	.sejarah-decor {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.sejarah-decor__arc {
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid var(--color-primary, #6eaee8);
+	}
+
+	.sejarah-decor__arc--1 {
+		width: 40rem;
+		height: 40rem;
+		bottom: -20rem;
+		left: -10rem;
+		opacity: 0.08;
+	}
+
+	.sejarah-decor__arc--2 {
+		width: 24rem;
+		height: 24rem;
+		top: -10rem;
+		right: -8rem;
+		opacity: 0.06;
+		border-style: dashed;
+	}
+
+	.sejarah-decor__grid {
+		position: absolute;
+		top: 10%;
+		right: 5%;
+		width: 6rem;
+		height: 6rem;
+		opacity: 0.08;
+		background-image:
+			linear-gradient(var(--color-primary, #6eaee8) 1px, transparent 1px),
+			linear-gradient(90deg, var(--color-primary, #6eaee8) 1px, transparent 1px);
+		background-size: 1rem 1rem;
+	}
+
+	.sejarah-decor__accent {
+		position: absolute;
+		bottom: 15%;
+		left: 3%;
+		width: 3rem;
+		height: 3rem;
+		border-left: 2px solid var(--color-primary, #6eaee8);
+		border-bottom: 2px solid var(--color-primary, #6eaee8);
+		opacity: 0.15;
+	}
+
+	/* ==========================================================
+	   STRUKTUR DECOR
+	   ========================================================== */
+	.struktur-decor {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.struktur-decor__hex {
+		position: absolute;
+		width: 5rem;
+		height: 5rem;
+		opacity: 0.12;
+	}
+
+	.struktur-decor__hex::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+		background: var(--color-primary, #6eaee8);
+		opacity: 0.25;
+	}
+
+	.struktur-decor__hex::after {
+		content: '';
+		position: absolute;
+		inset: 4px;
+		clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+		background: var(--color-surface-2, #f8fafc);
+	}
+
+	.struktur-decor__hex--1 {
+		top: 8%;
+		right: 10%;
+		width: 5rem;
+		height: 5rem;
+	}
+
+	.struktur-decor__hex--2 {
+		bottom: 12%;
+		left: 6%;
+		width: 3.5rem;
+		height: 3.5rem;
+		opacity: 0.08;
+	}
+
+	.struktur-decor__orbit {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 36rem;
+		height: 36rem;
+		border-radius: 50%;
+		border: 1.5px dashed var(--color-primary, #6eaee8);
+		opacity: 0.08;
+	}
+
+	.struktur-decor__scanline {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.03;
+		background: repeating-linear-gradient(
+			0deg,
+			transparent,
+			transparent 4px,
+			var(--color-primary, #6eaee8) 4px,
+			var(--color-primary, #6eaee8) 5px
+		);
+	}
+
+	.struktur-decor__corner {
+		position: absolute;
+		width: 4rem;
+		height: 4rem;
+	}
+
+	.struktur-decor__corner--tl {
+		top: 2rem;
+		left: 2rem;
+		border-top: 2.5px solid var(--color-primary, #6eaee8);
+		border-left: 2.5px solid var(--color-primary, #6eaee8);
+		opacity: 0.2;
+	}
+
+	.struktur-decor__corner--br {
+		bottom: 2rem;
+		right: 2rem;
+		border-bottom: 2.5px solid var(--color-primary, #6eaee8);
+		border-right: 2.5px solid var(--color-primary, #6eaee8);
+		opacity: 0.2;
+	}
+
+	/* ==========================================================
+	   CTA DECOR
+	   ========================================================== */
+	.cta-decor {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.cta-decor__ring {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 32rem;
+		height: 32rem;
+		border-radius: 50%;
+		border: 1.5px solid var(--color-primary, #6eaee8);
+		opacity: 0.08;
+	}
+
+	.cta-decor__ray {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--color-primary, #6eaee8), transparent);
+		opacity: 0.1;
+		transform-origin: left center;
+	}
+
+	.cta-decor__ray--1 {
+		width: 20rem;
+		transform: translate(-50%, -50%) rotate(-20deg);
+	}
+
+	.cta-decor__ray--2 {
+		width: 16rem;
+		transform: translate(-50%, -50%) rotate(15deg);
+	}
+
+	.cta-decor__ray--3 {
+		width: 24rem;
+		transform: translate(-50%, -50%) rotate(45deg);
+		opacity: 0.07;
+	}
+
+	/* Hide heavy decor on mobile for performance */
+	@media (max-width: 767px) {
+		.page-decor__ring--1 { width: 16rem; height: 16rem; top: -6rem; right: -6rem; }
+		.page-decor__ring--2 { display: none; }
+		.page-decor__logo { width: 14rem; height: 14rem; opacity: 0.04; }
+		.struktur-decor__orbit { width: 20rem; height: 20rem; }
+		.struktur-decor__scanline { display: none; }
+		.sejarah-decor__arc--1 { width: 24rem; height: 24rem; }
+		.sejarah-decor__grid { display: none; }
 	}
 </style>
