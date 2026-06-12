@@ -374,7 +374,7 @@
 							{#if orgMembers.length > 1}
 								<button type="button" class="sc-bio sc-bio--prev" onclick={goPrev} aria-label="Sebelumnya">
 									<span class="sc-bio__arrow-icon">
-										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M11 19l-7-7 7 7"/></svg>
+										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
 									</span>
 								</button>
 							{/if}
@@ -1098,6 +1098,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		display: flex;
+		align-items: stretch;
 		gap: 0.5rem;
 		z-index: 5;
 	}
@@ -1133,7 +1134,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.625rem;
+		padding: 0;
+		aspect-ratio: 1;
 		transition: all 200ms ease;
 	}
 
@@ -1144,8 +1146,8 @@
 	}
 
 	.sc-bio__arrow-icon {
-		width: 1.25rem;
-		height: 1.25rem;
+		width: 1.5rem;
+		height: 1.5rem;
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.1);
 		color: var(--color-primary, #6eaee8);
