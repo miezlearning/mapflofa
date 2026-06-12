@@ -71,23 +71,35 @@
 
 <main class="overflow-x-clip">
 	<!-- ===== Header ===== -->
-	<section class="bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
-		<div class="max-w-7xl mx-auto">
-			<div use:reveal={{ from: 'up' }} class="max-w-2xl">
-				<div class="text-xs font-bold uppercase tracking-widest text-primary">{header.label}</div>
-				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-ink leading-[1.05]">
-					{header.title}
-				</h1>
-				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
-					{header.desc}
-				</p>
+	<section class="profil-header relative overflow-hidden bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
+		<!-- Large watermark logo for identity -->
+		<div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 opacity-[0.04] pointer-events-none select-none" aria-hidden="true">
+			<img src="/logo.png" alt="" class="w-[28rem] md:w-[36rem] lg:w-[44rem] h-auto" />
+		</div>
+		<div class="max-w-7xl mx-auto relative">
+			<div use:reveal={{ from: 'up' }} class="max-w-2xl flex items-start gap-5 md:gap-6">
+				<!-- Logo -->
+				<img src="/logo.png" alt="Logo MAPFLOFA" class="w-16 h-16 md:w-20 md:h-20 shrink-0 drop-shadow-md" />
+				<div>
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">{header.label}</div>
+					<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-ink leading-[1.05]">
+						{header.title}
+					</h1>
+					<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
+						{header.desc}
+					</p>
+				</div>
 			</div>
 		</div>
 	</section>
 
 	<!-- ===== Visi & Misi ===== -->
-	<section class="py-16 md:py-24 px-4 md:px-8">
-		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
+	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
+		<!-- Subtle dot pattern background -->
+		<div class="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true"
+			style="background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 24px 24px;"
+		></div>
+		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 items-start relative">
 			<!-- Visi -->
 			<div
 				use:reveal={{ from: 'left' }}
@@ -148,8 +160,11 @@
 	{/if}
 
 	<!-- ===== Sejarah ===== -->
-	<section class="py-16 md:py-24 px-4 md:px-8">
-		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
+		<!-- Decorative blob background -->
+		<div class="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl pointer-events-none" aria-hidden="true"></div>
+		<div class="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-primary/5 blur-2xl pointer-events-none" aria-hidden="true"></div>
+		<div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative">
 			<div use:reveal={{ from: 'left' }} class="mask-organic overflow-hidden aspect-[4/3] bg-slate-100">
 				<img
 					src="https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop"
@@ -213,6 +228,17 @@
 	<!-- ===== Struktur Organisasi — Character Select + Detail Zoom ===== -->
 	{#if hasMembers && current && nextMember}
 		<section id="struktur" class="sc-section scroll-mt-24" class:is-detail={detailOpen}>
+			<!-- Subtle logo watermark -->
+			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none select-none" aria-hidden="true">
+				<img src="/logo.png" alt="" class="w-[30rem] h-auto" />
+			</div>
+			<!-- Section heading -->
+			<div class="max-w-7xl mx-auto mb-10 text-center relative">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Struktur Organisasi</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">
+					Pengurus MAPFLOFA
+				</h2>
+			</div>
 			<div class="sc-stage">
 				<!-- ===== SELECT VIEW ===== -->
 				<div class="sc-select" class:hidden={detailOpen} aria-hidden={detailOpen}>
@@ -395,8 +421,10 @@
 	{/if}
 
 	<!-- ===== CTA ===== -->
-	<section class="py-16 md:py-24 px-4 md:px-8">
-		<div class="max-w-7xl mx-auto text-center">
+	<section class="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
+		<!-- Decorative gradient background -->
+		<div class="absolute inset-0 bg-gradient-to-br from-primary/[0.03] via-transparent to-primary/[0.02] pointer-events-none" aria-hidden="true"></div>
+		<div class="max-w-7xl mx-auto text-center relative">
 			<h2 class="font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary">
 				Ingin bergabung bersama kami?
 			</h2>
@@ -847,6 +875,9 @@
 		height: 22rem;
 		overflow: hidden;
 		border-radius: 1.5rem 1.5rem 0 0;
+		border: 3px solid var(--color-line, #e2e8f0);
+		border-bottom: none;
+		box-shadow: 0 8px 32px rgba(110, 174, 232, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
 		/* feather bottom edge to blend into background */
 		-webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 		mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
@@ -930,6 +961,8 @@
 		height: 18rem;
 		overflow: hidden;
 		border-radius: 1.25rem 1.25rem 0 0;
+		border: 2px solid var(--color-line, #e2e8f0);
+		border-bottom: none;
 		/* fade left + bottom so only the right slice shows */
 		-webkit-mask-image: linear-gradient(to right, transparent, #000 70%), linear-gradient(to bottom, #000 80%, transparent);
 		-webkit-mask-composite: source-in;
