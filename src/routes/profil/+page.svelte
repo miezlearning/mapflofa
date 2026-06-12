@@ -32,6 +32,7 @@
 
 	let activeIndex = $state(0);
 	let detailOpen = $state(false);
+	let slideDirection = $state<'next' | 'prev'>('next');
 
 	// Keep activeIndex in range if members list changes
 	const safeIndex = $derived(
@@ -43,10 +44,13 @@
 
 	function goTo(index: number) {
 		if (!hasMembers) return;
-		activeIndex = ((index % orgMembers.length) + orgMembers.length) % orgMembers.length;
+		const newIndex = ((index % orgMembers.length) + orgMembers.length) % orgMembers.length;
+		slideDirection = newIndex > activeIndex || (activeIndex === orgMembers.length - 1 && newIndex === 0) ? 'next' : 'prev';
+		activeIndex = newIndex;
 	}
 
 	function goNext() {
+		slideDirection = 'next';
 		goTo(safeIndex + 1);
 	}
 
@@ -287,7 +291,7 @@
 						<div class="sc-text">
 							<div class="sc-text__org">Pengurus MAPFLOFA</div>
 							{#key safeIndex}
-								<div class="sc-text__content">
+								<div class="sc-text__content" class:slide-next={slideDirection === 'next'} class:slide-prev={slideDirection === 'prev'}>
 									<div class="sc-text__role">{current.role}</div>
 									<h2 class="sc-text__name">{current.name}</h2>
 									{#if current.nim}
@@ -328,15 +332,14 @@
 
 							<!-- Main person image (fixed frame) -->
 							<button type="button" class="sc-person" onclick={openDetail} aria-label={`Lihat detail ${current.name}`}>
-								<!-- Decorative lines around the frame -->
-								<div class="sc-person__decor" aria-hidden="true">
-									<div class="sc-person__decor-line sc-person__decor-line--top"></div>
-									<div class="sc-person__decor-line sc-person__decor-line--right"></div>
-									<div class="sc-person__decor-line sc-person__decor-line--corner"></div>
+								<!-- Decorative accent lines behind the frame -->
+								<div class="sc-slide-decor" aria-hidden="true">
+									<div class="sc-slide-decor__line-1"></div>
+									<div class="sc-slide-decor__line-2"></div>
 								</div>
 								<div class="sc-person__frame">
 									{#key safeIndex}
-										<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" />
+										<img src={current.imageUrl} alt={current.name} class="sc-portrait__img" class:slide-next={slideDirection === 'next'} class:slide-prev={slideDirection === 'prev'} />
 									{/key}
 								</div>
 								<span class="sc-person__hint">
@@ -605,11 +608,20 @@
 	}
 
 	.sc-text__content {
-		animation: scSlideIn 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+		animation: scSlideInNext 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
 
-	@keyframes scSlideIn {
-		from { opacity: 0; transform: translateX(-14px); }
+	.sc-text__content.slide-prev {
+		animation: scSlideInPrev 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+
+	@keyframes scSlideInNext {
+		from { opacity: 0; transform: translateX(40px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+
+	@keyframes scSlideInPrev {
+		from { opacity: 0; transform: translateX(-40px); }
 		to   { opacity: 1; transform: translateX(0); }
 	}
 
@@ -895,8 +907,10 @@
 		border: 0;
 		background: transparent;
 		cursor: pointer;
-		padding: 0;
+		padding: 1rem;
+		margin: -1rem;
 		z-index: 2;
+		overflow: visible;
 	}
 
 	.sc-person:focus-visible {
@@ -907,6 +921,7 @@
 
 	.sc-person__frame {
 		position: relative;
+		z-index: 2;
 		width: 15rem;
 		height: 22rem;
 		overflow: hidden;
@@ -916,45 +931,39 @@
 		mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 	}
 
-	/* Decorative lines around person frame — team-player slide-decor style */
-	.sc-person__decor {
+	/* ===== Slide Decor — Accent lines around person ===== */
+	.sc-slide-decor {
 		position: absolute;
-		inset: -0.75rem;
-		z-index: -1;
+		top: -0.75rem;
+		left: -0.75rem;
+		right: -0.75rem;
+		bottom: 20%;
 		pointer-events: none;
+		border: 2.5px solid var(--color-primary, #6eaee8);
+		border-bottom: none;
+		border-radius: 1.75rem 1.75rem 0 0;
+		opacity: 0.45;
 	}
 
-	.sc-person__decor-line {
+	/* Vertical accent line extending below */
+	.sc-slide-decor__line-1 {
 		position: absolute;
-		background: var(--color-primary, #6eaee8);
-	}
-
-	.sc-person__decor-line--top {
-		top: 0;
-		left: 1.5rem;
-		right: 1.5rem;
-		height: 2px;
-		border-radius: 1px;
-		opacity: 0.35;
-	}
-
-	.sc-person__decor-line--right {
-		top: 1.5rem;
-		right: 0;
-		width: 2px;
-		height: 60%;
-		border-radius: 1px;
-		opacity: 0.25;
-	}
-
-	.sc-person__decor-line--corner {
-		bottom: 30%;
-		left: 0;
-		width: 2px;
-		height: 30%;
-		border-radius: 1px;
-		opacity: 0.2;
+		bottom: 0;
+		left: -2.5px;
+		width: 2.5px;
+		height: 4rem;
 		background: linear-gradient(to bottom, var(--color-primary, #6eaee8), transparent);
+	}
+
+	/* Small accent dot at top-right */
+	.sc-slide-decor__line-2 {
+		position: absolute;
+		top: -5px;
+		right: 2rem;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-primary, #6eaee8);
 	}
 
 	@media (min-width: 768px) {
@@ -974,12 +983,21 @@
 		object-fit: cover;
 		object-position: top center;
 		display: block;
-		animation: scPersonIn 500ms cubic-bezier(0.34, 1.2, 0.64, 1);
+		animation: scPersonSlideNext 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
 
-	@keyframes scPersonIn {
-		from { opacity: 0; transform: scale(1.04); }
-		to   { opacity: 1; transform: scale(1); }
+	.sc-portrait__img.slide-prev {
+		animation: scPersonSlidePrev 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	}
+
+	@keyframes scPersonSlideNext {
+		from { opacity: 0; transform: translateX(60px); }
+		to   { opacity: 1; transform: translateX(0); }
+	}
+
+	@keyframes scPersonSlidePrev {
+		from { opacity: 0; transform: translateX(-60px); }
+		to   { opacity: 1; transform: translateX(0); }
 	}
 
 	/* Hover hint badge */
