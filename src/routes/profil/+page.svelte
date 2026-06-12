@@ -39,7 +39,7 @@
 			role: 'Ketua Umum',
 			description: 'Pemimpin organisasi',
 			name: 'Ahmad Fauzan',
-			imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop',
+			imageUrl: 'https://diskominfo.samarindakota.go.id/storage/Personil/2025-09/29/ea6077b4-c49a-11eb-bf1d-b06ebf3af48c.png',
 			tupoksi: [
 				'Memimpin dan mengarahkan jalannya organisasi sesuai visi dan misi MAPFLOFA.',
 				'Mengambil keputusan strategis terkait program kerja dan kebijakan organisasi.',
@@ -53,7 +53,7 @@
 			role: 'Wakil Ketua',
 			description: 'Pendamping ketua',
 			name: 'Rizki Pratama',
-			imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=700&auto=format&fit=crop',
+			imageUrl: 'https://diskominfo.samarindakota.go.id/storage/Personil/2021-06/27/ea60a888-c49a-11eb-9a31-b06ebf3af48c.png',
 			tupoksi: [
 				'Mendampingi dan membantu ketua dalam menjalankan tugas organisasi.',
 				'Menggantikan peran ketua apabila berhalangan hadir.',
