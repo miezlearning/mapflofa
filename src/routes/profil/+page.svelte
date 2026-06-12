@@ -57,11 +57,11 @@
 	<section class="bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="max-w-2xl">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Profil Organisasi</div>
-				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-primary leading-[1.05]">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Profil Organisasi</div>
+				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-ink leading-[1.05]">
 					Tentang MAPFLOFA
 				</h1>
-				<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
 					Mahasiswa Penyayang Flora Fauna (MAPFLOFA) adalah organisasi mahasiswa pecinta alam
 					yang berfokus pada konservasi flora, fauna, dan kelestarian lingkungan.
 				</p>
@@ -89,14 +89,14 @@
 
 			<!-- Misi -->
 			<div use:reveal={{ from: 'right', delay: 100 }}>
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Misi</div>
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Misi</div>
 				<ul class="mt-5 space-y-4">
 					{#each misi as m, i}
 						<li class="flex gap-4">
-							<span class="w-8 h-8 shrink-0 rounded-full bg-accent/10 text-accent grid place-items-center font-bold text-sm">
+							<span class="w-8 h-8 shrink-0 rounded-full bg-primary/10 text-primary grid place-items-center font-bold text-sm">
 								{i + 1}
 							</span>
-							<span class="text-slate-600 text-base leading-relaxed pt-1">{m}</span>
+							<span class="text-muted text-base leading-relaxed pt-1">{m}</span>
 						</li>
 					{/each}
 				</ul>
@@ -108,23 +108,22 @@
 	<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Nilai Kami</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary">
-					Prinsip yang kami pegang
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Nilai Kami</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Prinsip yang kami pegang
 				</h2>
 			</div>
 			<div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 				{#each nilai as n, i}
 					<div
 						use:reveal={{ from: 'up', delay: i * 80 }}
-						class="rounded-3xl bg-white border border-slate-100 p-6 text-center shadow-sm
+						class="rounded-3xl bg-white border border-line p-6 text-center shadow-sm
 						       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 					>
-						<div class="w-12 h-12 mx-auto rounded-2xl bg-accent/10 text-accent grid place-items-center">
+						<div class="w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center">
 							<Icon name={n.icon} size={24} />
 						</div>
-						<div class="mt-3 font-display font-bold text-primary">{n.title}</div>
-						<div class="mt-1 text-xs text-slate-500 leading-relaxed">{n.desc}</div>
+						<div class="mt-3 font-display font-bold text-ink">{n.title}</div>
+						<div class="mt-1 text-xs text-muted leading-relaxed">{n.desc}</div>
 					</div>
 				{/each}
 			</div>
@@ -143,16 +142,16 @@
 				/>
 			</div>
 			<div use:reveal={{ from: 'right', delay: 100 }}>
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Sejarah</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary leading-tight">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Sejarah</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink leading-tight">
 					Berawal dari kepedulian
 				</h2>
-				<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
 					MAPFLOFA lahir dari sekelompok mahasiswa yang resah melihat kerusakan lingkungan dan
 					menyusutnya habitat satwa di sekitar kampus. Berawal dari kegiatan penanaman pohon
 					kecil-kecilan, organisasi ini tumbuh menjadi komunitas konservasi yang aktif.
 				</p>
-				<p class="mt-4 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-4 text-muted text-base md:text-lg leading-relaxed">
 					Kini MAPFLOFA rutin menggelar aksi penghijauan, edukasi lingkungan, dan ekspedisi
 					pendataan flora fauna bersama berbagai mitra.
 				</p>
@@ -164,9 +163,8 @@
 	<section id="struktur" class="bg-surface-2 py-16 md:py-24 px-4 md:px-8 scroll-mt-24">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Struktur Organisasi</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary">
-					Bagan kepengurusan
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Struktur Organisasi</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Bagan kepengurusan
 				</h2>
 			</div>
 
@@ -175,14 +173,14 @@
 				<!-- Ketua -->
 				<div class="org-node w-64 max-w-full">
 					<div class="font-display font-bold text-primary">{ketua.name}</div>
-					<div class="text-xs text-slate-500 mt-0.5">{ketua.sub}</div>
+					<div class="text-xs text-muted mt-0.5">{ketua.sub}</div>
 				</div>
 				<div class="org-line"></div>
 
 				<!-- Wakil -->
 				<div class="org-node w-60 max-w-full">
 					<div class="font-display font-bold text-primary">{wakil.name}</div>
-					<div class="text-xs text-slate-500 mt-0.5">{wakil.sub}</div>
+					<div class="text-xs text-muted mt-0.5">{wakil.sub}</div>
 				</div>
 				<div class="org-line"></div>
 
@@ -191,7 +189,7 @@
 					{#each inti as p}
 						<div class="org-node">
 							<div class="font-display font-bold text-primary text-sm md:text-base">{p.name}</div>
-							<div class="text-xs text-slate-500 mt-0.5">{p.sub}</div>
+							<div class="text-xs text-muted mt-0.5">{p.sub}</div>
 						</div>
 					{/each}
 				</div>
@@ -205,7 +203,7 @@
 								<Icon name={d.icon} size={22} />
 							</div>
 							<div class="mt-2 font-display font-bold text-primary text-sm md:text-base">{d.name}</div>
-							<div class="text-xs text-slate-500 mt-0.5">{d.sub}</div>
+							<div class="text-xs text-muted mt-0.5">{d.sub}</div>
 						</div>
 					{/each}
 				</div>
@@ -219,7 +217,7 @@
 			<h2 class="font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary">
 				Ingin bergabung bersama kami?
 			</h2>
-			<p class="mt-4 text-slate-600 text-base md:text-lg max-w-xl mx-auto">
+			<p class="mt-4 text-muted text-base md:text-lg max-w-xl mx-auto">
 				Terbuka untuk semua mahasiswa yang peduli pada alam dan ingin berkontribusi nyata.
 			</p>
 			<div class="mt-8 flex flex-wrap justify-center gap-4">

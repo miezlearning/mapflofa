@@ -24,11 +24,11 @@
 	<section class="bg-surface-2 pt-32 md:pt-40 pb-16 md:pb-20 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="max-w-2xl">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Dokumentasi</div>
-				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-primary leading-[1.05]">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Dokumentasi</div>
+				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl text-ink leading-[1.05]">
 					Galeri Aksi &amp; Kegiatan
 				</h1>
-				<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
 					Jejak langkah MAPFLOFA dalam menjaga flora, fauna, dan lingkungan — tersusun rapi
 					dalam album per kegiatan.
 				</p>
@@ -45,7 +45,7 @@
 						<Icon name="camera" size={30} />
 					</div>
 					<h2 class="font-display font-bold text-xl text-primary">Galeri segera hadir</h2>
-					<p class="mt-2 text-slate-600">
+					<p class="mt-2 text-muted">
 						Album kegiatan sedang disiapkan. Pantau terus halaman ini ya.
 					</p>
 				</div>

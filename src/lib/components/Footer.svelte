@@ -216,7 +216,7 @@
 								</div>
 								<div class="min-w-0 flex-1">
 									<div class="flex items-center gap-2 text-[11px] font-semibold">
-										<span class="text-accent">{a.tag}</span>
+										<span class="text-white/90">{a.tag}</span>
 										<span class="text-white/40">{a.date} {a.time}</span>
 									</div>
 									<p class="mt-1.5 text-sm text-white/90 leading-snug line-clamp-3 group-hover:text-white">

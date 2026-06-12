@@ -36,25 +36,25 @@
 		>
 			{date}
 		</div>
-		<!-- Category tag (bottom-right, organic curve) -->
+		<!-- Category tag (bottom-right) -->
 		<div
 			class="absolute bottom-4 right-4
-			       bg-primary text-white text-[11px] font-semibold
-			       px-3 py-1.5 rounded-full"
+			       bg-white/95 backdrop-blur-sm text-ink text-[11px] font-semibold
+			       px-3 py-1.5 rounded-lg"
 		>
 			{category}
 		</div>
 	</div>
 
 	<h3
-		class="mt-5 font-display font-bold text-lg md:text-xl text-primary
+		class="mt-5 font-display font-bold text-lg md:text-xl text-ink
 		       leading-snug
 		       transition-colors duration-300
-		       group-hover:text-accent"
+		       group-hover:text-primary"
 	>
 		{title}
 	</h3>
-	<p class="mt-3 text-sm text-slate-600 leading-relaxed line-clamp-3">
+	<p class="mt-3 text-sm text-muted leading-relaxed line-clamp-3">
 		{excerpt}
 	</p>
 </a>

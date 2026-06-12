@@ -56,9 +56,9 @@
 			</nav>
 			<div use:reveal={{ from: 'up' }} class="max-w-2xl">
 				{#if album.eventDate}
-					<div class="text-xs font-bold uppercase tracking-widest text-accent">{album.eventDate}</div>
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">{album.eventDate}</div>
 				{/if}
-				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-primary leading-tight">
+				<h1 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-ink leading-tight">
 					{album.title}
 				</h1>
 				{#if album.description}

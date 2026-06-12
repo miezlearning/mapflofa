@@ -10,21 +10,21 @@
    ========================================================== */
 @theme {
 	/* Brand — Biru Langit (#6EAEE8) */
-	--color-primary: #6eaee8;       /* sky blue — brand, headings, links */
+	--color-primary: #6eaee8;       /* sky blue — links, interactive */
 	--color-primary-600: #4f97d6;   /* hover */
-	--color-primary-700: #3e7cb8;   /* deep sky — footer, gradients */
+	--color-primary-700: #2c5f7f;   /* deep teal — footer, gradients */
 
-	/* Accent — Leaf green for "asri" CTA pop */
+	/* Accent — Leaf green for CTA only */
 	--color-accent: #4faf7c;        /* fresh leaf green */
 	--color-accent-600: #3d9968;
 
-	/* Neutrals — no pure black anywhere */
-	--color-ink: #333333;           /* body text (soft charcoal) */
-	--color-muted: #6b7b8c;         /* secondary text */
-	--color-line: #e3eef7;          /* hairline borders */
-	--color-surface: #ffffff;       /* page bg — clean white */
-	--color-surface-2: #e8f4fd;     /* very light blue section bg */
-	--color-surface-3: #f0f8ff;     /* alice blue — alt section bg */
+	/* Neutrals — clean, minimal palette */
+	--color-ink: #1e293b;           /* headings & body — slate-800 */
+	--color-muted: #64748b;         /* secondary text — slate-500 */
+	--color-line: #e2e8f0;          /* borders — slate-200 */
+	--color-surface: #ffffff;       /* page bg */
+	--color-surface-2: #f8fafc;     /* very subtle alternate bg — slate-50 */
+	--color-surface-3: #f1f5f9;     /* cards / sections — slate-100 */
 	--color-card: #ffffff;
 
 	/* Type */

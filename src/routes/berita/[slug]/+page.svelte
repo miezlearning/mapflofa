@@ -195,8 +195,8 @@
 		<section class="related-section">
 			<div class="max-w-7xl mx-auto px-4 md:px-8">
 				<div class="related-head" use:reveal={{ from: 'up' }}>
-					<div class="text-xs font-bold uppercase tracking-widest text-accent">Baca Juga</div>
-					<h2 class="font-display font-extrabold tracking-tight text-3xl md:text-4xl text-primary mt-2">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Baca Juga</div>
+					<h2 class="font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink mt-2">
 						Berita lainnya
 					</h2>
 				</div>
@@ -265,13 +265,13 @@
 	.cat-pill {
 		display: inline-block;
 		padding: 0.3125rem 0.75rem;
-		border-radius: 9999px;
-		background: #fff7f9;
-		color: #e11d48;
-		border: 1px solid #fde2ea;
+		border-radius: 0.5rem;
+		background: var(--color-surface-3, #f1f5f9);
+		color: var(--color-primary, #6eaee8);
+		border: 1px solid var(--color-line, #e2e8f0);
 		font-size: 0.7rem;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.06em;
 		font-weight: 700;
 	}
 

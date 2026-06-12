@@ -81,15 +81,15 @@
 					use:parallax={{ speed: -0.06 }}
 					class="about-stat-card absolute -bottom-8 left-4 md:left-auto md:right-[-20px]
 					       bg-white rounded-3xl shadow-2xl shadow-slate-300/50
-					       border border-slate-100 p-6 max-w-[260px]"
+					       border border-line p-6 max-w-[260px]"
 				>
 					<div class="flex items-center gap-3">
-						<div class="w-12 h-12 rounded-2xl bg-primary/5 grid place-items-center text-primary">
+						<div class="w-12 h-12 rounded-2xl bg-primary/10 grid place-items-center text-primary">
 							<Icon name="users" size={22} />
 						</div>
 						<div>
-							<div class="font-display font-extrabold text-3xl text-primary leading-none">120+</div>
-							<div class="text-xs text-slate-500 font-medium mt-1">Anggota aktif</div>
+							<div class="font-display font-extrabold text-3xl text-ink leading-none">120+</div>
+							<div class="text-xs text-muted font-medium mt-1">Anggota aktif</div>
 						</div>
 					</div>
 				</div>
@@ -103,11 +103,11 @@
 			</div>
 
 			<div use:reveal={{ from: 'right', delay: 120 }} class="order-1 lg:order-2">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Tentang Kami</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-primary leading-tight">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Tentang Kami</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-ink leading-tight">
 					Mahasiswa yang bergerak untuk alam
 				</h2>
-				<p class="mt-6 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-6 text-muted text-base md:text-lg leading-relaxed">
 					MAPFLOFA adalah komunitas mahasiswa penyayang flora dan fauna. Kami percaya kepedulian
 					terhadap lingkungan dimulai dari aksi nyata: menanam, mengedukasi, dan menjaga
 					keanekaragaman hayati di sekitar kita.
@@ -117,15 +117,15 @@
 					{#each pilar as item, i}
 						<div
 							use:reveal={{ from: 'up', delay: 200 + i * 80 }}
-							class="about-feature-card rounded-2xl bg-white border border-slate-100 p-4 shadow-sm
+							class="about-feature-card rounded-2xl bg-white border border-line p-4 shadow-sm
 							       transition-all duration-300
 							       hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 						>
-							<div class="w-10 h-10 rounded-xl bg-accent/10 text-accent grid place-items-center">
+							<div class="w-10 h-10 rounded-xl bg-surface-3 text-primary grid place-items-center">
 								<Icon name={item.icon} size={20} />
 							</div>
-							<div class="mt-2 font-bold text-primary text-sm">{item.title}</div>
-							<div class="text-xs text-slate-500 mt-1">{item.desc}</div>
+							<div class="mt-2 font-bold text-ink text-sm">{item.title}</div>
+							<div class="text-xs text-muted mt-1">{item.desc}</div>
 						</div>
 					{/each}
 				</div>
@@ -153,11 +153,11 @@
 		<div class="max-w-7xl mx-auto">
 			<div class="flex flex-wrap items-end justify-between gap-6">
 				<div use:reveal={{ from: 'left' }} class="max-w-xl">
-					<div class="text-xs font-bold uppercase tracking-widest text-accent">Galeri Aksi & Kegiatan</div>
-					<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-primary leading-tight">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Galeri Aksi & Kegiatan</div>
+					<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-ink leading-tight">
 						Jejak langkah kami di lapangan
 					</h2>
-					<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed">
+					<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
 						Dokumentasi foto dari setiap kegiatan konservasi, edukasi, dan aksi lingkungan
 						yang kami lakukan bersama.
 					</p>
@@ -188,9 +188,9 @@
 								<Icon name="camera" size={32} />
 							</div>
 						{/if}
-						<div class="absolute inset-0 bg-gradient-to-t from-primary-700/75 via-primary-700/10 to-transparent"></div>
+						<div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/15 to-transparent"></div>
 						{#if g.photoCount > 0}
-							<span class="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-primary">
+							<span class="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-ink">
 								<Icon name="camera" size={12} />
 								{g.photoCount}
 							</span>
@@ -229,11 +229,11 @@
 	<section class="py-20 md:py-28 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
-				<div class="text-xs font-bold uppercase tracking-widest text-accent">Dampak Kami</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-primary leading-tight">
+				<div class="text-xs font-bold uppercase tracking-widest text-primary">Dampak Kami</div>
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-5xl text-ink leading-tight">
 					Aksi nyata, dampak nyata
 				</h2>
-				<p class="mt-5 text-slate-600 text-base md:text-lg leading-relaxed">
+				<p class="mt-5 text-muted text-base md:text-lg leading-relaxed">
 					Setiap kegiatan MAPFLOFA berkontribusi pada lingkungan yang lebih asri dan
 					kesadaran masyarakat yang lebih tinggi.
 				</p>
@@ -243,16 +243,16 @@
 				{#each impactStats as s, i}
 					<div
 						use:reveal={{ from: 'up', delay: i * 90 }}
-						class="rounded-3xl bg-surface-3 border border-slate-100 p-6 md:p-8 text-center
+						class="rounded-3xl bg-surface-3 border border-line p-6 md:p-8 text-center
 						       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 					>
-						<div class="w-14 h-14 mx-auto rounded-2xl bg-accent/10 text-accent grid place-items-center">
+						<div class="w-14 h-14 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center">
 							<Icon name={s.icon} size={28} />
 						</div>
-						<div class="mt-4 font-display font-extrabold text-3xl md:text-4xl text-primary leading-none">
+						<div class="mt-4 font-display font-extrabold text-3xl md:text-4xl text-ink leading-none">
 							{s.value}
 						</div>
-						<div class="mt-2 text-sm text-slate-500 font-medium">{s.label}</div>
+						<div class="mt-2 text-sm text-muted font-medium">{s.label}</div>
 					</div>
 				{/each}
 			</div>
@@ -284,7 +284,7 @@
 
 				<div class="relative grid lg:grid-cols-2 gap-12 items-center">
 					<div use:reveal={{ from: 'left', delay: 100 }}>
-						<div class="text-xs font-bold uppercase tracking-widest text-accent">Gabung MAPFLOFA</div>
+						<div class="text-xs font-bold uppercase tracking-widest text-white/70">Gabung MAPFLOFA</div>
 						<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl leading-[1.05]">
 							Jadi bagian dari gerakan penyayang flora & fauna
 						</h2>

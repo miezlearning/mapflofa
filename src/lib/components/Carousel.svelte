@@ -52,23 +52,23 @@
 		<div class="grid lg:grid-cols-[320px_1fr] gap-6 md:gap-8 items-stretch">
 			<!-- Intro card -->
 			<div
-				class="rounded-3xl bg-white border border-slate-100
+				class="rounded-3xl bg-white border border-line
 				       shadow-xl shadow-slate-200/50
 				       p-7 md:p-8 flex flex-col"
 			>
 				{#if eyebrow}
-					<div class="text-xs font-bold uppercase tracking-widest text-accent">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">
 						{eyebrow}
 					</div>
 				{/if}
 				<h2
 					class="mt-2 font-display font-extrabold tracking-tight
-					       text-3xl md:text-4xl text-primary leading-[1.05]"
+					       text-3xl md:text-4xl text-ink leading-[1.05]"
 				>
 					{title}
 				</h2>
 				{#if subtitle}
-					<p class="mt-4 text-slate-600 text-sm md:text-base leading-relaxed">
+					<p class="mt-4 text-muted text-sm md:text-base leading-relaxed">
 						{subtitle}
 					</p>
 				{/if}
@@ -76,13 +76,13 @@
 				<a
 					href={viewAllHref}
 					class="mt-8 lg:mt-auto inline-flex items-center gap-2
-					       text-accent font-semibold text-sm group w-fit"
+					       text-primary font-semibold text-sm group w-fit"
 				>
 					<span class="link-underline">{viewAllLabel}</span>
 					<span
-						class="w-7 h-7 rounded-full bg-accent/10 grid place-items-center
+						class="w-7 h-7 rounded-full bg-primary/10 grid place-items-center
 						       transition-all duration-300
-						       group-hover:bg-accent group-hover:text-white group-hover:rotate-[-45deg]"
+						       group-hover:bg-primary group-hover:text-white group-hover:rotate-[-45deg]"
 					>
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
 							<path d="M5 12h14M13 5l7 7-7 7" />
