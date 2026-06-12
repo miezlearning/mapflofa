@@ -899,9 +899,8 @@
 	@media (min-width: 768px) { .sc-detail__visual { min-height: 30rem; } }
 
 	.sc-detail__img {
-		height: 96%;
-		width: auto;
-		max-width: 100%;
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
 		object-position: top center;
 		filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
@@ -1019,12 +1018,12 @@
 		.sc-stage { min-height: auto; }
 		.sc-select { display: flex; flex-direction: column; }
 		.sc-left { order: 2; }
-		.sc-right { order: 1; min-height: 18rem; }
+		.sc-right { order: 1; height: 22rem; }
 		.sc-dots { display: none; }
 		.sc-text__name { font-size: 1.75rem; }
 		.sc-peek { display: none; }
-		.sc-person__img { max-width: 70%; }
-		.sc-bios { position: relative; bottom: auto; right: auto; margin-top: 0.75rem; justify-content: center; flex-wrap: wrap; }
+		.sc-decor { transform: translateX(-50%); }
+		.sc-bios { bottom: 0.5rem; }
 		.sc-detail__visual { min-height: 18rem; }
 	}
 </style>
