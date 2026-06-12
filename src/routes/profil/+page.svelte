@@ -161,49 +161,86 @@
 
 	<!-- ===== Struktur Organisasi ===== -->
 	<section id="struktur" class="bg-surface-2 py-16 md:py-24 px-4 md:px-8 scroll-mt-24">
-		<div class="max-w-7xl mx-auto">
+		<div class="max-w-5xl mx-auto">
 			<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto">
 				<div class="text-xs font-bold uppercase tracking-widest text-primary">Struktur Organisasi</div>
-				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Bagan kepengurusan
+				<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">
+					Bagan Kepengurusan
 				</h2>
+				<p class="mt-3 text-muted text-sm">Periode kepengurusan aktif MAPFLOFA</p>
 			</div>
 
-			<!-- Bagan -->
-			<div use:reveal={{ from: 'up', delay: 80 }} class="mt-14 flex flex-col items-center">
-				<!-- Ketua -->
-				<div class="org-node w-64 max-w-full">
-					<div class="font-display font-bold text-primary">{ketua.name}</div>
-					<div class="text-xs text-muted mt-0.5">{ketua.sub}</div>
+			<!-- Org Chart -->
+			<div use:reveal={{ from: 'up', delay: 80 }} class="org-chart">
+				<!-- Level 1: Ketua -->
+				<div class="org-level">
+					<div class="org-card org-card--lead">
+						<div class="org-card__icon">
+							<Icon name="shield" size={20} />
+						</div>
+						<div class="org-card__info">
+							<div class="org-card__role">{ketua.name}</div>
+							<div class="org-card__desc">{ketua.sub}</div>
+						</div>
+					</div>
 				</div>
-				<div class="org-line"></div>
 
-				<!-- Wakil -->
-				<div class="org-node w-60 max-w-full">
-					<div class="font-display font-bold text-primary">{wakil.name}</div>
-					<div class="text-xs text-muted mt-0.5">{wakil.sub}</div>
+				<!-- Connector -->
+				<div class="org-connector">
+					<div class="org-connector__line"></div>
 				</div>
-				<div class="org-line"></div>
 
-				<!-- Sekretaris & Bendahara -->
-				<div class="grid grid-cols-2 gap-4 md:gap-6 w-full max-w-md">
-					{#each inti as p}
-						<div class="org-node">
-							<div class="font-display font-bold text-primary text-sm md:text-base">{p.name}</div>
-							<div class="text-xs text-muted mt-0.5">{p.sub}</div>
+				<!-- Level 2: Wakil -->
+				<div class="org-level">
+					<div class="org-card">
+						<div class="org-card__icon">
+							<Icon name="users" size={18} />
+						</div>
+						<div class="org-card__info">
+							<div class="org-card__role">{wakil.name}</div>
+							<div class="org-card__desc">{wakil.sub}</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Connector with branch -->
+				<div class="org-connector">
+					<div class="org-connector__line"></div>
+					<div class="org-connector__branch"></div>
+				</div>
+
+				<!-- Level 3: Sekretaris & Bendahara -->
+				<div class="org-level org-level--dual">
+					{#each inti as p, i}
+						<div class="org-card">
+							<div class="org-card__icon">
+								<Icon name={i === 0 ? 'book' : 'sprout'} size={18} />
+							</div>
+							<div class="org-card__info">
+								<div class="org-card__role">{p.name}</div>
+								<div class="org-card__desc">{p.sub}</div>
+							</div>
 						</div>
 					{/each}
 				</div>
-				<div class="org-line"></div>
 
-				<!-- Divisi -->
-				<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full">
+				<!-- Connector with branch -->
+				<div class="org-connector">
+					<div class="org-connector__line"></div>
+					<div class="org-connector__branch org-connector__branch--wide"></div>
+				</div>
+
+				<!-- Level 4: Divisi -->
+				<div class="org-level org-level--divisions">
 					{#each divisi as d, i}
-						<div use:reveal={{ from: 'up', delay: i * 70 }} class="org-node org-node--division">
-							<div class="w-11 h-11 mx-auto rounded-xl bg-primary/5 text-primary grid place-items-center">
-								<Icon name={d.icon} size={22} />
+						<div use:reveal={{ from: 'up', delay: 120 + i * 60 }} class="org-card org-card--division">
+							<div class="org-card__icon org-card__icon--div">
+								<Icon name={d.icon} size={20} />
 							</div>
-							<div class="mt-2 font-display font-bold text-primary text-sm md:text-base">{d.name}</div>
-							<div class="text-xs text-muted mt-0.5">{d.sub}</div>
+							<div class="org-card__info">
+								<div class="org-card__role">{d.name}</div>
+								<div class="org-card__desc">{d.sub}</div>
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -231,27 +268,168 @@
 </main>
 
 <style>
-	.org-node {
-		background: #ffffff;
-		border: 1px solid var(--color-line, #e3eef7);
-		border-radius: 1.25rem;
-		padding: 1rem 1.25rem;
-		text-align: center;
-		box-shadow: 0 8px 24px -16px rgba(62, 124, 184, 0.5);
+	/* ===== Org Chart: Clean hierarchical layout ===== */
+	.org-chart {
+		margin-top: 3rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0;
 	}
-	.org-node--division {
-		transition:
-			transform 0.3s ease,
-			box-shadow 0.3s ease;
+
+	/* Levels */
+	.org-level {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		width: 100%;
 	}
-	.org-node--division:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 16px 32px -18px rgba(62, 124, 184, 0.6);
+
+	.org-level--dual {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		max-width: 28rem;
 	}
-	.org-line {
+
+	.org-level--divisions {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+		width: 100%;
+	}
+
+	@media (min-width: 768px) {
+		.org-level--divisions {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1rem;
+		}
+	}
+
+	/* Connector lines */
+	.org-connector {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 0;
+	}
+
+	.org-connector__line {
 		width: 2px;
-		height: 2rem;
+		height: 1.5rem;
 		background: var(--color-primary, #6eaee8);
-		opacity: 0.4;
+		opacity: 0.3;
+	}
+
+	.org-connector__branch {
+		width: 14rem;
+		height: 2px;
+		background: var(--color-primary, #6eaee8);
+		opacity: 0.2;
+		position: relative;
+	}
+
+	.org-connector__branch::before,
+	.org-connector__branch::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 2px;
+		height: 1.5rem;
+		background: var(--color-primary, #6eaee8);
+		opacity: 1;
+	}
+
+	.org-connector__branch::before { left: 0; }
+	.org-connector__branch::after { right: 0; }
+
+	.org-connector__branch--wide {
+		width: 100%;
+		max-width: 48rem;
+	}
+
+	.org-connector__branch--wide::before { left: 12.5%; }
+	.org-connector__branch--wide::after { right: 12.5%; }
+
+	@media (min-width: 768px) {
+		.org-connector__branch--wide::before { left: 12.5%; }
+		.org-connector__branch--wide::after { right: 12.5%; }
+	}
+
+	/* Cards */
+	.org-card {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		background: #ffffff;
+		border: 1px solid var(--color-line, #e2e8f0);
+		border-radius: 0.875rem;
+		padding: 0.875rem 1.125rem;
+		text-align: left;
+		transition: border-color 200ms ease, box-shadow 200ms ease;
+	}
+
+	.org-card:hover {
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 4px 16px rgba(110, 174, 232, 0.1);
+	}
+
+	.org-card--lead {
+		padding: 1rem 1.5rem;
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 4px 20px rgba(110, 174, 232, 0.12);
+	}
+
+	.org-card--division {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 1.25rem 1rem;
+		gap: 0.5rem;
+	}
+
+	.org-card__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.25rem;
+		height: 2.25rem;
+		border-radius: 0.625rem;
+		background: var(--color-surface-3, #f1f5f9);
+		color: var(--color-primary, #6eaee8);
+		flex-shrink: 0;
+	}
+
+	.org-card--lead .org-card__icon {
+		background: var(--color-primary, #6eaee8);
+		color: #fff;
+	}
+
+	.org-card__icon--div {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 0.75rem;
+	}
+
+	.org-card__info {
+		min-width: 0;
+	}
+
+	.org-card__role {
+		font-family: var(--font-display);
+		font-weight: 700;
+		font-size: 0.875rem;
+		color: var(--color-ink, #1e293b);
+		line-height: 1.3;
+	}
+
+	.org-card--lead .org-card__role {
+		font-size: 1rem;
+	}
+
+	.org-card__desc {
+		font-size: 0.6875rem;
+		color: var(--color-muted, #64748b);
+		margin-top: 0.125rem;
 	}
 </style>
