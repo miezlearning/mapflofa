@@ -310,7 +310,27 @@
 
 					<!-- RIGHT: main person + next peeking + biodata cards -->
 					<div class="sc-right">
-						<div class="sc-decor" aria-hidden="true"></div>
+						<!-- Bold decorative background — inspired by hexagonal/slash design -->
+						<div class="sc-backdrop" aria-hidden="true">
+							<!-- Dark base layer -->
+							<div class="sc-backdrop__dark"></div>
+							<!-- Diagonal accent slash -->
+							<div class="sc-backdrop__slash"></div>
+							<!-- Hexagon pattern overlay -->
+							<div class="sc-backdrop__hexgrid">
+								<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<pattern id="hexpattern" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(1.2)">
+											<path d="M28 2L54 18V50L28 66L2 50V18Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+											<path d="M28 68L54 84V116L28 132L2 116V84Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+										</pattern>
+									</defs>
+									<rect width="100%" height="100%" fill="url(#hexpattern)" />
+								</svg>
+							</div>
+							<!-- Secondary lighter slash -->
+							<div class="sc-backdrop__slash2"></div>
+						</div>
 
 						<!-- Fixed-size stage so layout never shifts regardless of image dimensions -->
 						<div class="sc-stage-area">
@@ -866,20 +886,57 @@
 	@media (min-width: 768px) { .sc-right { height: 28rem; margin-bottom: 3.5rem; } }
 	@media (min-width: 1024px) { .sc-right { height: 32rem; } }
 
-	.sc-decor {
+	/* ===== Bold Decorative Backdrop — behind person ===== */
+	.sc-backdrop {
 		position: absolute;
-		width: 18rem;
-		height: 18rem;
-		border-radius: 50%;
-		background: radial-gradient(circle, rgba(110, 174, 232, 0.1) 0%, transparent 70%);
-		border: 1px dashed var(--color-line, #e2e8f0);
-		bottom: 2rem;
-		left: 50%;
-		transform: translateX(-58%);
+		inset: 0;
+		border-radius: 1.5rem;
+		overflow: hidden;
 		pointer-events: none;
 	}
 
-	@media (min-width: 768px) { .sc-decor { width: 22rem; height: 22rem; } }
+	/* Dark base layer */
+	.sc-backdrop__dark {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(135deg, #1e293b 0%, #0f172a 60%, #1e3a5f 100%);
+		border-radius: 1.5rem;
+	}
+
+	/* Main diagonal accent slash */
+	.sc-backdrop__slash {
+		position: absolute;
+		top: -20%;
+		right: -10%;
+		width: 65%;
+		height: 140%;
+		background: linear-gradient(160deg, var(--color-primary, #6eaee8) 0%, #3b82f6 50%, #1d4ed8 100%);
+		transform: skewX(-12deg);
+		opacity: 0.9;
+	}
+
+	/* Secondary lighter slash */
+	.sc-backdrop__slash2 {
+		position: absolute;
+		top: -10%;
+		right: -5%;
+		width: 40%;
+		height: 120%;
+		background: linear-gradient(160deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+		transform: skewX(-12deg);
+	}
+
+	/* Hexagon grid pattern overlay */
+	.sc-backdrop__hexgrid {
+		position: absolute;
+		inset: 0;
+		color: rgba(255, 255, 255, 0.12);
+		mix-blend-mode: overlay;
+	}
+
+	@media (min-width: 768px) {
+		.sc-backdrop__hexgrid { color: rgba(255, 255, 255, 0.15); }
+	}
 
 	/* Stage area: a centered, fixed-size box that holds the portraits.
 	   Everything is absolutely positioned inside it, so changing the
@@ -925,13 +982,10 @@
 		width: 15rem;
 		height: 22rem;
 		overflow: hidden;
-		border-radius: 1.5rem 1.5rem 0 0;
-		/* feather bottom edge to blend into background */
-		-webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-		mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+		border-radius: 1.25rem;
 	}
 
-	/* ===== Slide Decor — Accent lines around person ===== */
+	/* ===== Slide Decor — Accent lines around person on dark backdrop ===== */
 	.sc-slide-decor {
 		position: absolute;
 		top: -0.75rem;
@@ -939,23 +993,22 @@
 		right: -0.75rem;
 		bottom: 20%;
 		pointer-events: none;
-		border: 2.5px solid var(--color-primary, #6eaee8);
+		border: 2px solid rgba(255, 255, 255, 0.3);
 		border-bottom: none;
 		border-radius: 1.75rem 1.75rem 0 0;
-		opacity: 0.45;
 	}
 
 	/* Vertical accent line extending below */
 	.sc-slide-decor__line-1 {
 		position: absolute;
 		bottom: 0;
-		left: -2.5px;
-		width: 2.5px;
+		left: -2px;
+		width: 2px;
 		height: 4rem;
-		background: linear-gradient(to bottom, var(--color-primary, #6eaee8), transparent);
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
 	}
 
-	/* Small accent dot at top-right */
+	/* Small accent dot at intersection */
 	.sc-slide-decor__line-2 {
 		position: absolute;
 		top: -5px;
@@ -964,6 +1017,7 @@
 		height: 8px;
 		border-radius: 50%;
 		background: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 8px var(--color-primary, #6eaee8);
 	}
 
 	@media (min-width: 768px) {
@@ -1079,11 +1133,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.125rem;
-		padding: 0.625rem 0.875rem;
+		padding: 0.75rem 1rem;
 		border-radius: 0.75rem;
-		background: #fff;
-		border: 1px solid var(--color-line, #e2e8f0);
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+		background: #1e293b;
+		border: 1px solid rgba(110, 174, 232, 0.3);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 		min-width: 0;
 		text-align: left;
 	}
@@ -1098,6 +1152,7 @@
 	.sc-bio--next:hover {
 		border-color: var(--color-primary, #6eaee8);
 		transform: translateY(-2px);
+		box-shadow: 0 6px 24px rgba(110, 174, 232, 0.2);
 	}
 
 	.sc-bio--next:focus-visible {
@@ -1109,7 +1164,7 @@
 		font-size: 0.5625rem;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
-		color: var(--color-muted, #64748b);
+		color: rgba(255, 255, 255, 0.5);
 		font-weight: 600;
 	}
 
@@ -1120,7 +1175,7 @@
 	.sc-bio__name {
 		font-size: 0.75rem;
 		font-weight: 700;
-		color: var(--color-ink, #1e293b);
+		color: #fff;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
@@ -1135,7 +1190,7 @@
 		width: 1.25rem;
 		height: 1.25rem;
 		border-radius: 50%;
-		background: var(--color-surface-3, #f1f5f9);
+		background: rgba(255, 255, 255, 0.1);
 		color: var(--color-primary, #6eaee8);
 		display: flex;
 		align-items: center;
@@ -1317,7 +1372,7 @@
 		.sc-dots { display: none; }
 		.sc-text__name { font-size: 1.75rem; }
 		.sc-peek { display: none; }
-		.sc-decor { transform: translateX(-50%); }
+		.sc-backdrop { border-radius: 1rem; }
 		.sc-person__frame { width: 12rem; height: 18rem; }
 		.sc-bios { position: relative; bottom: auto; left: auto; transform: none; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
 		.sc-detail { grid-template-columns: 1fr; }
