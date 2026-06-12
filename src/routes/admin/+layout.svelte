@@ -8,14 +8,14 @@
 
 	type NavItem = { href: string; label: string; icon: string; adminOnly?: boolean };
 	const navItems: NavItem[] = [
-		{ href: '/admin', label: 'Overview', icon: '◧' },
-		{ href: '/admin/programs', label: 'Programs', icon: '◇' },
-		{ href: '/admin/news', label: 'News', icon: '✦' },
-		{ href: '/admin/gallery', label: 'Galeri', icon: '▦' },
-		{ href: '/admin/events', label: 'Events', icon: '◆' },
-		{ href: '/admin/users', label: 'Users', icon: '◉', adminOnly: true },
-		{ href: '/admin/audit', label: 'Audit log', icon: '◎', adminOnly: true },
-		{ href: '/admin/account', label: 'Account', icon: '○' }
+		{ href: '/admin', label: 'Overview', icon: 'overview' },
+		{ href: '/admin/programs', label: 'Programs', icon: 'programs' },
+		{ href: '/admin/news', label: 'News', icon: 'news' },
+		{ href: '/admin/gallery', label: 'Galeri', icon: 'gallery' },
+		{ href: '/admin/events', label: 'Events', icon: 'events' },
+		{ href: '/admin/users', label: 'Users', icon: 'users', adminOnly: true },
+		{ href: '/admin/audit', label: 'Audit log', icon: 'audit', adminOnly: true },
+		{ href: '/admin/account', label: 'Account', icon: 'account' }
 	];
 
 	const visibleNav = $derived(
@@ -36,19 +36,17 @@
 </svelte:head>
 
 {#if isLogin}
-	<!-- Login page renders standalone, no chrome -->
 	{@render children()}
 {:else if !data.user}
-	<!-- Server-side redirect handled in page loaders; this is a fallback. -->
 	<div class="standalone-msg">
 		<a href="/admin/login">Sign in to continue</a>
 	</div>
 {:else}
-	<!-- Authenticated dashboard chrome -->
+	<!-- Mobile top bar -->
 	<header class="mobile-bar">
 		<a href="/admin" class="brand">
 			<span class="brand-mark">MF</span>
-			<span class="brand-text">MAPFLOFA <span class="brand-accent">Admin</span></span>
+			<span class="brand-text">MAPFLOFA</span>
 		</a>
 		<button
 			type="button"
@@ -56,7 +54,13 @@
 			aria-label="Toggle navigation"
 			onclick={() => (mobileOpen = !mobileOpen)}
 		>
-			{mobileOpen ? '✕' : '☰'}
+			<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+				{#if mobileOpen}
+					<path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+				{:else}
+					<path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+				{/if}
+			</svg>
 		</button>
 	</header>
 
@@ -77,22 +81,47 @@
 						class:active={isActive(item.href)}
 						onclick={() => (mobileOpen = false)}
 					>
-						<span class="icon" aria-hidden="true">{item.icon}</span>
+						<span class="nav-icon" aria-hidden="true">
+							{#if item.icon === 'overview'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="2" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="10.5" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/><rect x="10.5" y="10.5" width="5.5" height="5.5" rx="1.25" stroke="currentColor" stroke-width="1.5"/></svg>
+							{:else if item.icon === 'programs'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5.5h12M3 9h8M3 12.5h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+							{:else if item.icon === 'news'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="3" width="13" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 7h7M5.5 9.5h5M5.5 12h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+							{:else if item.icon === 'gallery'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="3.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="6.5" cy="7.5" r="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2.5 12l3.5-3 3 2.5 2.5-2 4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+							{:else if item.icon === 'events'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2.5" y="3.5" width="13" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M2.5 7.5h13" stroke="currentColor" stroke-width="1.5"/><path d="M6 2v2.5M12 2v2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+							{:else if item.icon === 'users'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6.5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 15.5c0-3 2.5-4.5 5.5-4.5s5.5 1.5 5.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+							{:else if item.icon === 'audit'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2.5v13M5.5 6l3.5 3.5L12.5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="2" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+							{:else if item.icon === 'account'}
+								<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="7" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M4.5 15c0-2.5 2-3.5 4.5-3.5s4.5 1 4.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/></svg>
+							{/if}
+						</span>
 						<span>{item.label}</span>
 					</a>
 				{/each}
 			</nav>
 
+			<div class="sidebar-footer">
+				<a href="/" class="back-link" target="_blank" rel="noopener">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L2 8l4-4M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					Lihat Website
+				</a>
+			</div>
+
 			<div class="user-block">
+				<div class="user-avatar">{data.user.name.charAt(0).toUpperCase()}</div>
 				<div class="user-info">
 					<div class="user-name">{data.user.name}</div>
-					<div class="user-meta">
-						<span class="role-pill">{data.user.role}</span>
-						<span class="user-email">{data.user.email}</span>
-					</div>
+					<div class="user-email">{data.user.email}</div>
 				</div>
 				<form method="POST" action="/admin/logout">
-					<button type="submit" class="logout-btn">Logout</button>
+					<button type="submit" class="logout-btn" title="Logout">
+						<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 14H3.5A1.5 1.5 0 012 12.5v-9A1.5 1.5 0 013.5 2H6M11 11l3-3-3-3M5.5 8H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					</button>
 				</form>
 			</div>
 		</aside>
@@ -111,43 +140,29 @@
 {/if}
 
 <style>
-	:global(html, body) {
-		background: #05070d;
-		margin: 0;
-		padding: 0;
-	}
-
 	.standalone-msg {
 		min-height: 100vh;
 		display: grid;
 		place-items: center;
-		color: #cbd5e1;
-		background: #05070d;
+		color: var(--color-muted, #6b7b8c);
+		background: var(--color-surface, #fff);
 	}
 
 	.standalone-msg a {
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
+		font-weight: 600;
 	}
 
 	.shell {
 		display: grid;
-		grid-template-columns: 260px 1fr;
+		grid-template-columns: 250px 1fr;
 		min-height: 100vh;
-		color: #e5e7eb;
-		background:
-			radial-gradient(1200px 600px at 80% -10%, rgba(56, 189, 248, 0.08), transparent 60%),
-			radial-gradient(900px 600px at 0% 100%, rgba(139, 92, 246, 0.07), transparent 60%),
-			#05070d;
-		font-family:
-			'Inter',
-			ui-sans-serif,
-			system-ui,
-			-apple-system,
-			'Segoe UI',
-			Roboto,
-			sans-serif;
+		color: var(--color-ink, #333);
+		background: var(--color-surface-3, #f0f8ff);
+		font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
 	}
 
+	/* --- Mobile bar --- */
 	.mobile-bar {
 		display: none;
 		position: sticky;
@@ -155,45 +170,43 @@
 		z-index: 30;
 		align-items: center;
 		justify-content: space-between;
-		padding: 0.875rem 1rem;
-		background: rgba(2, 6, 23, 0.85);
-		backdrop-filter: blur(10px);
-		border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+		padding: 0.75rem 1rem;
+		background: #fff;
+		border-bottom: 1px solid var(--color-line, #e3eef7);
+		box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 	}
 
 	.hamburger {
-		background: rgba(15, 23, 42, 0.6);
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		color: #f1f5f9;
-		font-size: 1.125rem;
+		background: var(--color-surface-3, #f0f8ff);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		width: 2.25rem;
 		height: 2.25rem;
 		border-radius: 0.5rem;
 		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	@media (max-width: 1024px) {
-		.mobile-bar {
-			display: flex;
-		}
+		.mobile-bar { display: flex; }
 	}
 
+	/* --- Sidebar --- */
 	.sidebar {
 		position: sticky;
 		top: 0;
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
-		background:
-			linear-gradient(180deg, rgba(8, 12, 22, 0.85), rgba(8, 12, 22, 0.6)),
-			radial-gradient(600px 400px at 0% 0%, rgba(56, 189, 248, 0.05), transparent 70%);
-		border-right: 1px solid rgba(148, 163, 184, 0.12);
+		background: #fff;
+		border-right: 1px solid var(--color-line, #e3eef7);
 		z-index: 20;
 	}
 
 	.brand-block {
 		padding: 1.25rem 1.25rem 1rem;
-		border-bottom: 1px solid rgba(148, 163, 184, 0.08);
 	}
 
 	.brand {
@@ -201,7 +214,7 @@
 		align-items: center;
 		gap: 0.625rem;
 		text-decoration: none;
-		color: #f8fafc;
+		color: var(--color-ink, #333);
 	}
 
 	.brand-mark {
@@ -211,29 +224,33 @@
 		width: 2rem;
 		height: 2rem;
 		border-radius: 0.5rem;
-		background: linear-gradient(135deg, #38bdf8, #6366f1);
+		background: var(--color-primary, #6eaee8);
 		color: #fff;
 		font-weight: 800;
 		font-size: 0.7rem;
 		letter-spacing: 0.02em;
-		box-shadow: 0 6px 20px -8px rgba(56, 189, 248, 0.7);
 	}
 
 	.brand-text {
 		font-weight: 800;
-		font-size: 1.0625rem;
+		font-size: 1rem;
 		letter-spacing: -0.01em;
 	}
 
 	.brand-accent {
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
+		font-weight: 600;
 	}
 
+	/* --- Navigation --- */
 	.nav {
 		flex: 1;
 		min-height: 0;
 		overflow-y: auto;
-		padding: 0.75rem 0.625rem;
+		padding: 0.5rem 0.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.125rem;
 	}
 
 	.nav-link {
@@ -242,7 +259,7 @@
 		gap: 0.625rem;
 		padding: 0.5rem 0.75rem;
 		border-radius: 0.5rem;
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		text-decoration: none;
 		font-size: 0.875rem;
 		font-weight: 500;
@@ -250,105 +267,133 @@
 	}
 
 	.nav-link:hover {
-		background: rgba(56, 189, 248, 0.06);
-		color: #e2e8f0;
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-ink, #333);
 	}
 
 	.nav-link.active {
-		background: rgba(56, 189, 248, 0.13);
-		color: #f8fafc;
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-primary, #6eaee8);
 		font-weight: 600;
 	}
 
-	.icon {
+	.nav-link.active .nav-icon {
+		color: var(--color-primary, #6eaee8);
+	}
+
+	.nav-icon {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 1.5rem;
-		color: #38bdf8;
+		width: 1.25rem;
+		height: 1.25rem;
+		color: var(--color-muted, #6b7b8c);
 	}
 
-	.user-block {
-		padding: 1rem;
-		border-top: 1px solid rgba(148, 163, 184, 0.08);
+	/* --- Sidebar footer --- */
+	.sidebar-footer {
+		padding: 0.5rem 0.75rem;
+		border-top: 1px solid var(--color-line, #e3eef7);
+	}
+
+	.back-link {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		border-radius: 0.5rem;
+		color: var(--color-muted, #6b7b8c);
+		text-decoration: none;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		transition: color 120ms ease, background 120ms ease;
+	}
+
+	.back-link:hover {
+		color: var(--color-primary, #6eaee8);
+		background: var(--color-surface-2, #e8f4fd);
+	}
+
+	/* --- User block --- */
+	.user-block {
+		padding: 0.875rem 1rem;
+		border-top: 1px solid var(--color-line, #e3eef7);
+		display: flex;
+		align-items: center;
 		gap: 0.625rem;
 	}
 
-	.user-info {
+	.user-avatar {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-primary, #6eaee8);
 		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		font-size: 0.8125rem;
+		flex-shrink: 0;
+	}
+
+	.user-info {
+		flex: 1;
 		min-width: 0;
 	}
 
 	.user-name {
-		color: #f1f5f9;
-		font-size: 0.875rem;
-		font-weight: 700;
+		color: var(--color-ink, #333);
+		font-size: 0.8125rem;
+		font-weight: 600;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
-	.user-meta {
-		display: flex;
-		align-items: center;
-		gap: 0.375rem;
-		min-width: 0;
-	}
-
-	.role-pill {
-		font-size: 0.65rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		font-weight: 700;
-		color: #c084fc;
-		background: rgba(192, 132, 252, 0.12);
-		border: 1px solid rgba(192, 132, 252, 0.25);
-		padding: 0.0625rem 0.375rem;
-		border-radius: 0.25rem;
-	}
-
 	.user-email {
-		font-size: 0.75rem;
-		color: #64748b;
+		font-size: 0.6875rem;
+		color: var(--color-muted, #6b7b8c);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
 	.logout-btn {
-		width: 100%;
-		padding: 0.5rem 0.75rem;
-		border-radius: 0.5rem;
-		background: rgba(15, 23, 42, 0.55);
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		color: #e2e8f0;
-		font-size: 0.8125rem;
-		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.375rem;
+		background: transparent;
+		border: 1px solid transparent;
+		color: var(--color-muted, #6b7b8c);
 		cursor: pointer;
-		transition: all 150ms ease;
+		transition: all 120ms ease;
+		flex-shrink: 0;
 	}
 
 	.logout-btn:hover {
-		border-color: rgba(251, 113, 133, 0.4);
-		color: #fda4af;
+		background: #fef2f2;
+		border-color: #fecaca;
+		color: #ef4444;
 	}
 
+	/* --- Main content area --- */
 	.main {
-		padding: 2.5rem clamp(1.25rem, 3vw, 2.5rem);
-		max-width: 1200px;
+		padding: 2rem clamp(1.25rem, 3vw, 2.5rem);
+		max-width: 1100px;
 		width: 100%;
 		margin: 0 auto;
 	}
 
+	/* --- Scrim / mobile overlay --- */
 	.scrim {
 		display: none;
 		position: fixed;
 		inset: 0;
-		background: rgba(2, 6, 23, 0.6);
+		background: rgba(0, 0, 0, 0.2);
 		border: 0;
 		z-index: 15;
 		cursor: pointer;
@@ -362,9 +407,10 @@
 			position: fixed;
 			top: 0;
 			left: 0;
-			width: 280px;
+			width: 270px;
 			transform: translateX(-100%);
 			transition: transform 220ms ease;
+			box-shadow: 4px 0 24px rgba(0,0,0,0.08);
 		}
 		.shell.mobile-open .sidebar {
 			transform: translateX(0);
@@ -377,81 +423,86 @@
 		}
 	}
 
-	/* ---------- Shared content tokens used by child pages ---------- */
+	/* ========== Global admin tokens ========== */
+
 	:global(.adm-page-head) {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-start;
 		gap: 1rem;
-		margin-bottom: 1.75rem;
+		margin-bottom: 1.5rem;
 		flex-wrap: wrap;
 	}
 
 	:global(.adm-title) {
-		font-size: 1.625rem;
+		font-size: 1.5rem;
 		font-weight: 800;
-		color: #f8fafc;
+		color: var(--color-ink, #333);
 		margin: 0;
 		letter-spacing: -0.01em;
 	}
 
 	:global(.adm-sub) {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.875rem;
 		margin: 0.25rem 0 0;
 	}
 
 	:global(.adm-card) {
-		padding: 1.5rem;
-		border-radius: 1rem;
-		background: linear-gradient(180deg, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.35));
-		border: 1px solid rgba(148, 163, 184, 0.12);
+		padding: 1.25rem;
+		border-radius: 0.875rem;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 	}
 
 	:global(.adm-btn) {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.375rem;
-		padding: 0.5rem 0.9375rem;
+		padding: 0.5rem 0.875rem;
 		border-radius: 0.5rem;
 		font-size: 0.8125rem;
 		font-weight: 600;
 		cursor: pointer;
 		text-decoration: none;
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		background: rgba(15, 23, 42, 0.6);
-		color: #f1f5f9;
+		border: 1px solid var(--color-line, #e3eef7);
+		background: #fff;
+		color: var(--color-ink, #333);
 		transition: all 150ms ease;
 	}
 
 	:global(.adm-btn:hover) {
-		transform: translateY(-1px);
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
 	}
 
 	:global(.adm-btn-primary) {
-		background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(99, 102, 241, 0.22));
-		border-color: rgba(56, 189, 248, 0.45);
-		color: #e0f2fe;
+		background: var(--color-primary, #6eaee8);
+		border-color: var(--color-primary, #6eaee8);
+		color: #fff;
 	}
 
 	:global(.adm-btn-primary:hover) {
-		background: linear-gradient(135deg, rgba(56, 189, 248, 0.32), rgba(99, 102, 241, 0.32));
+		background: var(--color-primary-600, #4f97d6);
+		border-color: var(--color-primary-600, #4f97d6);
+		color: #fff;
 	}
 
 	:global(.adm-btn-danger) {
-		background: rgba(251, 113, 133, 0.1);
-		border-color: rgba(251, 113, 133, 0.3);
-		color: #fda4af;
+		background: #fff;
+		border-color: #fecaca;
+		color: #dc2626;
 	}
 
 	:global(.adm-btn-danger:hover) {
-		background: rgba(251, 113, 133, 0.18);
+		background: #fef2f2;
+		border-color: #f87171;
 	}
 
 	:global(.adm-btn:disabled) {
 		opacity: 0.5;
 		cursor: not-allowed;
-		transform: none;
 	}
 
 	:global(.adm-table) {
@@ -462,24 +513,24 @@
 
 	:global(.adm-table th) {
 		text-align: left;
-		font-weight: 700;
-		color: #94a3b8;
+		font-weight: 600;
+		color: var(--color-muted, #6b7b8c);
+		font-size: 0.75rem;
 		text-transform: uppercase;
-		font-size: 0.6875rem;
-		letter-spacing: 0.06em;
+		letter-spacing: 0.04em;
 		padding: 0.625rem 0.875rem;
-		border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+		border-bottom: 1px solid var(--color-line, #e3eef7);
 	}
 
 	:global(.adm-table td) {
 		padding: 0.75rem 0.875rem;
-		border-bottom: 1px solid rgba(148, 163, 184, 0.08);
-		color: #cbd5e1;
+		border-bottom: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		vertical-align: middle;
 	}
 
 	:global(.adm-table tr:hover td) {
-		background: rgba(56, 189, 248, 0.04);
+		background: var(--color-surface-3, #f0f8ff);
 	}
 
 	:global(.adm-table .actions) {
@@ -491,10 +542,11 @@
 	:global(.adm-empty) {
 		padding: 3rem 1.25rem;
 		text-align: center;
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.9rem;
-		border: 1px dashed rgba(148, 163, 184, 0.18);
+		border: 1px dashed var(--color-line, #e3eef7);
 		border-radius: 0.875rem;
+		background: var(--color-surface-3, #f0f8ff);
 	}
 
 	:global(.adm-form) {
@@ -510,13 +562,13 @@
 	}
 
 	:global(.adm-form .field-label) {
-		color: #cbd5e1;
+		color: var(--color-ink, #333);
 		font-size: 0.8125rem;
 		font-weight: 600;
 	}
 
 	:global(.adm-form .field-hint) {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.75rem;
 	}
 
@@ -525,23 +577,24 @@
 	:global(.adm-form select) {
 		padding: 0.625rem 0.75rem;
 		border-radius: 0.5rem;
-		background: rgba(2, 6, 23, 0.7);
-		border: 1px solid rgba(148, 163, 184, 0.2);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-family: inherit;
 		font-size: 0.875rem;
 		outline: none;
-		transition: border-color 150ms ease;
+		transition: border-color 150ms ease, box-shadow 150ms ease;
 	}
 
 	:global(.adm-form input:focus),
 	:global(.adm-form textarea:focus),
 	:global(.adm-form select:focus) {
-		border-color: rgba(56, 189, 248, 0.5);
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 0 3px rgba(110, 174, 232, 0.12);
 	}
 
 	:global(.adm-form textarea) {
-		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-family: inherit;
 		font-size: 0.8125rem;
 		line-height: 1.55;
 		resize: vertical;
@@ -549,7 +602,7 @@
 	}
 
 	:global(.adm-form .field-error) {
-		color: #fda4af;
+		color: #dc2626;
 		font-size: 0.75rem;
 		font-weight: 600;
 	}
@@ -568,14 +621,14 @@
 	}
 
 	:global(.adm-flash-error) {
-		background: rgba(251, 113, 133, 0.1);
-		border: 1px solid rgba(251, 113, 133, 0.3);
-		color: #fda4af;
+		background: #fef2f2;
+		border: 1px solid #fecaca;
+		color: #dc2626;
 	}
 
 	:global(.adm-flash-ok) {
-		background: rgba(52, 211, 153, 0.1);
-		border: 1px solid rgba(52, 211, 153, 0.3);
-		color: #6ee7b7;
+		background: #f0fdf4;
+		border: 1px solid #bbf7d0;
+		color: #16a34a;
 	}
 </style>

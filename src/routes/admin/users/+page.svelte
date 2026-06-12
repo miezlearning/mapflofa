@@ -44,7 +44,7 @@
 
 {#if inviteOpen}
 	<div class="adm-card" style="margin-bottom:1.25rem">
-		<h2 style="margin:0 0 0.75rem;color:#f1f5f9;font-size:1rem">Tambah user baru</h2>
+		<h2 style="margin:0 0 0.75rem;font-size:1rem;font-weight:700">Tambah user baru</h2>
 		{#if f?.invite?.message}
 			<div class="adm-flash adm-flash-error">{f.invite.message}</div>
 		{/if}
@@ -260,16 +260,16 @@
 		gap: 0.125rem;
 	}
 	.user-name {
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 		font-weight: 600;
 		font-size: 0.875rem;
 	}
 	.user-email {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.75rem;
 	}
 	.dim {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 
@@ -277,9 +277,9 @@
 		display: inline-block;
 		padding: 0.0625rem 0.5rem;
 		border-radius: 0.25rem;
-		background: rgba(192, 132, 252, 0.12);
-		border: 1px solid rgba(192, 132, 252, 0.25);
-		color: #c084fc;
+		background: var(--color-surface-2, #e8f4fd);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-primary, #6eaee8);
 		font-size: 0.7rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -289,9 +289,9 @@
 	.inline-select {
 		padding: 0.25rem 0.5rem;
 		border-radius: 0.375rem;
-		background: rgba(2, 6, 23, 0.7);
-		border: 1px solid rgba(148, 163, 184, 0.2);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-size: 0.75rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -304,9 +304,9 @@
 		font-weight: 700;
 	}
 	.status.active {
-		color: #34d399;
+		color: #16a34a;
 	}
 	.status.inactive {
-		color: #fb7185;
+		color: #dc2626;
 	}
 </style>

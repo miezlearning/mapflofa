@@ -158,7 +158,7 @@
 	}
 
 	.filters .lbl {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.7rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -168,11 +168,16 @@
 	.filters select {
 		padding: 0.5rem 0.625rem;
 		border-radius: 0.5rem;
-		background: rgba(2, 6, 23, 0.7);
-		border: 1px solid rgba(148, 163, 184, 0.2);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-size: 0.875rem;
 		outline: none;
+		transition: border-color 150ms ease;
+	}
+
+	.filters select:focus {
+		border-color: var(--color-primary, #6eaee8);
 	}
 
 	.filters .actions {
@@ -181,7 +186,7 @@
 	}
 
 	.dim {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 
@@ -192,7 +197,7 @@
 	}
 
 	.actor-email {
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 		font-size: 0.875rem;
 		font-weight: 600;
 	}
@@ -203,11 +208,11 @@
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 	}
 
 	.ip {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.7rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		margin-top: 0.125rem;
@@ -220,36 +225,36 @@
 		font-weight: 700;
 		padding: 0.125rem 0.5rem;
 		border-radius: 0.25rem;
-		background: rgba(148, 163, 184, 0.1);
-		color: #cbd5e1;
-		border: 1px solid rgba(148, 163, 184, 0.2);
+		background: var(--color-surface-3, #f0f8ff);
+		color: var(--color-muted, #6b7b8c);
+		border: 1px solid var(--color-line, #e3eef7);
 	}
 	.pill.ok {
-		color: #34d399;
-		background: rgba(52, 211, 153, 0.1);
-		border-color: rgba(52, 211, 153, 0.3);
+		color: #16a34a;
+		background: #f0fdf4;
+		border-color: #bbf7d0;
 	}
 	.pill.info {
-		color: #38bdf8;
-		background: rgba(56, 189, 248, 0.1);
-		border-color: rgba(56, 189, 248, 0.3);
+		color: #2563eb;
+		background: #eff6ff;
+		border-color: #bfdbfe;
 	}
 	.pill.warn {
-		color: #f87171;
-		background: rgba(248, 113, 113, 0.1);
-		border-color: rgba(248, 113, 113, 0.3);
+		color: #dc2626;
+		background: #fef2f2;
+		border-color: #fecaca;
 	}
 	.pill.danger {
-		color: #fb7185;
-		background: rgba(251, 113, 133, 0.1);
-		border-color: rgba(251, 113, 133, 0.3);
+		color: #dc2626;
+		background: #fef2f2;
+		border-color: #fecaca;
 	}
 
 	.res {
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		font-size: 0.75rem;
-		color: #e2e8f0;
-		background: rgba(148, 163, 184, 0.08);
+		color: var(--color-ink, #333);
+		background: var(--color-surface-3, #f0f8ff);
 		padding: 0.125rem 0.375rem;
 		border-radius: 0.25rem;
 	}
@@ -257,18 +262,18 @@
 	details summary {
 		cursor: pointer;
 		font-size: 0.75rem;
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
 	}
 
 	.details-pre {
 		margin: 0.375rem 0 0;
 		padding: 0.5rem 0.625rem;
-		background: rgba(2, 6, 23, 0.85);
-		border: 1px solid rgba(148, 163, 184, 0.15);
+		background: var(--color-surface-3, #f0f8ff);
+		border: 1px solid var(--color-line, #e3eef7);
 		border-radius: 0.5rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		font-size: 0.75rem;
-		color: #cbd5e1;
+		color: var(--color-ink, #333);
 		max-height: 16rem;
 		overflow: auto;
 	}
@@ -282,7 +287,7 @@
 	}
 
 	.page-info {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 </style>

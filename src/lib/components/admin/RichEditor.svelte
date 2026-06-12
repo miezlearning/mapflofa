@@ -1089,9 +1089,9 @@
 		flex-wrap: wrap;
 		padding: 0.875rem 1rem;
 		border-radius: 0.625rem;
-		background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1));
-		border: 1px solid rgba(56, 189, 248, 0.3);
-		color: #e0f2fe;
+		background: var(--color-surface-2, #e8f4fd);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		margin-bottom: 1rem;
 	}
 
@@ -1113,13 +1113,13 @@
 		gap: 0.5rem;
 		padding: 0.625rem 1rem;
 		border-radius: 999px;
-		background: rgba(2, 6, 23, 0.95);
-		border: 1px solid rgba(52, 211, 153, 0.4);
-		color: #6ee7b7;
+		background: #fff;
+		border: 1px solid #bbf7d0;
+		color: #16a34a;
 		font-size: 0.875rem;
 		font-weight: 600;
 		z-index: 50;
-		box-shadow: 0 12px 30px -10px rgba(2, 6, 23, 0.7);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 		animation: toast-in 220ms ease-out;
 	}
 
@@ -1130,8 +1130,8 @@
 		width: 1.125rem;
 		height: 1.125rem;
 		border-radius: 50%;
-		background: #34d399;
-		color: #022c22;
+		background: #16a34a;
+		color: #fff;
 		font-size: 0.75rem;
 		font-weight: 800;
 	}
@@ -1155,10 +1155,10 @@
 		align-items: center;
 		gap: 0.875rem;
 		padding: 0.75rem 1.25rem;
-		margin: -2.5rem -3rem 1rem;
-		background: rgba(2, 6, 23, 0.85);
+		margin: -2rem -2.5rem 1rem;
+		background: rgba(255, 255, 255, 0.92);
 		backdrop-filter: blur(10px);
-		border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+		border-bottom: 1px solid var(--color-line, #e3eef7);
 		flex-wrap: wrap;
 	}
 
@@ -1177,7 +1177,7 @@
 	}
 
 	.slug-prefix {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 	}
@@ -1187,16 +1187,17 @@
 		min-width: 8rem;
 		padding: 0.375rem 0.625rem;
 		border-radius: 0.375rem;
-		background: rgba(15, 23, 42, 0.6);
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		font-size: 0.8125rem;
 		outline: none;
 	}
 
 	.slug-input:focus {
-		border-color: rgba(56, 189, 248, 0.5);
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 0 3px rgba(110, 174, 232, 0.12);
 	}
 
 	.adm-flash.inline {
@@ -1216,7 +1217,7 @@
 		gap: 0.375rem;
 		padding: 0.25rem 0.5rem;
 		font-size: 0.75rem;
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-weight: 500;
 		min-height: 1.5rem;
 	}
@@ -1225,25 +1226,24 @@
 		width: 0.5rem;
 		height: 0.5rem;
 		border-radius: 50%;
-		background: #64748b;
+		background: #9ca3af;
 	}
 
 	.autosave .dot.saved {
-		background: #34d399;
-		box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+		background: #16a34a;
 	}
 
 	.autosave .dot.saving {
-		background: #f87171;
+		background: #f59e0b;
 		animation: pulse 1.2s ease-in-out infinite;
 	}
 
 	.autosave .dot.error {
-		background: #fb7185;
+		background: #dc2626;
 	}
 
 	.autosave .dot.idle {
-		background: #475569;
+		background: #9ca3af;
 	}
 
 	@keyframes pulse {
@@ -1274,10 +1274,10 @@
 		flex-direction: column;
 		gap: 0.125rem;
 		padding: 0.375rem;
-		background: rgba(15, 23, 42, 0.55);
-		border: 1px solid rgba(148, 163, 184, 0.18);
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
 		border-radius: 0.625rem;
-		backdrop-filter: blur(8px);
+		box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 	}
 
 	@media (max-width: 720px) {
@@ -1293,7 +1293,7 @@
 	.tb {
 		background: transparent;
 		border: 0;
-		color: #cbd5e1;
+		color: var(--color-muted, #6b7b8c);
 		padding: 0;
 		width: 2rem;
 		height: 2rem;
@@ -1308,8 +1308,8 @@
 	}
 
 	.tb:hover {
-		background: rgba(56, 189, 248, 0.12);
-		color: #f1f5f9;
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-ink, #333);
 	}
 
 	.tb:disabled {
@@ -1319,12 +1319,12 @@
 
 	.tb:disabled:hover {
 		background: transparent;
-		color: #cbd5e1;
+		color: var(--color-muted, #6b7b8c);
 	}
 
 	.tb.active {
-		background: rgba(56, 189, 248, 0.2);
-		color: #38bdf8;
+		background: var(--color-surface-2, #e8f4fd);
+		color: var(--color-primary, #6eaee8);
 	}
 
 	.tb-text {
@@ -1335,7 +1335,7 @@
 	.tb-sep {
 		display: block;
 		height: 1px;
-		background: rgba(148, 163, 184, 0.18);
+		background: var(--color-line, #e3eef7);
 		margin: 0.25rem 0.125rem;
 	}
 
@@ -1349,7 +1349,7 @@
 
 	.post-canvas {
 		max-width: 720px;
-		color: #e2e8f0;
+		color: var(--color-ink, #333);
 	}
 
 	.cover {
@@ -1358,7 +1358,7 @@
 		overflow: hidden;
 		aspect-ratio: 16/9;
 		margin-bottom: 1.5rem;
-		background: rgba(15, 23, 42, 0.5);
+		background: var(--color-surface-3, #f0f8ff);
 	}
 
 	.cover img {
@@ -1379,9 +1379,9 @@
 	.ghost-btn {
 		padding: 0.375rem 0.625rem;
 		border-radius: 0.375rem;
-		background: rgba(2, 6, 23, 0.75);
-		border: 1px solid rgba(148, 163, 184, 0.25);
-		color: #f1f5f9;
+		background: rgba(255, 255, 255, 0.9);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-size: 0.75rem;
 		font-weight: 600;
 		cursor: pointer;
@@ -1389,7 +1389,8 @@
 	}
 
 	.ghost-btn:hover:not(:disabled) {
-		border-color: rgba(56, 189, 248, 0.5);
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
 	}
 
 	.ghost-btn:disabled {
@@ -1402,10 +1403,10 @@
 		width: 100%;
 		aspect-ratio: 16/9;
 		margin-bottom: 1.5rem;
-		border: 2px dashed rgba(148, 163, 184, 0.3);
+		border: 2px dashed var(--color-line, #e3eef7);
 		border-radius: 1rem;
 		background: transparent;
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.95rem;
 		font-weight: 600;
 		cursor: pointer;
@@ -1413,9 +1414,9 @@
 	}
 
 	.cover-empty:hover:not(:disabled) {
-		border-color: rgba(56, 189, 248, 0.5);
-		color: #38bdf8;
-		background: rgba(56, 189, 248, 0.04);
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
+		background: rgba(110, 174, 232, 0.04);
 	}
 
 	.meta-row {
@@ -1430,7 +1431,7 @@
 		padding: 0.125rem 0.25rem;
 		border: 0;
 		background: transparent;
-		color: #e11d48;
+		color: var(--color-accent, #4faf7c);
 		font-size: 0.75rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -1444,18 +1445,18 @@
 	}
 
 	.meta-date {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		min-width: 8rem;
 	}
 
 	.meta-cat:focus,
 	.meta-date:focus {
-		background: rgba(56, 189, 248, 0.06);
+		background: var(--color-surface-2, #e8f4fd);
 		border-radius: 0.25rem;
 	}
 
 	.dot-sep {
-		color: #475569;
+		color: var(--color-line, #e3eef7);
 		font-weight: 700;
 	}
 
@@ -1466,8 +1467,8 @@
 		margin: 0 0 1rem;
 		border: 0;
 		background: transparent;
-		color: #f8fafc;
-		font-family: 'Inter', system-ui, sans-serif;
+		color: var(--color-ink, #333);
+		font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
 		font-size: clamp(1.875rem, 4vw, 2.75rem);
 		font-weight: 800;
 		letter-spacing: -0.02em;
@@ -1477,7 +1478,7 @@
 	}
 
 	.title-input::placeholder {
-		color: #475569;
+		color: #c0c8d0;
 	}
 
 	.excerpt-input {
@@ -1487,7 +1488,7 @@
 		margin: 0 0 2.25rem;
 		border: 0;
 		background: transparent;
-		color: #cbd5e1;
+		color: var(--color-muted, #6b7b8c);
 		font-family: inherit;
 		font-size: 1.125rem;
 		line-height: 1.7;
@@ -1496,7 +1497,7 @@
 	}
 
 	.excerpt-input::placeholder {
-		color: #475569;
+		color: #c0c8d0;
 	}
 
 	.body-edit {
@@ -1504,17 +1505,13 @@
 		outline: none;
 		font-size: 1.0625rem;
 		line-height: 1.75;
-		color: #e2e8f0;
+		color: var(--color-ink, #333);
 	}
 
-	/* Empty placeholder. We render `<p><br></p>` for an empty editor (so
-	   the cursor lands somewhere), but visually it's "empty" — show the
-	   placeholder hint. The :has() selector is wrapped in :global so
-	   svelte-check doesn't strip it. */
 	:global(.body-edit:has(> p:only-child:empty))::before,
 	:global(.body-edit:has(> p:only-child > br:only-child))::before {
 		content: attr(data-placeholder);
-		color: #475569;
+		color: #c0c8d0;
 		font-style: italic;
 		display: block;
 		pointer-events: none;
@@ -1525,7 +1522,7 @@
 	}
 
 	.field-error {
-		color: #fda4af;
+		color: #dc2626;
 		font-size: 0.75rem;
 		margin: 0.5rem 0;
 	}

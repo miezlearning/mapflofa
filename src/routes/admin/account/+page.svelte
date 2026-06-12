@@ -162,11 +162,11 @@
 		margin: 0 0 0.5rem;
 		font-size: 1rem;
 		font-weight: 700;
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 	}
 
 	.card-sub {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 		margin: 0 0 1rem;
 	}
@@ -185,7 +185,7 @@
 	}
 
 	.meta dt {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
 		font-size: 0.7rem;
@@ -194,16 +194,16 @@
 
 	.meta dd {
 		margin: 0;
-		color: #cbd5e1;
+		color: var(--color-ink, #333);
 	}
 
 	.role {
 		display: inline-block;
 		padding: 0.0625rem 0.5rem;
 		border-radius: 0.25rem;
-		background: rgba(192, 132, 252, 0.12);
-		border: 1px solid rgba(192, 132, 252, 0.25);
-		color: #c084fc;
+		background: var(--color-surface-2, #e8f4fd);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-primary, #6eaee8);
 		font-size: 0.7rem;
 		font-weight: 700;
 		text-transform: uppercase;

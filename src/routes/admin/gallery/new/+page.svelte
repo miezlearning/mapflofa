@@ -134,7 +134,7 @@
 	.cover-preview {
 		max-width: 18rem;
 		border-radius: 0.625rem;
-		border: 1px solid rgba(148, 163, 184, 0.2);
+		border: 1px solid var(--color-line, #e3eef7);
 	}
 	.check {
 		flex-direction: row !important;

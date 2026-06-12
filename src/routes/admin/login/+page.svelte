@@ -19,7 +19,7 @@
 </svelte:head>
 
 <div class="login-shell">
-	<div class="aurora" aria-hidden="true"></div>
+	<div class="bg-decor" aria-hidden="true"></div>
 
 	<form
 		method="POST"
@@ -72,56 +72,43 @@
 		</button>
 
 		<p class="hint">
-			Halaman ini disembunyikan dari publik. Akses memerlukan akun admin yang dibuat lewat skrip
-			seed.
+			Halaman ini disembunyikan dari publik. Akses memerlukan akun admin yang dibuat lewat skrip seed.
 		</p>
 	</form>
 </div>
 
 <style>
-	:global(html, body) {
-		background: #05070d;
-		margin: 0;
-	}
-
 	.login-shell {
 		min-height: 100vh;
 		display: grid;
 		place-items: center;
 		padding: 2rem 1.25rem;
-		color: #e5e7eb;
-		background: #05070d;
+		color: var(--color-ink, #333);
+		background: var(--color-surface-3, #f0f8ff);
 		position: relative;
 		overflow: hidden;
-		font-family:
-			'Inter',
-			ui-sans-serif,
-			system-ui,
-			-apple-system,
-			'Segoe UI',
-			Roboto,
-			sans-serif;
+		font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
 	}
 
-	.aurora {
+	.bg-decor {
 		position: absolute;
-		inset: -10%;
-		background:
-			radial-gradient(600px 400px at 25% 20%, rgba(56, 189, 248, 0.18), transparent 60%),
-			radial-gradient(600px 400px at 75% 80%, rgba(139, 92, 246, 0.15), transparent 60%);
-		filter: blur(40px);
+		top: -20%;
+		right: -10%;
+		width: 600px;
+		height: 600px;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(110, 174, 232, 0.15), transparent 70%);
 		z-index: 0;
 	}
 
 	.card {
 		position: relative;
-		width: min(420px, 100%);
+		width: min(400px, 100%);
 		padding: 2rem;
-		border-radius: 1.25rem;
-		background: linear-gradient(180deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.5));
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		box-shadow: 0 30px 60px -30px rgba(2, 6, 23, 0.9);
-		backdrop-filter: blur(8px);
+		border-radius: 1rem;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -142,30 +129,29 @@
 		width: 2.5rem;
 		height: 2.5rem;
 		border-radius: 0.625rem;
-		background: linear-gradient(135deg, #38bdf8, #6366f1);
+		background: var(--color-primary, #6eaee8);
 		color: #fff;
 		font-weight: 800;
-		font-size: 0.75rem;
-		box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.7);
+		font-size: 0.8rem;
 	}
 
 	.brand-title {
-		color: #f8fafc;
+		color: var(--color-ink, #333);
 		font-weight: 800;
-		font-size: 1rem;
+		font-size: 1.125rem;
 	}
 
 	.brand-sub {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 
 	.alert {
 		padding: 0.75rem 0.875rem;
 		border-radius: 0.5rem;
-		background: rgba(251, 113, 133, 0.1);
-		border: 1px solid rgba(251, 113, 133, 0.3);
-		color: #fda4af;
+		background: #fef2f2;
+		border: 1px solid #fecaca;
+		color: #dc2626;
 		font-size: 0.875rem;
 	}
 
@@ -176,30 +162,31 @@
 	}
 
 	.lbl {
-		color: #cbd5e1;
+		color: var(--color-ink, #333);
 		font-size: 0.8125rem;
 		font-weight: 600;
 	}
 
 	.err {
-		color: #fda4af;
+		color: #dc2626;
 		font-size: 0.75rem;
 	}
 
 	input {
 		padding: 0.625rem 0.75rem;
 		border-radius: 0.5rem;
-		background: rgba(2, 6, 23, 0.85);
-		border: 1px solid rgba(148, 163, 184, 0.2);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-family: inherit;
 		font-size: 0.875rem;
 		outline: none;
-		transition: border-color 150ms ease;
+		transition: border-color 150ms ease, box-shadow 150ms ease;
 	}
 
 	input:focus {
-		border-color: rgba(56, 189, 248, 0.5);
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 0 0 3px rgba(110, 174, 232, 0.12);
 	}
 
 	button {
@@ -209,14 +196,14 @@
 		font-weight: 700;
 		font-size: 0.875rem;
 		cursor: pointer;
-		border: 1px solid rgba(56, 189, 248, 0.45);
-		background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(99, 102, 241, 0.25));
-		color: #e0f2fe;
-		transition: all 150ms ease;
+		border: none;
+		background: var(--color-primary, #6eaee8);
+		color: #fff;
+		transition: background 150ms ease;
 	}
 
 	button:hover:not(:disabled) {
-		background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(99, 102, 241, 0.4));
+		background: var(--color-primary-600, #4f97d6);
 	}
 
 	button:disabled {
@@ -225,7 +212,7 @@
 	}
 
 	.hint {
-		color: #64748b;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.75rem;
 		text-align: center;
 		margin: 0.5rem 0 0;

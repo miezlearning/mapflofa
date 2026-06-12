@@ -41,7 +41,6 @@
 		return `${date.getUTCDate()}/${date.getUTCMonth() + 1}`;
 	}
 
-	// Y-axis ticks
 	const yTicks = [0, 0.25, 0.5, 0.75, 1].map((p) => Math.round(max * p));
 </script>
 
@@ -50,8 +49,8 @@
 		aria-label="Daily views chart">
 		<defs>
 			<linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
-				<stop offset="0%" stop-color="rgba(56,189,248,0.35)" />
-				<stop offset="100%" stop-color="rgba(56,189,248,0)" />
+				<stop offset="0%" stop-color="rgba(110,174,232,0.25)" />
+				<stop offset="100%" stop-color="rgba(110,174,232,0)" />
 			</linearGradient>
 		</defs>
 
@@ -62,14 +61,14 @@
 				x2={W - PAD.right}
 				y1={y(t)}
 				y2={y(t)}
-				stroke="rgba(148,163,184,0.12)"
+				stroke="#e3eef7"
 				stroke-width="1"
 			/>
 			<text
 				x={PAD.left - 6}
 				y={y(t) + 3}
 				text-anchor="end"
-				fill="#64748b"
+				fill="#6b7b8c"
 				font-size="9"
 				font-family="ui-monospace, monospace"
 			>
@@ -77,7 +76,7 @@
 			</text>
 		{/each}
 
-		<!-- X labels — show first, mid, last -->
+		<!-- X labels -->
 		{#if data.length > 0}
 			{@const idxs = [0, Math.floor(data.length / 2), data.length - 1]}
 			{#each idxs as i}
@@ -85,7 +84,7 @@
 					x={x(i)}
 					y={H - 8}
 					text-anchor="middle"
-					fill="#64748b"
+					fill="#6b7b8c"
 					font-size="9"
 					font-family="ui-monospace, monospace"
 				>
@@ -98,16 +97,16 @@
 		<path d={areaPath} fill="url(#area-grad)" />
 
 		<!-- Views line -->
-		<path d={linePath} stroke="#38bdf8" stroke-width="1.75" fill="none" />
+		<path d={linePath} stroke="#6eaee8" stroke-width="2" fill="none" />
 
 		<!-- Uniques line -->
-		<path d={uniquePath} stroke="#c084fc" stroke-width="1.5" fill="none" stroke-dasharray="4 3" />
+		<path d={uniquePath} stroke="#4faf7c" stroke-width="1.5" fill="none" stroke-dasharray="4 3" />
 
 		<!-- Hover hit areas + dots -->
 		{#each data as d, i}
 			<g>
 				<title>{d.date}: {d.views} views, {d.uniques} unique</title>
-				<circle cx={x(i)} cy={y(d.views)} r="2" fill="#38bdf8" />
+				<circle cx={x(i)} cy={y(d.views)} r="2.5" fill="#6eaee8" />
 				<rect
 					x={x(i) - xStep / 2}
 					y={PAD.top}
@@ -139,7 +138,7 @@
 		display: flex;
 		gap: 0.875rem;
 		font-size: 0.75rem;
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 	}
 	.leg {
 		display: inline-flex;
@@ -150,14 +149,13 @@
 		content: '';
 		display: inline-block;
 		width: 0.875rem;
-		height: 0.125rem;
-		border-radius: 0.0625rem;
+		height: 0.1875rem;
+		border-radius: 1px;
 	}
 	.leg.views::before {
-		background: #38bdf8;
+		background: #6eaee8;
 	}
 	.leg.uniques::before {
-		background: #c084fc;
-		border-top: 1px dashed #c084fc;
+		background: #4faf7c;
 	}
 </style>

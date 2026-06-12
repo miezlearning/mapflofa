@@ -96,13 +96,13 @@
 	}
 	.title {
 		font-weight: 600;
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 	}
 	.slug {
 		display: inline-block;
 		margin-top: 0.125rem;
 		font-size: 0.7rem;
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		text-decoration: none;
 	}
@@ -110,7 +110,7 @@
 		text-decoration: underline;
 	}
 	.dim {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 </style>

@@ -108,18 +108,18 @@
 	.thumb-empty {
 		display: grid;
 		place-items: center;
-		background: rgba(148, 163, 184, 0.12);
-		color: #64748b;
+		background: var(--color-surface-3, #f0f8ff);
+		color: var(--color-muted, #6b7b8c);
 	}
 	.title {
 		font-weight: 600;
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 	}
 	.slug {
 		display: inline-block;
 		margin-top: 0.125rem;
 		font-size: 0.7rem;
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		text-decoration: none;
 	}
@@ -127,7 +127,7 @@
 		text-decoration: underline;
 	}
 	.dim {
-		color: #94a3b8;
+		color: var(--color-muted, #6b7b8c);
 		font-size: 0.8125rem;
 	}
 	.badge {
@@ -139,13 +139,13 @@
 		letter-spacing: 0.04em;
 	}
 	.badge-on {
-		color: #6ee7b7;
-		background: rgba(52, 211, 153, 0.12);
-		border: 1px solid rgba(52, 211, 153, 0.3);
+		color: #16a34a;
+		background: #f0fdf4;
+		border: 1px solid #bbf7d0;
 	}
 	.badge-off {
-		color: #fcd34d;
-		background: rgba(251, 191, 36, 0.12);
-		border: 1px solid rgba(251, 191, 36, 0.3);
+		color: #ca8a04;
+		background: #fefce8;
+		border: 1px solid #fef08a;
 	}
 </style>

@@ -208,11 +208,11 @@
 	.section-title {
 		font-size: 1rem;
 		font-weight: 700;
-		color: #f1f5f9;
+		color: var(--color-ink, #333);
 		margin: 0 0 1rem;
 	}
 	.slug {
-		color: #38bdf8;
+		color: var(--color-primary, #6eaee8);
 		text-decoration: none;
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 		font-size: 0.75rem;
@@ -220,13 +220,13 @@
 	.cover-now img {
 		max-width: 100%;
 		border-radius: 0.625rem;
-		border: 1px solid rgba(148, 163, 184, 0.2);
+		border: 1px solid var(--color-line, #e3eef7);
 	}
 	.cover-empty {
 		padding: 1.5rem;
 		text-align: center;
-		color: #64748b;
-		border: 1px dashed rgba(148, 163, 184, 0.2);
+		color: var(--color-muted, #6b7b8c);
+		border: 1px dashed var(--color-line, #e3eef7);
 		border-radius: 0.625rem;
 		font-size: 0.8125rem;
 	}
@@ -245,17 +245,18 @@
 		gap: 1rem;
 	}
 	.photo-item {
-		border: 1px solid rgba(148, 163, 184, 0.14);
+		border: 1px solid var(--color-line, #e3eef7);
 		border-radius: 0.75rem;
 		overflow: hidden;
-		background: rgba(2, 6, 23, 0.4);
+		background: #fff;
 		display: flex;
 		flex-direction: column;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 	}
 	.photo-thumb {
 		position: relative;
 		aspect-ratio: 4 / 3;
-		background: rgba(148, 163, 184, 0.1);
+		background: var(--color-surface-3, #f0f8ff);
 	}
 	.photo-thumb img {
 		width: 100%;
@@ -271,8 +272,8 @@
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: #0b1120;
-		background: #38bdf8;
+		color: #fff;
+		background: var(--color-primary, #6eaee8);
 		padding: 0.125rem 0.4rem;
 		border-radius: 0.3rem;
 	}
@@ -286,11 +287,15 @@
 		min-width: 0;
 		padding: 0.4rem 0.5rem;
 		border-radius: 0.4rem;
-		background: rgba(2, 6, 23, 0.7);
-		border: 1px solid rgba(148, 163, 184, 0.2);
-		color: #f1f5f9;
+		background: #fff;
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-size: 0.75rem;
 		font-family: inherit;
+	}
+	.caption-input:focus {
+		border-color: var(--color-primary, #6eaee8);
+		outline: none;
 	}
 	.caption-save {
 		padding: 0.25rem 0.5rem;
@@ -305,24 +310,24 @@
 		flex: 1;
 		padding: 0.3rem;
 		border-radius: 0.4rem;
-		background: rgba(15, 23, 42, 0.6);
-		border: 1px solid rgba(148, 163, 184, 0.18);
-		color: #e2e8f0;
+		background: var(--color-surface-3, #f0f8ff);
+		border: 1px solid var(--color-line, #e3eef7);
+		color: var(--color-ink, #333);
 		font-size: 0.8rem;
 		cursor: pointer;
 		transition: all 120ms ease;
 	}
 	.icon-btn:hover:not(:disabled) {
-		border-color: rgba(56, 189, 248, 0.45);
-		color: #e0f2fe;
+		border-color: var(--color-primary, #6eaee8);
+		color: var(--color-primary, #6eaee8);
 	}
 	.icon-btn:disabled {
 		opacity: 0.35;
 		cursor: not-allowed;
 	}
 	.icon-btn.danger:hover {
-		border-color: rgba(251, 113, 133, 0.4);
-		color: #fda4af;
+		border-color: #fecaca;
+		color: #dc2626;
 	}
 	.photo-actions form {
 		display: flex;
