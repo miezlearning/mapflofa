@@ -106,6 +106,32 @@ export const profileRepo = {
 			.orderBy(asc(members.sortOrder), asc(members.id));
 	},
 
+	/** Distinct division names already in use — powers admin autocomplete. */
+	async listDivisions(): Promise<string[]> {
+		const rows = await db
+			.select({ division: members.division })
+			.from(members)
+			.where(eq(members.group, 'divisi'));
+		const set = new Set<string>();
+		for (const r of rows) {
+			const d = (r.division ?? '').trim();
+			if (d) set.add(d);
+		}
+		return [...set].sort((a, b) => a.localeCompare(b));
+	},
+
+	/** Distinct custom group keys in use (excluding the built-in presets). */
+	async listCustomGroups(): Promise<string[]> {
+		const presets = ['pelindung', 'penanggung_jawab', 'pembina', 'pengurus', 'divisi'];
+		const rows = await db.select({ group: members.group }).from(members);
+		const set = new Set<string>();
+		for (const r of rows) {
+			const g = (r.group ?? '').trim();
+			if (g && !presets.includes(g)) set.add(g);
+		}
+		return [...set].sort((a, b) => a.localeCompare(b));
+	},
+
 	findMemberById(id: number) {
 		return db
 			.select()

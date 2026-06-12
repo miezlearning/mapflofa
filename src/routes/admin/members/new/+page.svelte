@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import MemberForm from '$lib/components/admin/MemberForm.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	type FormState = {
 		values?: Record<string, unknown>;
@@ -31,5 +31,7 @@
 		message={f?.message ?? null}
 		submitLabel="Simpan Pengurus"
 		cancelHref="/admin/members"
+		divisions={data.divisions}
+		customGroups={data.customGroups}
 	/>
 </div>

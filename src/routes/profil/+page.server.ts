@@ -1,12 +1,14 @@
 import type { PageServerLoad } from './$types';
 import { profileRepo } from '$lib/server/repositories/profile';
+import { buildOrgStructure } from '$lib/server/repositories/org-structure';
 
 /**
  * Public Profil page data.
  *
  * Content blocks (visi/misi/sejarah/nilai/header) come from `site_content`
- * with code defaults as fallback. Struktur organisasi comes from `members`.
- * The page renders fine even on an empty DB thanks to the defaults.
+ * with code defaults as fallback. Struktur organisasi comes from `members`,
+ * grouped dynamically by `buildOrgStructure` so divisions/groups/positions
+ * can change freely without code edits.
  */
 export const load: PageServerLoad = async () => {
 	const [content, memberRows] = await Promise.all([
@@ -37,65 +39,8 @@ export const load: PageServerLoad = async () => {
 		})
 		.filter((n) => n.title);
 
-	// Members → grouped structure
-	const sortMember = (a: typeof memberRows[number], b: typeof memberRows[number]) =>
-		a.sortOrder - b.sortOrder || a.id - b.id;
-
-	const all = [...memberRows].sort(sortMember);
-
-	// 1) Dewan Pembina: pelindung → penanggung_jawab → pembina
-	const councilOrder = ['pelindung', 'penanggung_jawab', 'pembina'];
-	const council = councilOrder
-		.map((g) => ({
-			group: g,
-			label:
-				g === 'pelindung'
-					? 'Pelindung'
-					: g === 'penanggung_jawab'
-						? 'Penanggung Jawab'
-						: 'Pembina',
-			people: all
-				.filter((m) => m.group === g)
-				.map((m) => ({ id: m.id, name: m.name, position: m.position }))
-		}))
-		.filter((c) => c.people.length > 0);
-
-	// 2) Featured carousel (pengurus inti + koordinator with photos)
-	const featured = all
-		.filter((m) => m.isFeatured)
-		.map((m) => ({
-			id: m.id,
-			role: m.position,
-			name: m.name,
-			nim: m.nim ?? '',
-			description: m.description ?? '',
-			imageUrl: m.photo ?? '',
-			tupoksi: (m.tupoksi ?? '')
-				.split('\n')
-				.map((s) => s.trim())
-				.filter(Boolean)
-		}));
-
-	// 3) Divisi: group divisi members by division name (koordinator first)
-	const divisiMembers = all.filter((m) => m.group === 'divisi');
-	const divisionNames: string[] = [];
-	for (const m of divisiMembers) {
-		const d = m.division ?? 'Divisi';
-		if (!divisionNames.includes(d)) divisionNames.push(d);
-	}
-	const isKoordinator = (pos: string) => /koordinator/i.test(pos);
-	const divisions = divisionNames.map((name) => {
-		const people = divisiMembers.filter((m) => (m.division ?? 'Divisi') === name);
-		const koordinator = people.find((m) => isKoordinator(m.position)) ?? null;
-		const anggota = people.filter((m) => m !== koordinator);
-		return {
-			name,
-			koordinator: koordinator
-				? { id: koordinator.id, name: koordinator.name, nim: koordinator.nim ?? '', position: koordinator.position }
-				: null,
-			anggota: anggota.map((m) => ({ id: m.id, name: m.name, nim: m.nim ?? '' }))
-		};
-	});
+	// Struktur organisasi — fully dynamic grouping.
+	const { council, featured, divisions } = buildOrgStructure(memberRows);
 
 	return {
 		header: {

@@ -9,6 +9,8 @@
 		message?: string | null;
 		submitLabel?: string;
 		cancelHref: string;
+		divisions?: string[];
+		customGroups?: string[];
 	};
 
 	let {
@@ -16,7 +18,9 @@
 		fieldErrors = null,
 		message = null,
 		submitLabel = 'Simpan',
-		cancelHref
+		cancelHref,
+		divisions = [],
+		customGroups = []
 	}: Props = $props();
 
 	let submitting = $state(false);
@@ -27,8 +31,43 @@
 		return String(v);
 	}
 
+	const PRESET_GROUPS = ['pelindung', 'penanggung_jawab', 'pembina', 'pengurus', 'divisi'];
+
+	function humanize(key: string): string {
+		const map: Record<string, string> = {
+			pelindung: 'Pelindung',
+			penanggung_jawab: 'Penanggung Jawab',
+			pembina: 'Pembina',
+			pengurus: 'Pengurus Inti',
+			divisi: 'Divisi'
+		};
+		if (map[key]) return map[key];
+		return key
+			.replace(/[_-]+/g, ' ')
+			.trim()
+			.replace(/\b\w/g, (c) => c.toUpperCase());
+	}
+
+	function slugify(s: string): string {
+		return s
+			.toLowerCase()
+			.replace(/\s+/g, '_')
+			.replace(/[^a-z0-9_]/g, '')
+			.replace(/_+/g, '_')
+			.replace(/^_|_$/g, '');
+	}
+
 	// ---- Editable state ----
-	let group = $state(initStr('group', 'pengurus'));
+	const initialGroup = initStr('group', 'pengurus');
+	const isPresetInitial = PRESET_GROUPS.includes(initialGroup);
+
+	let groupChoice = $state(isPresetInitial ? initialGroup : '__custom__');
+	let customGroup = $state(isPresetInitial ? '' : humanize(initialGroup));
+
+	const groupValue = $derived(
+		groupChoice === '__custom__' ? slugify(customGroup) || 'pengurus' : groupChoice
+	);
+
 	let name = $state(initStr('name'));
 	let position = $state(initStr('position'));
 	let nim = $state(initStr('nim'));
@@ -43,30 +82,37 @@
 	);
 	let isActive = $state(values?.isActive === undefined ? true : Boolean(values?.isActive));
 
-	const groups = [
+	// Built-in preset cards + any custom groups already used in the DB.
+	const presetCards = [
 		{ value: 'pelindung', label: 'Pelindung', hint: 'Pejabat pelindung (mis. Dekan)' },
 		{ value: 'penanggung_jawab', label: 'Penanggung Jawab', hint: 'Mis. Wakil Dekan III' },
 		{ value: 'pembina', label: 'Pembina', hint: 'Dosen pembina organisasi' },
 		{ value: 'pengurus', label: 'Pengurus Inti', hint: 'Ketua, Wakil, Sekretaris, Bendahara' },
 		{ value: 'divisi', label: 'Divisi', hint: 'Koordinator & anggota divisi' }
 	];
+	const extraGroupCards = $derived(
+		customGroups
+			.filter((g) => !PRESET_GROUPS.includes(g))
+			.map((g) => ({ value: g, label: humanize(g), hint: 'Kelompok khusus' }))
+	);
 
 	// Field visibility per group — keeps the form simple & contextual.
-	const isCouncil = $derived(['pelindung', 'penanggung_jawab', 'pembina'].includes(group));
-	const isDivisi = $derived(group === 'divisi');
-	const showNim = $derived(!isCouncil); // pengurus & divisi have NIM
-	const showFeatured = $derived(!isCouncil); // only pengurus/koordinator featured
-	const showRichFields = $derived(isFeatured); // photo + tupoksi only matter if featured
+	const councilGroups = ['pelindung', 'penanggung_jawab', 'pembina'];
+	const isCouncil = $derived(councilGroups.includes(groupValue));
+	const isDivisi = $derived(groupValue === 'divisi');
+	const showNim = $derived(!isCouncil);
+	const showFeatured = $derived(!isCouncil);
+	const showRichFields = $derived(isFeatured);
 
 	// Suggested position label depending on group
 	const positionPlaceholder = $derived(
-		group === 'pelindung'
+		groupValue === 'pelindung'
 			? 'cth. Dekan FKLT UNMUL'
-			: group === 'penanggung_jawab'
+			: groupValue === 'penanggung_jawab'
 				? 'cth. Wakil Dekan III'
-				: group === 'pembina'
+				: groupValue === 'pembina'
 					? 'Pembina'
-					: group === 'divisi'
+					: groupValue === 'divisi'
 						? 'cth. Koordinator / Anggota'
 						: 'cth. Ketua Umum'
 	);
@@ -102,15 +148,37 @@
 	<!-- ===== Step 1: Tingkatan ===== -->
 	<fieldset class="group-field">
 		<legend class="lbl">1. Posisi ini termasuk kelompok apa?</legend>
+		<input type="hidden" name="group" value={groupValue} />
 		<div class="group-options">
-			{#each groups as g (g.value)}
-				<label class="group-opt" class:active={group === g.value}>
-					<input type="radio" name="group" value={g.value} bind:group />
+			{#each presetCards as g (g.value)}
+				<label class="group-opt" class:active={groupChoice === g.value}>
+					<input type="radio" value={g.value} bind:group={groupChoice} />
 					<span class="group-opt-label">{g.label}</span>
 					<span class="group-opt-hint">{g.hint}</span>
 				</label>
 			{/each}
+			{#each extraGroupCards as g (g.value)}
+				<label class="group-opt" class:active={groupChoice === g.value}>
+					<input type="radio" value={g.value} bind:group={groupChoice} />
+					<span class="group-opt-label">{g.label}</span>
+					<span class="group-opt-hint">{g.hint}</span>
+				</label>
+			{/each}
+			<label class="group-opt" class:active={groupChoice === '__custom__'}>
+				<input type="radio" value="__custom__" bind:group={groupChoice} />
+				<span class="group-opt-label">+ Kelompok lain</span>
+				<span class="group-opt-hint">Buat kelompok baru sendiri</span>
+			</label>
 		</div>
+		{#if groupChoice === '__custom__'}
+			<div class="custom-group">
+				<label class="field">
+					<span class="lbl">Nama kelompok baru</span>
+					<input type="text" bind:value={customGroup} maxlength="60" placeholder="cth. Dewan Penasihat" />
+					<span class="field-hint">Kelompok ini akan muncul sebagai bagian tersendiri di halaman Profil.</span>
+				</label>
+			</div>
+		{/if}
 	</fieldset>
 
 	<!-- ===== Step 2: Identitas ===== -->
@@ -144,11 +212,17 @@
 				<span class="lbl">Nama divisi <span class="req">*</span></span>
 				<input type="text" name="division" bind:value={division} maxlength="160" placeholder="cth. Divisi Flora" list="division-list" />
 				<datalist id="division-list">
-					<option value="Divisi Flora"></option>
-					<option value="Divisi Fauna"></option>
-					<option value="Divisi Lingkungan Hidup"></option>
+					{#each divisions as d (d)}
+						<option value={d}></option>
+					{/each}
 				</datalist>
-				<span class="field-hint">Anggota dengan divisi yang sama akan dikelompokkan bersama.</span>
+				<span class="field-hint">
+					{#if divisions.length > 0}
+						Ketik nama baru atau pilih yang sudah ada. Anggota dengan divisi sama akan dikelompokkan otomatis.
+					{:else}
+						Anggota dengan nama divisi yang sama akan dikelompokkan otomatis.
+					{/if}
+				</span>
 			</label>
 		{:else}
 			<input type="hidden" name="division" value={division} />
@@ -394,6 +468,14 @@
 		font-size: 0.6875rem;
 		color: var(--color-muted, #6b7b8c);
 		line-height: 1.3;
+	}
+
+	.custom-group {
+		margin-top: 0.75rem;
+		padding: 0.875rem;
+		border: 1px solid var(--color-line, #e3eef7);
+		border-radius: 0.625rem;
+		background: var(--color-surface-3, #f0f8ff);
 	}
 
 	/* ---- Featured toggle card ---- */

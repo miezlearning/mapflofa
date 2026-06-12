@@ -40,5 +40,7 @@
 		message={f?.ok ? null : (f?.message ?? null)}
 		submitLabel="Simpan Perubahan"
 		cancelHref="/admin/members"
+		divisions={data.divisions}
+		customGroups={data.customGroups}
 	/>
 </div>

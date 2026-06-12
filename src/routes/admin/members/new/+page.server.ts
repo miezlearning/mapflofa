@@ -8,7 +8,11 @@ import { audit } from '$lib/server/audit/log';
 
 export const load: PageServerLoad = async (event) => {
 	requireUser(event);
-	return {};
+	const [divisions, customGroups] = await Promise.all([
+		profileRepo.listDivisions(),
+		profileRepo.listCustomGroups()
+	]);
+	return { divisions, customGroups };
 };
 
 export const actions: Actions = {

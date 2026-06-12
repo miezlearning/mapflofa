@@ -73,7 +73,22 @@ export const createMemberSchema = z.object({
 	name: z.string().trim().min(1, 'Nama wajib diisi.').max(160, 'Maksimal 160 karakter.'),
 	position: z.string().trim().min(1, 'Jabatan wajib diisi.').max(160, 'Maksimal 160 karakter.'),
 	nim: optionalText(40),
-	group: z.enum(MEMBER_GROUPS).default('pengurus'),
+	// Accept any group key (presets or custom). Normalized to a slug so the
+	// public page can group + humanize it consistently.
+	group: z
+		.string()
+		.trim()
+		.min(1)
+		.max(60)
+		.default('pengurus')
+		.transform((s) =>
+			s
+				.toLowerCase()
+				.replace(/\s+/g, '_')
+				.replace(/[^a-z0-9_]/g, '')
+				.replace(/_+/g, '_')
+				.replace(/^_|_$/g, '') || 'pengurus'
+		),
 	description: optionalText(300),
 	photo: imageRef,
 	tupoksi: optionalText(4000),

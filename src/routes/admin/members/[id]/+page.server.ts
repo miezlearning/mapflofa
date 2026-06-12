@@ -12,7 +12,11 @@ export const load: PageServerLoad = async (event) => {
 	if (!Number.isSafeInteger(id) || id <= 0) throw error(400, 'Invalid id');
 	const item = await profileRepo.findMemberById(id);
 	if (!item) throw error(404, 'Pengurus tidak ditemukan');
-	return { item };
+	const [divisions, customGroups] = await Promise.all([
+		profileRepo.listDivisions(),
+		profileRepo.listCustomGroups()
+	]);
+	return { item, divisions, customGroups };
 };
 
 export const actions: Actions = {
