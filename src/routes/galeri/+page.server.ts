@@ -12,14 +12,19 @@ export const load: PageServerLoad = async (event) => {
 	});
 
 	return {
-		albums: rows.map((a) => ({
-			title: a.title,
-			slug: a.slug,
-			description: a.description,
-			cover: a.effectiveCover,
-			eventDate: a.eventDate,
-			photoCount: a.photoCount
-		})),
+		albums: rows.map((a) => {
+			// If coverImage exists and is not the firstPhoto, it will be prepended
+			// in the detail page, so bump the displayed count by 1.
+			const coverAddsOne = a.coverImage && a.firstPhoto && a.coverImage !== a.firstPhoto;
+			return {
+				title: a.title,
+				slug: a.slug,
+				description: a.description,
+				cover: a.effectiveCover,
+				eventDate: a.eventDate,
+				photoCount: a.photoCount + (coverAddsOne ? 1 : 0)
+			};
+		}),
 		total
 	};
 };
