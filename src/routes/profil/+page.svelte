@@ -168,13 +168,14 @@
 					{#each nilai as n, i}
 						<div
 							use:reveal={{ from: 'up', delay: i * 80 }}
-							class="rounded-3xl bg-white border border-line p-6 text-center shadow-sm
+							class="nilai-card rounded-3xl bg-white border border-line p-6 text-center shadow-sm
 							       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 						>
-							<div class="w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center">
+							<div class="nilai-icon w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center
+							            transition-all duration-300">
 								<Icon name={n.icon} size={24} />
 							</div>
-							<div class="mt-3 font-display font-bold text-ink">{n.title}</div>
+							<div class="nilai-title mt-3 font-display font-bold text-ink transition-colors duration-300">{n.title}</div>
 							<div class="mt-1 text-xs text-muted leading-relaxed">{n.desc}</div>
 						</div>
 					{/each}
@@ -501,6 +502,20 @@
 </main>
 
 <style>
+	/* ===== Nilai Kami — hover effects ===== */
+	.nilai-card:hover .nilai-icon {
+		background: var(--color-primary, #6eaee8) !important;
+		color: #fff !important;
+		box-shadow: 0 4px 16px rgba(110, 174, 232, 0.35);
+	}
+
+	.nilai-card:hover .nilai-title {
+		color: var(--color-primary, #6eaee8) !important;
+	}
+
+	.nilai-card:hover {
+		border-color: rgba(110, 174, 232, 0.4);
+	}
 	/* ==========================================================
 	   Character Select + Detail Zoom — Struktur Organisasi
 	   Pick a position (like a game character roster), then click
@@ -630,6 +645,7 @@
 
 	.sc-text__content {
 		animation: scSlideInNext 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		min-height: 6.5rem;
 	}
 
 	.sc-text__content.slide-prev {
@@ -662,6 +678,8 @@
 		letter-spacing: -0.025em;
 		line-height: 1.1;
 		margin: 0.375rem 0 0;
+		word-break: break-word;
+		overflow-wrap: break-word;
 	}
 
 	@media (min-width: 768px) { .sc-text__name { font-size: 2.5rem; } }
@@ -1106,8 +1124,10 @@
 		background: #1e293b;
 		border: 1px solid rgba(110, 174, 232, 0.3);
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-		min-width: 0;
+		min-width: 8rem;
+		width: 12rem;
 		text-align: left;
+		flex-shrink: 0;
 	}
 
 	.sc-bio--next {
@@ -1176,7 +1196,7 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		max-width: 7rem;
+		max-width: 10rem;
 	}
 
 	/* ==========================================================
