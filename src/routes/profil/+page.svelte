@@ -372,10 +372,8 @@
 						<!-- Navigation + Biodata cards -->
 						<div class="sc-bios">
 							{#if orgMembers.length > 1}
-								<button type="button" class="sc-bio sc-bio--prev" onclick={goPrev} aria-label="Sebelumnya">
-									<span class="sc-bio__arrow-icon">
-										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
-									</span>
+								<button type="button" class="sc-nav-btn sc-nav-btn--prev" onclick={goPrev} aria-label="Sebelumnya">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
 								</button>
 							{/if}
 							<div class="sc-bio sc-bio--current">
@@ -383,12 +381,8 @@
 								<span class="sc-bio__name">{current.name}</span>
 							</div>
 							{#if orgMembers.length > 1}
-								<button type="button" class="sc-bio sc-bio--next" onclick={goNext}>
-									<span class="sc-bio__label">Selanjutnya</span>
-									<span class="sc-bio__name">{nextMember.name}</span>
-									<span class="sc-bio__arrow">
-										<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-									</span>
+								<button type="button" class="sc-nav-btn sc-nav-btn--next" onclick={goNext} aria-label="Selanjutnya">
+									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 								</button>
 							{/if}
 						</div>
@@ -1098,7 +1092,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		display: flex;
-		align-items: stretch;
+		align-items: center;
 		gap: 0.5rem;
 		z-index: 5;
 	}
@@ -1118,7 +1112,7 @@
 
 	.sc-bio--next {
 		cursor: pointer;
-		padding-right: 2rem;
+		padding-right: 1rem;
 		position: relative;
 		transition: all 200ms ease;
 	}
@@ -1129,36 +1123,33 @@
 		box-shadow: 0 6px 24px rgba(110, 174, 232, 0.2);
 	}
 
-	.sc-bio--prev {
-		cursor: pointer;
+	/* Nav buttons (prev / next) */
+	.sc-nav-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0;
-		aspect-ratio: 1;
-		transition: all 200ms ease;
-	}
-
-	.sc-bio--prev:hover {
-		border-color: var(--color-primary, #6eaee8);
-		transform: translateY(-2px);
-		box-shadow: 0 6px 24px rgba(110, 174, 232, 0.2);
-	}
-
-	.sc-bio__arrow-icon {
-		width: 1.5rem;
-		height: 1.5rem;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
+		width: 2.75rem;
+		height: 2.75rem;
+		border-radius: 0.75rem;
+		border: 1px solid rgba(110, 174, 232, 0.3);
+		background: #1e293b;
 		color: var(--color-primary, #6eaee8);
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		cursor: pointer;
+		transition: all 200ms ease;
+		flex-shrink: 0;
 	}
 
-	.sc-bio--prev:hover .sc-bio__arrow-icon {
+	.sc-nav-btn:hover {
 		background: var(--color-primary, #6eaee8);
 		color: #fff;
+		border-color: var(--color-primary, #6eaee8);
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(110, 174, 232, 0.3);
+	}
+
+	.sc-nav-btn:focus-visible {
+		outline: 2px solid var(--color-primary, #6eaee8);
+		outline-offset: 2px;
 	}
 
 	.sc-bio--next:focus-visible {
@@ -1186,26 +1177,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		max-width: 7rem;
-	}
-
-	.sc-bio__arrow {
-		position: absolute;
-		right: 0.625rem;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 1.25rem;
-		height: 1.25rem;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
-		color: var(--color-primary, #6eaee8);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.sc-bio--next:hover .sc-bio__arrow {
-		background: var(--color-primary, #6eaee8);
-		color: #fff;
 	}
 
 	/* ==========================================================
