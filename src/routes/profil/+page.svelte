@@ -1374,7 +1374,7 @@
 		.sc-section { padding: 3rem 1rem; }
 		.sc-stage { min-height: auto; }
 		.sc-select { display: flex; flex-direction: column; }
-		.sc-left { order: 2; }
+		.sc-left { order: 2; align-self: stretch; }
 		.sc-right { order: 1; height: 20rem; margin-bottom: 2rem; }
 		.sc-dots { display: none; }
 		.sc-text__name { font-size: 1.75rem; }
