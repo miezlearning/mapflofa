@@ -698,7 +698,7 @@
 	.sc-text__desc {
 		font-size: 0.9375rem;
 		color: var(--color-muted, #64748b);
-		margin-top: auto;
+		margin-top: 0.75rem;
 		line-height: 1.5;
 	}
 
@@ -706,7 +706,7 @@
 		font-size: 0.8125rem;
 		font-weight: 600;
 		color: var(--color-primary, #6eaee8);
-		margin-top: auto;
+		margin-top: 0.75rem;
 		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 	}
 
