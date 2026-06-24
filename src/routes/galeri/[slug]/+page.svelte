@@ -47,7 +47,7 @@
 
 <main class="overflow-x-clip">
 	<!-- ===== Header ===== -->
-	<section class="bg-surface-2 pt-32 md:pt-40 pb-12 md:pb-16 px-4 md:px-8">
+	<section class="bg-surface-2 pt-32 md:pt-40 pb-8 md:pb-12 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			<nav class="text-sm text-slate-500 mb-5" aria-label="Breadcrumb">
 				<a href="/galeri" class="hover:text-primary">Galeri</a>
@@ -72,17 +72,17 @@
 		</div>
 	</section>
 
-	<!-- ===== Photo grid (masonry-ish) ===== -->
-	<section class="py-12 md:py-20 px-4 md:px-8">
+	<!-- ===== Photo grid ===== -->
+	<section class="py-8 md:py-14 px-4 md:px-8">
 		<div class="max-w-7xl mx-auto">
 			{#if photos.length === 0}
 				<div class="text-center text-slate-500 py-16">Belum ada foto di album ini.</div>
 			{:else}
-				<div class="masonry">
+				<div class="photo-grid" class:few={photos.length <= 3}>
 					{#each photos as photo, i (photo.id)}
 						<button
 							type="button"
-							class="masonry-item group"
+							class="grid-item group"
 							onclick={() => open(i)}
 							aria-label={`Perbesar foto ${i + 1}`}
 						>
@@ -162,41 +162,42 @@
 {/if}
 
 <style>
-	/* Masonry via CSS columns */
-	.masonry {
-		column-count: 1;
-		column-gap: 1rem;
+	/* Responsive photo grid */
+	.photo-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75rem;
 	}
 	@media (min-width: 640px) {
-		.masonry {
-			column-count: 2;
+		.photo-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 	@media (min-width: 1024px) {
-		.masonry {
-			column-count: 3;
+		.photo-grid:not(.few) {
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
-	.masonry-item {
+	.grid-item {
 		position: relative;
 		display: block;
 		width: 100%;
-		margin: 0 0 1rem;
+		aspect-ratio: 4 / 3;
 		padding: 0;
 		border: 0;
 		border-radius: 1.25rem;
 		overflow: hidden;
 		background: #eef4fb;
 		cursor: zoom-in;
-		break-inside: avoid;
 	}
-	.masonry-item img {
+	.grid-item img {
 		display: block;
 		width: 100%;
-		height: auto;
+		height: 100%;
+		object-fit: cover;
 		transition: transform 0.5s ease;
 	}
-	.masonry-item:hover img {
+	.grid-item:hover img {
 		transform: scale(1.04);
 	}
 	.zoom-hint {
@@ -214,7 +215,7 @@
 		transform: translateY(-4px);
 		transition: all 0.25s ease;
 	}
-	.masonry-item:hover .zoom-hint {
+	.grid-item:hover .zoom-hint {
 		opacity: 1;
 		transform: translateY(0);
 	}
@@ -231,7 +232,7 @@
 		opacity: 0;
 		transition: opacity 0.25s ease;
 	}
-	.masonry-item:hover .caption {
+	.grid-item:hover .caption {
 		opacity: 1;
 	}
 

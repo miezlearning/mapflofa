@@ -22,7 +22,7 @@
 		<h1 class="adm-title">Kelola Album</h1>
 		<p class="adm-sub">
 			<a class="slug" href={`/galeri/${album.slug}`} target="_blank" rel="noopener">/galeri/{album.slug} ↗</a>
-			· {photos.length} foto
+			· {photos.length} foto dalam album
 		</p>
 	</div>
 	<a class="adm-btn" href="/admin/gallery">← Semua album</a>
@@ -86,6 +86,10 @@
 				{:else}
 					<div class="cover-empty">Belum ada sampul</div>
 				{/if}
+			</div>
+			<div class="cover-info">
+				💡 Foto sampul akan tampil sebagai foto pertama di halaman publik galeri.
+				Gunakan tombol ★ pada foto di bawah untuk menjadikan foto tersebut sebagai sampul.
 			</div>
 
 			<label class="check">
@@ -229,6 +233,16 @@
 		border: 1px dashed var(--color-line, #e3eef7);
 		border-radius: 0.625rem;
 		font-size: 0.8125rem;
+	}
+	.cover-info {
+		margin-top: 0.5rem;
+		padding: 0.625rem 0.75rem;
+		font-size: 0.75rem;
+		line-height: 1.5;
+		color: var(--color-muted, #6b7b8c);
+		background: var(--color-surface-3, #f0f8ff);
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-line, #e3eef7);
 	}
 	.check {
 		flex-direction: row !important;
