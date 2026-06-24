@@ -278,8 +278,8 @@
 			<div
 				use:reveal={{ from: 'scale' }}
 				class="relative bg-gradient-to-br from-primary to-primary-700 text-white
-				       rounded-[2.5rem] overflow-hidden
-				       px-8 md:px-16 py-16 md:py-24
+				       rounded-3xl sm:rounded-[2.5rem] overflow-hidden
+				       px-6 py-12 sm:px-12 md:px-16 md:py-24
 				       shadow-2xl shadow-primary/30"
 			>
 				<div
@@ -296,7 +296,7 @@
 				<div class="relative grid lg:grid-cols-2 gap-12 items-center">
 					<div use:reveal={{ from: 'left', delay: 100 }}>
 						<div class="text-xs font-bold uppercase tracking-widest text-white/70">Gabung MAPFLOFA</div>
-						<h2 class="mt-3 font-display font-extrabold tracking-tight text-4xl md:text-6xl leading-[1.05]">
+						<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl sm:text-4xl md:text-6xl leading-[1.05]">
 							Jadi bagian dari gerakan penyayang flora & fauna
 						</h2>
 						<p class="mt-6 text-white/80 text-lg leading-relaxed max-w-xl">
@@ -305,7 +305,7 @@
 						</p>
 
 						<div class="mt-10 flex flex-wrap gap-4">
-							<Button variant="accent" size="lg">Daftar Anggota</Button>
+							<Button href={waLink()} variant="accent" size="lg">Daftar Anggota</Button>
 							<a
 								href={waLink()}
 								class="inline-flex items-center gap-3 px-7 py-3.5
@@ -322,17 +322,17 @@
 						</div>
 					</div>
 
-					<div use:reveal={{ from: 'right', delay: 200 }} class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-3xl p-8">
+					<div use:reveal={{ from: 'right', delay: 200 }} class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-3xl p-5 sm:p-8">
 						<h3 class="font-display font-bold text-2xl">Hubungi Kami</h3>
 						<ul class="mt-6 space-y-5">
 							{#each kontak as c}
-								<li class="flex gap-4">
+								<li class="flex gap-4 min-w-0">
 									<div class="w-11 h-11 rounded-2xl bg-white/15 grid place-items-center shrink-0 text-white">
 										<Icon name={c.icon} size={20} />
 									</div>
-									<div>
+									<div class="min-w-0 flex-1">
 										<div class="text-xs uppercase tracking-wider text-white/65 font-semibold">{c.label}</div>
-										<div class="mt-1 font-medium">{c.value}</div>
+										<div class="mt-1 font-medium break-all sm:break-normal">{c.value}</div>
 									</div>
 								</li>
 							{/each}

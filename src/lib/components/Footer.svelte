@@ -49,14 +49,14 @@
 	];
 
 	const navLinks = [
-		'Beranda',
-		'Profil',
-		'Visi & Misi',
-		'Berita',
-		'Galeri',
-		'Kegiatan',
-		'Anggota',
-		'Kontak'
+		{ label: 'Beranda', href: '/' },
+		{ label: 'Profil', href: '/profil' },
+		{ label: 'Visi & Misi', href: '/profil' },
+		{ label: 'Berita', href: '/berita' },
+		{ label: 'Galeri', href: '/galeri' },
+		{ label: 'Kegiatan', href: '/galeri' },
+		{ label: 'Anggota', href: '/profil#struktur' },
+		{ label: 'Kontak', href: '/#kontak' }
 	];
 
 	// Social icon paths by platform name (case-insensitive match)
@@ -197,13 +197,13 @@
 					{#each navLinks as link}
 						<li>
 							<a
-								href="/"
+								href={link.href}
 								class="group inline-flex items-center gap-2
 								       text-base md:text-lg font-semibold text-white/90
 								       transition-colors duration-200
 								       hover:text-accent"
 							>
-								<span>{link}</span>
+								<span>{link.label}</span>
 								<svg
 									class="w-4 h-4 opacity-0 -translate-x-1
 									       transition-all duration-200

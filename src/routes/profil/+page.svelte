@@ -168,7 +168,7 @@
 					{#each nilai as n, i}
 						<div
 							use:reveal={{ from: 'up', delay: i * 80 }}
-							class="nilai-card rounded-3xl bg-white border border-line p-6 text-center shadow-sm
+							class="nilai-card rounded-3xl bg-white border border-line p-4 sm:p-6 text-center shadow-sm
 							       transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60"
 						>
 							<div class="nilai-icon w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary grid place-items-center
@@ -1382,6 +1382,7 @@
 		.sc-backdrop { border-radius: 1rem; }
 		.sc-person__frame { width: 12rem; height: 18rem; }
 		.sc-bios { position: relative; bottom: auto; left: auto; transform: none; justify-content: center; margin-top: 0.5rem; flex-wrap: wrap; }
+		.sc-bio { width: 10.5rem; }
 		.sc-detail { grid-template-columns: 1fr; }
 		.sc-detail__visual { min-height: 16rem; }
 		.sc-detail__role { font-size: 1.5rem; }
