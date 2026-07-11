@@ -357,26 +357,9 @@
 
 					<!-- RIGHT: main person + next peeking + biodata cards -->
 					<div class="sc-right">
-						<!-- Bold decorative background — inspired by hexagonal/slash design -->
+						<!-- Decorative background — MAPFLOFA logo -->
 						<div class="sc-backdrop" aria-hidden="true">
-							<!-- Dark base layer -->
-							<div class="sc-backdrop__dark"></div>
-							<!-- Diagonal accent slash -->
-							<div class="sc-backdrop__slash"></div>
-							<!-- Hexagon pattern overlay -->
-							<div class="sc-backdrop__hexgrid">
-								<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-									<defs>
-										<pattern id="hexpattern" width="56" height="100" patternUnits="userSpaceOnUse" patternTransform="scale(1.2)">
-											<path d="M28 2L54 18V50L28 66L2 50V18Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-											<path d="M28 68L54 84V116L28 132L2 116V84Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
-										</pattern>
-									</defs>
-									<rect width="100%" height="100%" fill="url(#hexpattern)" />
-								</svg>
-							</div>
-							<!-- Secondary lighter slash -->
-							<div class="sc-backdrop__slash2"></div>
+							<img src="/logo.png" alt="" class="sc-backdrop__logo" />
 						</div>
 
 						<!-- Fixed-size stage so layout never shifts regardless of image dimensions -->
@@ -982,49 +965,18 @@
 		border-radius: 1.5rem;
 		overflow: hidden;
 		pointer-events: none;
+		background: var(--color-surface-3, #f0f8ff);
+		border: 1px solid var(--color-line, #e2e8f0);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
-	/* Dark base layer */
-	.sc-backdrop__dark {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(135deg, #1e293b 0%, #0f172a 60%, #1e3a5f 100%);
-		border-radius: 1.5rem;
-	}
-
-	/* Main diagonal accent slash */
-	.sc-backdrop__slash {
-		position: absolute;
-		top: -20%;
-		right: -10%;
+	.sc-backdrop__logo {
 		width: 65%;
-		height: 140%;
-		background: linear-gradient(160deg, var(--color-primary, #6eaee8) 0%, #3b82f6 50%, #1d4ed8 100%);
-		transform: skewX(-12deg);
-		opacity: 0.9;
-	}
-
-	/* Secondary lighter slash */
-	.sc-backdrop__slash2 {
-		position: absolute;
-		top: -10%;
-		right: -5%;
-		width: 40%;
-		height: 120%;
-		background: linear-gradient(160deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-		transform: skewX(-12deg);
-	}
-
-	/* Hexagon grid pattern overlay */
-	.sc-backdrop__hexgrid {
-		position: absolute;
-		inset: 0;
-		color: rgba(255, 255, 255, 0.12);
-		mix-blend-mode: overlay;
-	}
-
-	@media (min-width: 768px) {
-		.sc-backdrop__hexgrid { color: rgba(255, 255, 255, 0.15); }
+		height: 65%;
+		object-fit: contain;
+		opacity: 0.35;
 	}
 
 	/* Stage area: a centered, fixed-size box that holds the portraits.
