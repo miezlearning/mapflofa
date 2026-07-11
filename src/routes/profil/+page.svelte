@@ -25,6 +25,8 @@
 		nim: string;
 		imageUrl: string;
 		tupoksi: string[];
+		division: string;
+		group: string;
 	};
 
 	const orgMembers = $derived(data.members as OrgMember[]);
@@ -41,6 +43,20 @@
 	const current = $derived(hasMembers ? orgMembers[safeIndex] : null);
 	const nextIndex = $derived(hasMembers ? (safeIndex + 1) % orgMembers.length : 0);
 	const nextMember = $derived(hasMembers ? orgMembers[nextIndex] : null);
+
+	const currentDivision = $derived(
+		current && current.division
+			? divisions.find((d) => d.name.toLowerCase() === current.division.toLowerCase())
+			: null
+	);
+
+	function formatNim(nim: string | null) {
+		if (!nim) return '';
+		if (nim.toLowerCase().includes('npa')) {
+			return nim;
+		}
+		return `NIM. ${nim}`;
+	}
 
 	function goTo(index: number) {
 		if (!hasMembers) return;
@@ -65,6 +81,17 @@
 
 	function closeDetail() {
 		detailOpen = false;
+	}
+
+	function selectDivision(divName: string) {
+		const idx = orgMembers.findIndex(
+			(m) => m.division && m.division.toLowerCase() === divName.toLowerCase()
+		);
+		if (idx !== -1) {
+			goTo(idx);
+			const el = document.getElementById('struktur');
+			if (el) el.scrollIntoView({ behavior: 'smooth' });
+		}
 	}
 </script>
 
@@ -301,9 +328,23 @@
 									<div class="sc-text__role">{current.role}</div>
 									<h2 class="sc-text__name">{current.name}</h2>
 									{#if current.nim}
-										<div class="sc-text__nim">NIM. {current.nim}</div>
+										<div class="sc-text__nim">{formatNim(current.nim)}</div>
 									{:else if current.description}
 										<p class="sc-text__desc">{current.description}</p>
+									{/if}
+
+									{#if currentDivision && currentDivision.anggota.length > 0}
+										<div class="sc-members-section mt-4 bg-white/40 backdrop-blur-sm rounded-2xl p-3 border border-line">
+											<div class="text-[10px] font-bold uppercase tracking-wider text-primary/80 mb-2">Anggota Divisi:</div>
+											<ul class="space-y-1 max-h-32 overflow-y-auto pr-1">
+												{#each currentDivision.anggota as a}
+													<li class="flex justify-between items-center text-xs text-muted">
+														<span class="font-medium text-ink leading-tight">{a.name}</span>
+														<span class="font-mono text-[10px] opacity-75 shrink-0 ml-2">{formatNim(a.nim)}</span>
+													</li>
+												{/each}
+											</ul>
+										</div>
 									{/if}
 								</div>
 							{/key}
@@ -408,7 +449,7 @@
 							<div class="sc-detail__name">{current.name}</div>
 							<h2 class="sc-detail__role">{current.role}</h2>
 							{#if current.nim}
-								<div class="sc-detail__nim">NIM. {current.nim}</div>
+								<div class="sc-detail__nim">{formatNim(current.nim)}</div>
 							{/if}
 
 							{#if current.tupoksi.length > 0}
@@ -420,6 +461,18 @@
 								</ol>
 							{:else if current.description}
 								<p class="sc-detail__desc">{current.description}</p>
+							{/if}
+
+							{#if currentDivision && currentDivision.anggota.length > 0}
+								<div class="sc-detail__label mt-6">Anggota {currentDivision.name}</div>
+								<ul class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+									{#each currentDivision.anggota as a}
+										<li class="flex items-center justify-between p-3 rounded-2xl bg-surface-3 border border-line text-xs">
+											<span class="font-semibold text-ink leading-tight">{a.name}</span>
+											<span class="font-mono text-muted shrink-0 ml-2">{formatNim(a.nim)}</span>
+										</li>
+									{/each}
+								</ul>
 							{/if}
 						</div>
 					</div>
@@ -444,7 +497,13 @@
 
 				<div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{#each divisions as div, i (div.name)}
-						<div use:reveal={{ from: 'up', delay: i * 80 }} class="div-card">
+						<button
+							type="button"
+							use:reveal={{ from: 'up', delay: i * 80 }}
+							class="div-card text-left w-full cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/40"
+							class:active-div={currentDivision && currentDivision.name.toLowerCase() === div.name.toLowerCase()}
+							onclick={() => selectDivision(div.name)}
+						>
 							<h3 class="div-title">{div.name}</h3>
 
 							{#if div.koordinator}
@@ -452,7 +511,7 @@
 									<span class="div-koord-badge">Koordinator</span>
 									<div class="div-koord-name">{div.koordinator.name}</div>
 									{#if div.koordinator.nim}
-										<div class="div-nim">NIM. {div.koordinator.nim}</div>
+										<div class="div-nim">{formatNim(div.koordinator.nim)}</div>
 									{/if}
 								</div>
 							{/if}
@@ -463,12 +522,12 @@
 									{#each div.anggota as a (a.id)}
 										<li class="div-member">
 											<span class="div-member-name">{a.name}</span>
-											{#if a.nim}<span class="div-member-nim">{a.nim}</span>{/if}
+											{#if a.nim}<span class="div-member-nim">{formatNim(a.nim)}</span>{/if}
 										</li>
 									{/each}
 								</ul>
 							{/if}
-						</div>
+						</button>
 					{/each}
 				</div>
 			</div>
@@ -645,14 +704,15 @@
 
 	.sc-text__content {
 		animation: scSlideInNext 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-		height: 9.5rem;
+		min-height: 9.5rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
+		padding-bottom: 1rem;
 	}
 
-	@media (min-width: 768px) { .sc-text__content { height: 11.5rem; } }
-	@media (min-width: 1024px) { .sc-text__content { height: 13.5rem; } }
+	@media (min-width: 768px) { .sc-text__content { min-height: 11.5rem; } }
+	@media (min-width: 1024px) { .sc-text__content { min-height: 13.5rem; } }
 
 	.sc-text__content.slide-prev {
 		animation: scSlideInPrev 450ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -1806,5 +1866,12 @@
 		.struktur-decor__scanline { display: none; }
 		.sejarah-decor__arc--1 { width: 24rem; height: 24rem; }
 		.sejarah-decor__grid { display: none; }
+	}
+
+	:global(.div-card.active-div) {
+		border-color: var(--color-primary, #6eaee8);
+		box-shadow: 0 10px 25px -5px rgba(110, 174, 232, 0.25), 0 8px 10px -6px rgba(110, 174, 232, 0.25);
+		background: linear-gradient(to bottom right, #ffffff, var(--color-surface-3, #f0f8ff)) !important;
+		transform: scale(1.03);
 	}
 </style>

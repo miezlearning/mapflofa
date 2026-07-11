@@ -70,7 +70,9 @@ export function buildOrgStructure(rows: Member[]) {
 			nim: m.nim ?? '',
 			description: m.description ?? '',
 			imageUrl: m.photo ?? '',
-			tupoksi: lines(m.tupoksi)
+			tupoksi: lines(m.tupoksi),
+			division: m.division ?? '',
+			group: m.group ?? ''
 		}));
 
 	// ---- Council: non-featured, non-division members grouped by `group` ----
