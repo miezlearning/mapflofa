@@ -386,13 +386,29 @@ async function main() {
 				].join('\n')
 			},
 			{
+				name: 'Ekrin Hagana Br Sembiring',
+				position: 'Sekretaris',
+				nim: 'NPA.Dw 40003',
+				group: 'pengurus',
+				isFeatured: true,
+				isActive: true,
+				sortOrder: 22,
+				photo: '/uploads/9e0b5f003f99d2d644abbca75c94ef64257505d2f7b008e2350415066238de35.webp',
+				description: 'Administrasi & surat',
+				tupoksi: [
+					'Mengelola seluruh administrasi dan surat-menyurat organisasi.',
+					'Menyusun notulen rapat dan mendokumentasikan kegiatan.',
+					'Mengarsipkan dokumen penting organisasi secara rapi.'
+				].join('\n')
+			},
+			{
 				name: 'Debora Regina Rumagit',
 				position: 'Sekretaris',
 				nim: 'NPA.Dw 39010',
 				group: 'pengurus',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 22,
+				sortOrder: 23,
 				photo: '/uploads/84e8cb5e73e7cef15e52b06d343634c5b811e4cd73804af351d2a5d00c7f6f6a.jpg',
 				description: 'Administrasi & surat',
 				tupoksi: [
@@ -416,7 +432,7 @@ async function main() {
 				description: 'Koordinator Divisi Flora',
 				tupoksi: [
 					'Memimpin dan mengoordinasikan kegiatan Divisi Flora.',
-					'Merencanakan program pelestarian dan pendataan tumbuhan.',
+					'Merencanakan program pelestarian and pendataan tumbuhan.',
 					'Membimbing anggota divisi dalam kegiatan lapangan.'
 				].join('\n')
 			},
@@ -461,6 +477,65 @@ async function main() {
 				sortOrder: 34
 			},
 
+			// --- Divisi Fauna ---
+			{
+				name: 'Damar Wira Yodiya',
+				position: 'Koordinator',
+				nim: 'NPA.Dw 39005',
+				group: 'divisi',
+				division: 'Divisi Fauna',
+				isFeatured: true,
+				isActive: true,
+				sortOrder: 40,
+				photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=700&auto=format&fit=crop',
+				description: 'Koordinator Divisi Fauna',
+				tupoksi: [
+					'Memimpin dan mengoordinasikan kegiatan Divisi Fauna.',
+					'Merencanakan program pelestarian and pendataan satwa.',
+					'Membimbing anggota divisi dalam kegiatan lapangan.'
+				].join('\n')
+			},
+			{
+				name: 'Robiana mochdar',
+				position: 'Anggota',
+				nim: 'NPA.Dw 40002',
+				group: 'divisi',
+				division: 'Divisi Fauna',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 41
+			},
+			{
+				name: 'Dea mukaromah',
+				position: 'Anggota',
+				nim: 'NPA.Dw 36006',
+				group: 'divisi',
+				division: 'Divisi Fauna',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 42
+			},
+			{
+				name: 'Ahmad baihaki',
+				position: 'Anggota',
+				nim: 'NPA.Dw 37009',
+				group: 'divisi',
+				division: 'Divisi Fauna',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 43
+			},
+			{
+				name: 'Oktavianus vionjar',
+				position: 'Anggota',
+				nim: 'NPA.Dw 37006',
+				group: 'divisi',
+				division: 'Divisi Fauna',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 44
+			},
+
 			// --- Divisi Olpet ---
 			{
 				name: 'Riski Muammar Hadi',
@@ -470,7 +545,7 @@ async function main() {
 				division: 'Divisi Olpet',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 40,
+				sortOrder: 50,
 				photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Divisi Olpet',
 				tupoksi: [
@@ -487,7 +562,7 @@ async function main() {
 				division: 'Divisi Olpet',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 41
+				sortOrder: 51
 			},
 			{
 				name: 'Aron',
@@ -497,7 +572,7 @@ async function main() {
 				division: 'Divisi Olpet',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 42
+				sortOrder: 52
 			},
 			{
 				name: 'Heldi pratama',
@@ -507,7 +582,7 @@ async function main() {
 				division: 'Divisi Olpet',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 43
+				sortOrder: 53
 			},
 			{
 				name: 'Yanri Amos tamba',
@@ -517,7 +592,7 @@ async function main() {
 				division: 'Divisi Olpet',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 44
+				sortOrder: 54
 			},
 
 			// --- Divisi LH ---
@@ -529,12 +604,12 @@ async function main() {
 				division: 'Divisi Lingkungan Hidup',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 50,
+				sortOrder: 60,
 				photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Divisi Lingkungan Hidup',
 				tupoksi: [
 					'Memimpin dan mengoordinasikan kegiatan Divisi Lingkungan Hidup.',
-					'Merencanakan program aksi lingkungan dan kampanye.',
+					'Merencanakan program aksi lingkungan and kampanye.',
 					'Membimbing anggota divisi dalam kegiatan lapangan.'
 				].join('\n')
 			},
@@ -546,7 +621,7 @@ async function main() {
 				division: 'Divisi Lingkungan Hidup',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 51
+				sortOrder: 61
 			},
 			{
 				name: 'Intan Nur Laila',
@@ -556,7 +631,7 @@ async function main() {
 				division: 'Divisi Lingkungan Hidup',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 52
+				sortOrder: 62
 			},
 			{
 				name: 'Tsani maulana Abdillah',
@@ -566,7 +641,7 @@ async function main() {
 				division: 'Divisi Lingkungan Hidup',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 53
+				sortOrder: 63
 			},
 			{
 				name: 'Regina Theresia sembiring',
@@ -576,7 +651,66 @@ async function main() {
 				division: 'Divisi Lingkungan Hidup',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 54
+				sortOrder: 64
+			},
+
+			// --- Biro Humas ---
+			{
+				name: 'Fauzhil Adhim',
+				position: 'Koordinator',
+				nim: 'NPA.Dw 39001',
+				group: 'divisi',
+				division: 'Biro Humas',
+				isFeatured: true,
+				isActive: true,
+				sortOrder: 70,
+				photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=700&auto=format&fit=crop',
+				description: 'Koordinator Biro Humas',
+				tupoksi: [
+					'Memimpin dan mengoordinasikan kegiatan Biro Humas.',
+					'Menghubungkan organisasi dengan pihak eksternal.',
+					'Mengelola publikasi dan hubungan masyarakat.'
+				].join('\n')
+			},
+			{
+				name: 'Nabila Fauziyah',
+				position: 'Anggota',
+				nim: 'NPA.Dw 40007',
+				group: 'divisi',
+				division: 'Biro Humas',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 71
+			},
+			{
+				name: 'Mayada',
+				position: 'Anggota',
+				nim: 'NPA.Dw 40010',
+				group: 'divisi',
+				division: 'Biro Humas',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 72
+			},
+			{
+				name: 'Nisa aulia rochmat',
+				position: 'Anggota',
+				nim: 'NPA.Dw 38007',
+				group: 'divisi',
+				division: 'Biro Humas',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 73
+			},
+			{
+				name: 'Siraj ramadhan',
+				position: 'Anggota',
+				nim: 'NPA.Dw 36010',
+				group: 'divisi',
+				division: 'Biro Humas',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 74
 			},
 
 			// --- Biro Bud ---
@@ -588,12 +722,12 @@ async function main() {
 				division: 'Biro Bud',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 60,
+				sortOrder: 80,
 				photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Biro Bud',
 				tupoksi: [
 					'Memimpin dan mengoordinasikan kegiatan Biro Bud.',
-					'Merencanakan program terkait budaya, seni, dan kreativitas.',
+					'Merencanakan program terkait budaya, seni, and kreativitas.',
 					'Membimbing anggota biro dalam kegiatan.'
 				].join('\n')
 			},
@@ -605,7 +739,7 @@ async function main() {
 				division: 'Biro Bud',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 61
+				sortOrder: 81
 			},
 			{
 				name: 'Sopian exsel',
@@ -615,7 +749,7 @@ async function main() {
 				division: 'Biro Bud',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 62
+				sortOrder: 82
 			},
 
 			// --- Biro Perpustakaan ---
@@ -627,13 +761,13 @@ async function main() {
 				division: 'Biro Perpustakaan',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 70,
+				sortOrder: 90,
 				photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Biro Perpustakaan',
 				tupoksi: [
 					'Memimpin dan mengoordinasikan kegiatan Biro Perpustakaan.',
-					'Mengelola perpustakaan dan buku referensi organisasi.',
-					'Merencanakan program literasi dan diskusi buku.'
+					'Mengelola perpustakaan and buku rujukan organisasi.',
+					'Merencanakan program literasi and diskusi buku.'
 				].join('\n')
 			},
 			{
@@ -644,7 +778,7 @@ async function main() {
 				division: 'Biro Perpustakaan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 71
+				sortOrder: 91
 			},
 			{
 				name: 'Dea nopita',
@@ -654,7 +788,7 @@ async function main() {
 				division: 'Biro Perpustakaan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 72
+				sortOrder: 92
 			},
 			{
 				name: 'Ni ketut rini wiryanti',
@@ -664,7 +798,7 @@ async function main() {
 				division: 'Biro Perpustakaan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 73
+				sortOrder: 93
 			},
 			{
 				name: 'Ruqy tami ahmad',
@@ -674,7 +808,56 @@ async function main() {
 				division: 'Biro Perpustakaan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 74
+				sortOrder: 94
+			},
+
+			// --- Bidang Perlengkapan ---
+			{
+				name: 'Muhammad Shafa Al-Asrar',
+				position: 'Koordinator',
+				nim: 'NPA.Dw 38001',
+				group: 'divisi',
+				division: 'Bidang Perlengkapan',
+				isFeatured: true,
+				isActive: true,
+				sortOrder: 100,
+				photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=700&auto=format&fit=crop',
+				description: 'Koordinator Bidang Perlengkapan',
+				tupoksi: [
+					'Memimpin dan mengoordinasikan kegiatan Bidang Perlengkapan.',
+					'Mengelola logistik dan perlengkapan organisasi.',
+					'Mendukung logistik setiap program kerja.'
+				].join('\n')
+			},
+			{
+				name: 'Sandi M silitong',
+				position: 'Anggota',
+				nim: 'NPA.Dw 40005',
+				group: 'divisi',
+				division: 'Bidang Perlengkapan',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 101
+			},
+			{
+				name: 'Rey putra berutu',
+				position: 'Anggota',
+				nim: 'NPA.Dw 37011',
+				group: 'divisi',
+				division: 'Bidang Perlengkapan',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 102
+			},
+			{
+				name: 'Megita Vivaldy T',
+				position: 'Anggota',
+				nim: 'NPA.Dw 35008',
+				group: 'divisi',
+				division: 'Bidang Perlengkapan',
+				isFeatured: false,
+				isActive: true,
+				sortOrder: 103
 			},
 
 			// --- Bidang Sekretariatan ---
@@ -686,7 +869,7 @@ async function main() {
 				division: 'Bidang Sekretariatan',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 80,
+				sortOrder: 110,
 				photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Bidang Sekretariatan',
 				tupoksi: [
@@ -703,7 +886,7 @@ async function main() {
 				division: 'Bidang Sekretariatan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 81
+				sortOrder: 111
 			},
 			{
 				name: 'M riswandi gunawan',
@@ -713,7 +896,7 @@ async function main() {
 				division: 'Bidang Sekretariatan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 82
+				sortOrder: 112
 			},
 			{
 				name: 'Rangga al wafi',
@@ -723,7 +906,7 @@ async function main() {
 				division: 'Bidang Sekretariatan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 83
+				sortOrder: 113
 			},
 			{
 				name: 'Deska mutmainah R',
@@ -733,7 +916,7 @@ async function main() {
 				division: 'Bidang Sekretariatan',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 84
+				sortOrder: 114
 			},
 
 			// --- Bidang PSDS ---
@@ -745,7 +928,7 @@ async function main() {
 				division: 'Bidang PSDS',
 				isFeatured: true,
 				isActive: true,
-				sortOrder: 90,
+				sortOrder: 120,
 				photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=700&auto=format&fit=crop',
 				description: 'Koordinator Bidang PSDS',
 				tupoksi: [
@@ -762,7 +945,7 @@ async function main() {
 				division: 'Bidang PSDS',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 91
+				sortOrder: 121
 			},
 			{
 				name: 'Qori\' Anggraeni S A',
@@ -772,7 +955,7 @@ async function main() {
 				division: 'Bidang PSDS',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 92
+				sortOrder: 122
 			},
 			{
 				name: 'Samuel F D rajagukguk',
@@ -782,7 +965,7 @@ async function main() {
 				division: 'Bidang PSDS',
 				isFeatured: false,
 				isActive: true,
-				sortOrder: 93
+				sortOrder: 123
 			}
 		];
 		await db.insert(members).values(memberSeed);
