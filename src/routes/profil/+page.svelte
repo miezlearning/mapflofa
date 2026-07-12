@@ -16,6 +16,15 @@
 	const council = $derived(data.council);
 	const divisions = $derived(data.divisions);
 
+	const tujuan = $derived(data.tujuan);
+	const lambang = $derived(data.lambang as { name: string; makna: string }[]);
+	const kegiatan = $derived(data.kegiatan as { tahun: string; deskripsi: string }[]);
+	const penghargaan = $derived(data.penghargaan as { tahun: string; deskripsi: string }[]);
+
+	let activeTab = $state<'kegiatan' | 'penghargaan'>('kegiatan');
+	let showAllKegiatan = $state(false);
+	let showAllPenghargaan = $state(false);
+
 	// ===== Struktur Organisasi — Character Select + Detail Zoom =====
 	type OrgMember = {
 		id: number;
@@ -182,6 +191,76 @@
 		</div>
 	</section>
 
+	<!-- ===== Tujuan & Makna Lambang ===== -->
+	<section class="bg-surface-2 py-16 md:py-24 px-4 md:px-8 relative overflow-hidden">
+		<!-- Decor for the section -->
+		<div class="absolute inset-0 opacity-[0.03] pointer-events-none" aria-hidden="true">
+			<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+				<pattern id="dot-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+					<circle cx="2" cy="2" r="2" fill="currentColor"/>
+				</pattern>
+				<rect width="100%" height="100%" fill="url(#dot-grid)"/>
+			</svg>
+		</div>
+
+		<div class="max-w-7xl mx-auto relative">
+			<!-- Tujuan Banner -->
+			{#if tujuan}
+				<div use:reveal={{ from: 'up' }} class="relative overflow-hidden rounded-3xl bg-white border border-line p-8 md:p-10 shadow-sm mb-16">
+					<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+						<div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary grid place-items-center shrink-0">
+							<Icon name="compass" size={24} />
+						</div>
+						<div>
+							<div class="text-xs font-bold uppercase tracking-widest text-primary">Tujuan Organisasi</div>
+							<p class="mt-2 text-ink text-base md:text-lg font-medium leading-relaxed">
+								{tujuan}
+							</p>
+						</div>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Makna Lambang Section -->
+			{#if lambang.length > 0}
+				<div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+					<!-- Left: Visual Logo Display -->
+					<div use:reveal={{ from: 'left' }} class="lg:col-span-5 text-center flex flex-col items-center">
+						<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-white border border-line/60 shadow-xl shadow-slate-100 flex items-center justify-center p-8 transition-transform duration-500 hover:scale-105">
+							<!-- Subtle ambient circle glow -->
+							<div class="absolute inset-0 rounded-full bg-primary/5 blur-xl animate-pulse"></div>
+							<img src="/logo.png" alt="Lambang MAPFLOFA" class="w-full h-full object-contain relative z-10" />
+						</div>
+						<h3 class="mt-6 font-display font-extrabold text-ink text-xl">Lambang MAPFLOFA</h3>
+						<p class="text-muted text-xs uppercase tracking-wider font-semibold mt-1 font-mono">Ducula whartoni</p>
+					</div>
+
+					<!-- Right: Meanings list -->
+					<div use:reveal={{ from: 'right', delay: 150 }} class="lg:col-span-7 space-y-6">
+						<div>
+							<div class="text-xs font-bold uppercase tracking-widest text-primary">Makna Lambang</div>
+							<h2 class="mt-2 font-display font-extrabold text-2xl md:text-3xl text-ink">Simbolisme di Balik Logo Kami</h2>
+						</div>
+
+						<div class="space-y-4">
+							{#each lambang as item}
+								<div class="flex gap-4 p-5 rounded-2xl bg-white border border-line shadow-sm hover:border-primary/30 transition-colors duration-300">
+									<div class="w-8 h-8 rounded-full bg-primary/10 text-primary grid place-items-center shrink-0 mt-0.5">
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+									</div>
+									<div>
+										<h4 class="font-bold text-ink text-base">{item.name}</h4>
+										<p class="text-muted text-sm leading-relaxed mt-1">{item.makna}</p>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</section>
+
 	<!-- ===== Nilai ===== -->
 	{#if nilai.length > 0}
 		<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
@@ -242,6 +321,100 @@
 			</div>
 		</div>
 	</section>
+
+	<!-- ===== Rekam Jejak (Kegiatan & Penghargaan) ===== -->
+	{#if kegiatan.length > 0 || penghargaan.length > 0}
+		<section class="bg-surface-3 py-16 md:py-24 px-4 md:px-8">
+			<div class="max-w-4xl mx-auto">
+				<div use:reveal={{ from: 'up' }} class="text-center max-w-2xl mx-auto mb-10">
+					<div class="text-xs font-bold uppercase tracking-widest text-primary">Rekam Jejak</div>
+					<h2 class="mt-3 font-display font-extrabold tracking-tight text-3xl md:text-4xl text-ink">Aktivitas &amp; Prestasi</h2>
+					<p class="mt-3 text-muted text-sm md:text-base">Perjalanan konservasi dan dedikasi MAPFLOFA dari masa ke masa.</p>
+				</div>
+
+				<!-- Tabs Selector -->
+				<div use:reveal={{ from: 'up' }} class="flex justify-center p-1 rounded-2xl bg-white border border-line mb-10 max-w-md mx-auto">
+					<button
+						type="button"
+						class="flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer"
+						class:bg-primary={activeTab === 'kegiatan'}
+						class:text-white={activeTab === 'kegiatan'}
+						class:text-muted={activeTab !== 'kegiatan'}
+						onclick={() => activeTab = 'kegiatan'}
+					>
+						Kegiatan
+					</button>
+					<button
+						type="button"
+						class="flex-1 py-3 px-4 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer"
+						class:bg-primary={activeTab === 'penghargaan'}
+						class:text-white={activeTab === 'penghargaan'}
+						class:text-muted={activeTab !== 'penghargaan'}
+						onclick={() => activeTab = 'penghargaan'}
+					>
+						Penghargaan
+					</button>
+				</div>
+
+				<!-- Tab Contents -->
+				<div use:reveal={{ from: 'up', delay: 100 }}>
+					{#if activeTab === 'kegiatan'}
+						<div class="space-y-4">
+							{#each (showAllKegiatan ? kegiatan : kegiatan.slice(0, 8)) as item, i}
+								<div class="flex gap-4 p-5 rounded-2xl bg-white border border-line shadow-sm items-start hover:border-primary/20 transition-all duration-300">
+									<span class="font-mono text-xs font-bold px-3 py-1.5 rounded-lg bg-primary/10 text-primary shrink-0">
+										{item.tahun}
+									</span>
+									<p class="text-ink text-sm md:text-base leading-relaxed pt-0.5">
+										{item.deskripsi}
+									</p>
+								</div>
+							{/each}
+
+							{#if kegiatan.length > 8}
+								<div class="text-center mt-8">
+									<button
+										type="button"
+										class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-line bg-white hover:bg-slate-50 font-bold text-sm text-ink transition-colors duration-300 cursor-pointer"
+										onclick={() => showAllKegiatan = !showAllKegiatan}
+									>
+										{showAllKegiatan ? 'Tampilkan Lebih Sedikit' : `Lihat Semua Kegiatan (${kegiatan.length})`}
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class:rotate-180={showAllKegiatan} class="transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
+									</button>
+								</div>
+							{/if}
+						</div>
+					{:else}
+						<div class="space-y-4">
+							{#each (showAllPenghargaan ? penghargaan : penghargaan.slice(0, 8)) as item, i}
+								<div class="flex gap-4 p-5 rounded-2xl bg-white border border-line shadow-sm items-start hover:border-primary/20 transition-all duration-300">
+									<span class="font-mono text-xs font-bold px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-600 shrink-0">
+										{item.tahun}
+									</span>
+									<p class="text-ink text-sm md:text-base leading-relaxed pt-0.5">
+										{item.deskripsi}
+									</p>
+								</div>
+							{/each}
+
+							{#if penghargaan.length > 8}
+								<div class="text-center mt-8">
+									<button
+										type="button"
+										class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-line bg-white hover:bg-slate-50 font-bold text-sm text-ink transition-colors duration-300 cursor-pointer"
+										onclick={() => showAllPenghargaan = !showAllPenghargaan}
+									>
+										{showAllPenghargaan ? 'Tampilkan Lebih Sedikit' : `Lihat Semua Penghargaan (${penghargaan.length})`}
+										<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class:rotate-180={showAllPenghargaan} class="transition-transform duration-300"><path d="m6 9 6 6 6-6"/></svg>
+									</button>
+								</div>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			</div>
+		</section>
+	{/if}
 
 	<!-- ===== Dewan Pembina ===== -->
 	{#if council.length > 0}

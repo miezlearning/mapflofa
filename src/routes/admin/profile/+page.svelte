@@ -20,6 +20,23 @@
 			: [{ icon: 'sprout', title: '', desc: '' }]
 	);
 
+	let tujuan = $state(data.tujuan || '');
+	let lambangText = $state(
+		data.lambang && data.lambang.length
+			? data.lambang.map((l: any) => `${l.name}|${l.makna}`).join('\n')
+			: ''
+	);
+	let kegiatanText = $state(
+		data.kegiatan && data.kegiatan.length
+			? data.kegiatan.map((k: any) => `${k.tahun}|${k.deskripsi}`).join('\n')
+			: ''
+	);
+	let penghargaanText = $state(
+		data.penghargaan && data.penghargaan.length
+			? data.penghargaan.map((p: any) => `${p.tahun}|${p.deskripsi}`).join('\n')
+			: ''
+	);
+
 	// Contact
 	let contactAddress = $state(data.contact.address);
 	let contactWhatsapp = $state(data.contact.whatsapp);
@@ -142,6 +159,10 @@
 	<input type="hidden" name="content__profile.misi" value={misiValue} />
 	<input type="hidden" name="content__profile.sejarah" value={sejarahValue} />
 	<input type="hidden" name="content__profile.nilai" value={nilaiValue} />
+	<input type="hidden" name="content__profile.tujuan" value={tujuan} />
+	<input type="hidden" name="content__profile.lambang_makna" value={lambangText} />
+	<input type="hidden" name="content__profile.kegiatan_list" value={kegiatanText} />
+	<input type="hidden" name="content__profile.penghargaan_list" value={penghargaanText} />
 	<input type="hidden" name="content__contact.address" value={contactAddress} />
 	<input type="hidden" name="content__contact.whatsapp" value={contactWhatsapp} />
 	<input type="hidden" name="content__contact.instagram" value={contactInstagram} />
@@ -212,6 +233,54 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
 			Tambah poin misi
 		</button>
+	</section>
+
+	<!-- ===== Section: Tujuan ===== -->
+	<section class="card">
+		<div class="card-head">
+			<h2 class="card-title">Tujuan Organisasi</h2>
+			<p class="card-desc">Tujuan utama didirikannya MAPFLOFA.</p>
+		</div>
+		<label class="field">
+			<span class="lbl">Teks Tujuan</span>
+			<textarea bind:value={tujuan} rows="3" placeholder="Sebagai wadah berkumpulnya..."></textarea>
+		</label>
+	</section>
+
+	<!-- ===== Section: Makna Lambang ===== -->
+	<section class="card">
+		<div class="card-head">
+			<h2 class="card-title">Makna Lambang</h2>
+			<p class="card-desc">Daftar elemen lambang beserta maknanya (Satu per baris dengan format: NamaElemen|Maknanya).</p>
+		</div>
+		<label class="field">
+			<span class="lbl">Daftar Makna</span>
+			<textarea bind:value={lambangText} rows="4" placeholder="Burung Pergam Raja (Ducula whartoni)|Terbang di atas sungai Mahakam...&#10;Tiga Garis|Melambangkan DAS Mahakam"></textarea>
+		</label>
+	</section>
+
+	<!-- ===== Section: Kegiatan ===== -->
+	<section class="card">
+		<div class="card-head">
+			<h2 class="card-title">Kegiatan yang Dilaksanakan</h2>
+			<p class="card-desc">Daftar kegiatan historis organisasi (Satu per baris dengan format: Tahun|Nama Kegiatan).</p>
+		</div>
+		<label class="field">
+			<span class="lbl">Daftar Kegiatan</span>
+			<textarea bind:value={kegiatanText} rows="8" placeholder="2000|Mengikuti Konferensi Nasional...&#10;2001|Pengamatan Burung di Alam"></textarea>
+		</label>
+	</section>
+
+	<!-- ===== Section: Penghargaan ===== -->
+	<section class="card">
+		<div class="card-head">
+			<h2 class="card-title">Penghargaan yang Diperoleh</h2>
+			<p class="card-desc">Daftar penghargaan historis organisasi (Satu per baris dengan format: Tahun|Nama Penghargaan).</p>
+		</div>
+		<label class="field">
+			<span class="lbl">Daftar Penghargaan</span>
+			<textarea bind:value={penghargaanText} rows="6" placeholder="1996|Juara II Lomba Karya Tulis...&#10;1998|Kelompok Pencinta Alam Terbaik"></textarea>
+		</label>
 	</section>
 
 	<!-- ===== Section: Nilai ===== -->

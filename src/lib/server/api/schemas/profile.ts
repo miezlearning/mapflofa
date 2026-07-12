@@ -35,6 +35,10 @@ export const PROFILE_CONTENT_KEYS = [
 	'profile.misi',
 	'profile.sejarah',
 	'profile.nilai',
+	'profile.tujuan',
+	'profile.lambang_makna',
+	'profile.kegiatan_list',
+	'profile.penghargaan_list',
 	'contact.address',
 	'contact.whatsapp',
 	'contact.instagram',
@@ -48,7 +52,7 @@ export type ProfileContentKey = (typeof PROFILE_CONTENT_KEYS)[number];
 /** A single content block update: { key, value }. */
 export const updateContentSchema = z.object({
 	key: z.enum(PROFILE_CONTENT_KEYS),
-	value: z.string().trim().max(8000, 'Maksimal 8000 karakter.')
+	value: z.string().trim().max(16000, 'Maksimal 16000 karakter.')
 });
 
 export type UpdateContentInput = z.infer<typeof updateContentSchema>;

@@ -29,6 +29,33 @@ export const load: PageServerLoad = async (event) => {
 			return { icon: icon || 'sprout', title: title || '', desc: desc || '' };
 		});
 
+	const lambang = (content['profile.lambang_makna'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [name, makna] = line.split('|').map((s) => s.trim());
+			return { name: name || '', makna: makna || '' };
+		});
+
+	const kegiatan = (content['profile.kegiatan_list'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [tahun, deskripsi] = line.split('|').map((s) => s.trim());
+			return { tahun: tahun || '', deskripsi: deskripsi || '' };
+		});
+
+	const penghargaan = (content['profile.penghargaan_list'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [tahun, deskripsi] = line.split('|').map((s) => s.trim());
+			return { tahun: tahun || '', deskripsi: deskripsi || '' };
+		});
+
 	return {
 		header: {
 			label: content['profile.header_label'] ?? '',
@@ -37,8 +64,12 @@ export const load: PageServerLoad = async (event) => {
 		},
 		visi: content['profile.visi'] ?? '',
 		misi,
+		tujuan: content['profile.tujuan'] ?? '',
 		sejarah,
 		nilai,
+		lambang,
+		kegiatan,
+		penghargaan,
 		contact: {
 			address: content['contact.address'] ?? '',
 			whatsapp: content['contact.whatsapp'] ?? '',

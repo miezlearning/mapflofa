@@ -97,7 +97,7 @@
 						class="mt-3 font-display font-extrabold tracking-tight
 						       text-4xl md:text-6xl text-ink leading-[1.05]"
 					>
-						Berita Sekolah
+						Berita Menarik!
 					</h1>
 					<p class="mt-5 text-muted text-base md:text-lg leading-relaxed max-w-xl">
 						Konservasi, edukasi, dan aksi lingkungan dari MAPFLOFA.

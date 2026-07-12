@@ -39,6 +39,42 @@ export const load: PageServerLoad = async () => {
 		})
 		.filter((n) => n.title);
 
+	// Tujuan
+	const tujuan = content['profile.tujuan'] ?? '';
+
+	// Lambang makna: "name|makna" per line
+	const lambang = (content['profile.lambang_makna'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [name, makna] = line.split('|').map((s) => s.trim());
+			return { name: name || '', makna: makna || '' };
+		})
+		.filter((l) => l.name);
+
+	// Kegiatan: "tahun|deskripsi" per line
+	const kegiatan = (content['profile.kegiatan_list'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [tahun, deskripsi] = line.split('|').map((s) => s.trim());
+			return { tahun: tahun || '', deskripsi: deskripsi || '' };
+		})
+		.filter((k) => k.deskripsi);
+
+	// Penghargaan: "tahun|deskripsi" per line
+	const penghargaan = (content['profile.penghargaan_list'] ?? '')
+		.split('\n')
+		.map((line) => line.trim())
+		.filter(Boolean)
+		.map((line) => {
+			const [tahun, deskripsi] = line.split('|').map((s) => s.trim());
+			return { tahun: tahun || '', deskripsi: deskripsi || '' };
+		})
+		.filter((p) => p.deskripsi);
+
 	// Struktur organisasi — fully dynamic grouping.
 	const { council, featured, divisions } = buildOrgStructure(memberRows);
 
@@ -50,8 +86,12 @@ export const load: PageServerLoad = async () => {
 		},
 		visi: content['profile.visi'] ?? '',
 		misi,
+		tujuan,
 		sejarah,
 		nilai,
+		lambang,
+		kegiatan,
+		penghargaan,
 		council,
 		members: featured,
 		divisions
