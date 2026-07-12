@@ -25,7 +25,7 @@ export const usersRepo = {
 
 	async list(opts: { limit: number; offset: number; q?: string }) {
 		const where = opts.q
-			? sql`(${users.email} ILIKE ${'%' + opts.q + '%'} OR ${users.name} ILIKE ${'%' + opts.q + '%'})`
+			? sql`(${users.email} LIKE ${'%' + opts.q + '%'} OR ${users.name} LIKE ${'%' + opts.q + '%'})`
 			: undefined;
 		const [rows, [{ count }]] = await Promise.all([
 			db
@@ -35,39 +35,52 @@ export const usersRepo = {
 				.orderBy(desc(users.createdAt))
 				.limit(opts.limit)
 				.offset(opts.offset),
-			db.select({ count: sql<number>`count(*)::int` }).from(users).where(where)
+			db.select({ count: sql<number>`count(*)` }).from(users).where(where)
 		]);
 		return { rows, total: count };
 	},
 
 	async create(input: { email: string; name: string; password: string; role?: string }) {
-		const [row] = await db
+		const [result] = await db
 			.insert(users)
 			.values({
 				email: input.email.trim().toLowerCase(),
 				name: input.name.trim(),
 				passwordHash: await hashPassword(input.password),
 				role: input.role ?? 'admin'
-			})
-			.returning();
-		return row;
+			});
+		return db
+			.select()
+			.from(users)
+			.where(eq(users.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async updateProfile(id: number, input: { name?: string; role?: string }) {
 		const set: Record<string, unknown> = { updatedAt: new Date() };
 		if (input.name !== undefined) set.name = input.name.trim();
 		if (input.role !== undefined) set.role = input.role;
-		const [row] = await db.update(users).set(set).where(eq(users.id, id)).returning();
-		return row ?? null;
+		await db.update(users).set(set).where(eq(users.id, id));
+		return db
+			.select()
+			.from(users)
+			.where(eq(users.id, id))
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async setActive(id: number, isActive: boolean) {
-		const [row] = await db
+		await db
 			.update(users)
 			.set({ isActive, updatedAt: new Date() })
+			.where(eq(users.id, id));
+		return db
+			.select()
+			.from(users)
 			.where(eq(users.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async changePassword(id: number, newPassword: string) {
@@ -104,7 +117,7 @@ export const usersRepo = {
 	/** True if there's exactly one active admin in the system. */
 	async isLastActiveAdmin(userId: number): Promise<boolean> {
 		const [{ count }] = await db
-			.select({ count: sql<number>`count(*)::int` })
+			.select({ count: sql<number>`count(*)` })
 			.from(users)
 			.where(and(eq(users.role, 'admin'), eq(users.isActive, true), ne(users.id, userId)));
 		return count === 0;

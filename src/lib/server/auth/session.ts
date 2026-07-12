@@ -88,8 +88,8 @@ export async function revokeAllSessions(userId: number, exceptSessionId?: string
 	const conditions = exceptSessionId
 		? and(eq(sessions.userId, userId), ne(sessions.id, exceptSessionId))
 		: eq(sessions.userId, userId);
-	const rows = await db.delete(sessions).where(conditions).returning({ id: sessions.id });
-	return rows.length;
+	const [result] = await db.delete(sessions).where(conditions);
+	return result.affectedRows ?? 0;
 }
 
 export function setSessionCookie(cookies: Cookies, token: string) {

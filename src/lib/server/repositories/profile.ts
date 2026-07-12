@@ -223,8 +223,7 @@ export const profileRepo = {
 		await db
 			.insert(siteContent)
 			.values({ key, group: 'profile', label, value })
-			.onConflictDoUpdate({
-				target: siteContent.key,
+			.onDuplicateKeyUpdate({
 				set: { value, label, updatedAt: new Date() }
 			});
 	},
@@ -276,24 +275,32 @@ export const profileRepo = {
 	},
 
 	async createMember(input: CreateMemberInput) {
-		const [row] = await db.insert(members).values(input).returning();
-		return row;
+		const [result] = await db.insert(members).values(input);
+		return db
+			.select()
+			.from(members)
+			.where(eq(members.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async updateMember(id: number, input: UpdateMemberInput) {
-		const [row] = await db
+		await db
 			.update(members)
 			.set(input)
+			.where(eq(members.id, id));
+		return db
+			.select()
+			.from(members)
 			.where(eq(members.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async removeMember(id: number) {
-		const [row] = await db
+		await db
 			.delete(members)
-			.where(eq(members.id, id))
-			.returning({ id: members.id });
-		return row ?? null;
+			.where(eq(members.id, id));
+		return { id };
 	}
 };

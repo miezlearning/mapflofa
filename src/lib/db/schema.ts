@@ -1,4 +1,4 @@
-import { boolean, index, integer, jsonb, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import { boolean, index, int, json, mysqlTable, text, varchar, timestamp } from 'drizzle-orm/mysql-core';
 
 /**
  * programs
@@ -6,8 +6,8 @@ import { boolean, index, integer, jsonb, pgTable, serial, text, timestamp } from
  * mentor, capacity, contact, registration, highlights, outcomes, activities,
  * requirements, created_at, updated_at
  */
-export const programs = pgTable('programs', {
-	id: serial('id').primaryKey(),
+export const programs = mysqlTable('programs', {
+	id: int('id').autoincrement().primaryKey(),
 	title: text('title').notNull(),
 	tag: text('tag').notNull(),
 	excerpt: text('excerpt').notNull(),
@@ -24,8 +24,8 @@ export const programs = pgTable('programs', {
 	outcomes: text('outcomes'),
 	activities: text('activities'),
 	requirements: text('requirements'),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 /**
@@ -36,17 +36,17 @@ export const programs = pgTable('programs', {
  * dash-separated. `content` is markdown rendered server-side for the
  * detail view; the homepage card still uses `excerpt`.
  */
-export const news = pgTable('news', {
-	id: serial('id').primaryKey(),
+export const news = mysqlTable('news', {
+	id: int('id').autoincrement().primaryKey(),
 	category: text('category').notNull(),
 	date: text('date').notNull(),
 	title: text('title').notNull(),
-	slug: text('slug').notNull().unique(),
+	slug: varchar('slug', { length: 255 }).notNull().unique(),
 	excerpt: text('excerpt').notNull(),
 	image: text('image').notNull(),
 	content: text('content'),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 /**
@@ -54,8 +54,8 @@ export const news = pgTable('news', {
  * id, date (e.g. "12 Jun 2026"), date_day, date_month,
  * title, excerpt, image, time, location
  */
-export const events = pgTable('events', {
-	id: serial('id').primaryKey(),
+export const events = mysqlTable('events', {
+	id: int('id').autoincrement().primaryKey(),
 	date: text('date').notNull(),
 	dateDay: text('date_day').notNull(),
 	dateMonth: text('date_month').notNull(),
@@ -80,16 +80,16 @@ export type NewEvent = typeof events.$inferInsert;
  * users — admin / editor / viewer accounts for the dashboard.
  * Roles are stored as plain strings to keep it open-ended; enforce in code.
  */
-export const users = pgTable('users', {
-	id: serial('id').primaryKey(),
-	email: text('email').notNull().unique(),
+export const users = mysqlTable('users', {
+	id: int('id').autoincrement().primaryKey(),
+	email: varchar('email', { length: 255 }).notNull().unique(),
 	name: text('name').notNull(),
 	passwordHash: text('password_hash').notNull(),
 	role: text('role').notNull().default('admin'),
 	isActive: boolean('is_active').notNull().default(true),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-	lastLoginAt: timestamp('last_login_at', { withTimezone: true })
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	lastLoginAt: timestamp('last_login_at')
 });
 
 /**
@@ -99,13 +99,13 @@ export const users = pgTable('users', {
  * token, so even a DB compromise doesn't grant active session access.
  * The cookie holds the raw token; we hash it to look up the session.
  */
-export const sessions = pgTable('sessions', {
-	id: text('id').primaryKey(),
-	userId: integer('user_id')
+export const sessions = mysqlTable('sessions', {
+	id: varchar('id', { length: 255 }).primaryKey(),
+	userId: int('user_id')
 		.notNull()
 		.references(() => users.id, { onDelete: 'cascade' }),
-	expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+	expiresAt: timestamp('expires_at').notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
 	ip: text('ip'),
 	userAgent: text('user_agent')
 });
@@ -119,20 +119,20 @@ export const sessions = pgTable('sessions', {
  * - Indexed by (user_id, created_at) and (resource, created_at) for the
  *   common filter cases on the audit page.
  */
-export const auditLogs = pgTable(
+export const auditLogs = mysqlTable(
 	'audit_logs',
 	{
-		id: serial('id').primaryKey(),
-		userId: integer('user_id'),
+		id: int('id').autoincrement().primaryKey(),
+		userId: int('user_id'),
 		userEmail: text('user_email').notNull(),
 		userRole: text('user_role').notNull(),
 		action: text('action').notNull(),
 		resource: text('resource').notNull(),
-		resourceId: integer('resource_id'),
-		details: jsonb('details'),
+		resourceId: int('resource_id'),
+		details: json('details'),
 		ip: text('ip'),
 		userAgent: text('user_agent'),
-		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+		createdAt: timestamp('created_at').defaultNow().notNull()
 	},
 	(t) => ({
 		byUser: index('audit_logs_user_idx').on(t.userId, t.createdAt),
@@ -157,14 +157,14 @@ export type NewAuditLog = typeof auditLogs.$inferInsert;
  *   Raw IP is never stored.
  * - Index by (created_at) and (path, created_at) covers the common queries.
  */
-export const pageViews = pgTable(
+export const pageViews = mysqlTable(
 	'page_views',
 	{
-		id: serial('id').primaryKey(),
+		id: int('id').autoincrement().primaryKey(),
 		path: text('path').notNull(),
 		visitorHash: text('visitor_hash').notNull(),
 		referer: text('referer'),
-		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+		createdAt: timestamp('created_at').defaultNow().notNull()
 	},
 	(t) => ({
 		byTime: index('page_views_time_idx').on(t.createdAt),
@@ -201,13 +201,13 @@ export type NewPageView = typeof pageViews.$inferInsert;
  *
  * `group` lets the admin UI cluster fields (e.g. "profile", "contact").
  */
-export const siteContent = pgTable('site_content', {
-	id: serial('id').primaryKey(),
-	key: text('key').notNull().unique(),
+export const siteContent = mysqlTable('site_content', {
+	id: int('id').autoincrement().primaryKey(),
+	key: varchar('key', { length: 255 }).notNull().unique(),
 	group: text('group').notNull().default('general'),
 	label: text('label').notNull(),
 	value: text('value').notNull().default(''),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 /**
@@ -215,34 +215,34 @@ export const siteContent = pgTable('site_content', {
  * Each album groups photos for a single activity, e.g.
  * "Penanaman Pohon", "Sosialisasi Satwa Langka".
  */
-export const galleryAlbums = pgTable('gallery_albums', {
-	id: serial('id').primaryKey(),
+export const galleryAlbums = mysqlTable('gallery_albums', {
+	id: int('id').autoincrement().primaryKey(),
 	title: text('title').notNull(),
-	slug: text('slug').notNull().unique(),
+	slug: varchar('slug', { length: 255 }).notNull().unique(),
 	description: text('description'),
 	coverImage: text('cover_image'),
 	eventDate: text('event_date'),
 	isPublished: boolean('is_published').notNull().default(true),
-	sortOrder: integer('sort_order').notNull().default(0),
-	createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
+	sortOrder: int('sort_order').notNull().default(0),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull()
 });
 
 /**
  * gallery_photos — individual images that belong to an album.
  * Deleting an album cascades to its photos.
  */
-export const galleryPhotos = pgTable(
+export const galleryPhotos = mysqlTable(
 	'gallery_photos',
 	{
-		id: serial('id').primaryKey(),
-		albumId: integer('album_id')
+		id: int('id').autoincrement().primaryKey(),
+		albumId: int('album_id')
 			.notNull()
 			.references(() => galleryAlbums.id, { onDelete: 'cascade' }),
 		image: text('image').notNull(),
 		caption: text('caption'),
-		sortOrder: integer('sort_order').notNull().default(0),
-		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+		sortOrder: int('sort_order').notNull().default(0),
+		createdAt: timestamp('created_at').defaultNow().notNull()
 	},
 	(t) => ({
 		byAlbum: index('gallery_photos_album_idx').on(t.albumId, t.sortOrder)
@@ -255,10 +255,10 @@ export const galleryPhotos = pgTable(
  * title (e.g. "Ketua Umum", "Divisi Konservasi"); `parentId` lets you nest
  * positions to render the bagan. `period` is the kepengurusan year.
  */
-export const members = pgTable(
+export const members = mysqlTable(
 	'members',
 	{
-		id: serial('id').primaryKey(),
+		id: int('id').autoincrement().primaryKey(),
 		name: text('name').notNull(),
 		position: text('position').notNull(),
 		/** Nomor Induk Mahasiswa (student ID), shown for pengurus & anggota. */
@@ -269,7 +269,7 @@ export const members = pgTable(
 		 */
 		group: text('group').notNull().default('pengurus'),
 		division: text('division'),
-		parentId: integer('parent_id'),
+		parentId: int('parent_id'),
 		photo: text('photo'),
 		period: text('period'),
 		/** Short tagline shown under the name in the select carousel. */
@@ -279,8 +279,8 @@ export const members = pgTable(
 		/** Featured members appear in the big "character select" carousel. */
 		isFeatured: boolean('is_featured').notNull().default(false),
 		isActive: boolean('is_active').notNull().default(true),
-		sortOrder: integer('sort_order').notNull().default(0),
-		createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull()
+		sortOrder: int('sort_order').notNull().default(0),
+		createdAt: timestamp('created_at').defaultNow().notNull()
 	},
 	(t) => ({
 		byOrder: index('members_order_idx').on(t.sortOrder)

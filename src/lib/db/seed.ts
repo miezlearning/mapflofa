@@ -6,8 +6,8 @@
  */
 import 'dotenv/config';
 import { eq } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/mysql2';
+import mysql from 'mysql2/promise';
 import { randomBytes, scrypt as scryptCb } from 'node:crypto';
 import { promisify } from 'node:util';
 import * as schema from './schema';
@@ -34,8 +34,8 @@ if (!DATABASE_URL) {
 	throw new Error('DATABASE_URL is not set. Copy .env.example to .env and fill it in.');
 }
 
-const client = postgres(DATABASE_URL, { prepare: false });
-const db = drizzle(client, { schema });
+const client = await mysql.createConnection(DATABASE_URL);
+const db = drizzle(client, { schema, mode: 'default' });
 
 const programSeed: (typeof programs.$inferInsert)[] = [
 	{
@@ -330,16 +330,15 @@ async function main() {
 				);
 			}
 			const passwordHash = await hashPassword(adminPassword);
-			const [created] = await db
+			const [result] = await db
 				.insert(users)
 				.values({
 					email: normalizedEmail,
 					name: adminName.trim(),
 					passwordHash,
 					role: 'admin'
-				})
-				.returning();
-			console.log(`👤 Admin user created: ${created.email} (id=${created.id})`);
+				});
+			console.log(`👤 Admin user created: ${normalizedEmail} (id=${result.insertId})`);
 		}
 	} else {
 		console.log(

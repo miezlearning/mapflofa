@@ -1,4 +1,4 @@
-import { and, asc, eq, ilike, or, sql } from 'drizzle-orm';
+import { and, asc, eq, like, or, sql } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { events } from '$lib/db/schema';
 import type {
@@ -13,7 +13,7 @@ export const eventsRepo = {
 		// stable insertion-order proxy. Switch to a real date column later if
 		// you want chronological sort by event date.
 		const where = opts.q
-			? or(ilike(events.title, `%${opts.q}%`), ilike(events.excerpt, `%${opts.q}%`))
+			? or(like(events.title, `%${opts.q}%`), like(events.excerpt, `%${opts.q}%`))
 			: undefined;
 
 		const [rows, [{ count }]] = await Promise.all([
@@ -24,7 +24,7 @@ export const eventsRepo = {
 				.orderBy(asc(events.id))
 				.limit(opts.limit)
 				.offset(opts.offset),
-			db.select({ count: sql<number>`count(*)::int` }).from(events).where(where)
+			db.select({ count: sql<number>`count(*)` }).from(events).where(where)
 		]);
 
 		return { rows, total: count };
@@ -40,24 +40,32 @@ export const eventsRepo = {
 	},
 
 	async create(input: CreateEventInput) {
-		const [row] = await db.insert(events).values(input).returning();
-		return row;
+		const [result] = await db.insert(events).values(input);
+		return db
+			.select()
+			.from(events)
+			.where(eq(events.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async update(id: number, input: UpdateEventInput) {
-		const [row] = await db
+		await db
 			.update(events)
 			.set(input)
+			.where(eq(events.id, id));
+		return db
+			.select()
+			.from(events)
 			.where(eq(events.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async remove(id: number) {
-		const [row] = await db
+		await db
 			.delete(events)
-			.where(eq(events.id, id))
-			.returning({ id: events.id });
-		return row ?? null;
+			.where(eq(events.id, id));
+		return { id };
 	}
 };

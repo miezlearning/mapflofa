@@ -33,7 +33,7 @@ export const galleryRepo = {
 					createdAt: galleryAlbums.createdAt,
 					updatedAt: galleryAlbums.updatedAt,
 					photoCount: sql<number>`(
-						select count(*)::int from ${galleryPhotos}
+						select count(*) from ${galleryPhotos}
 						where ${galleryPhotos.albumId} = ${galleryAlbums.id}
 					)`,
 					firstPhoto: sql<string | null>`(
@@ -49,7 +49,7 @@ export const galleryRepo = {
 				.limit(opts.limit)
 				.offset(opts.offset),
 			db
-				.select({ count: sql<number>`count(*)::int` })
+				.select({ count: sql<number>`count(*)` })
 				.from(galleryAlbums)
 				.where(where)
 		]);
@@ -102,40 +102,56 @@ export const galleryRepo = {
 	},
 
 	async createAlbum(input: CreateAlbumInput) {
-		const [row] = await db.insert(galleryAlbums).values(input).returning();
-		return row;
+		const [result] = await db.insert(galleryAlbums).values(input);
+		return db
+			.select()
+			.from(galleryAlbums)
+			.where(eq(galleryAlbums.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async updateAlbum(id: number, input: UpdateAlbumInput) {
-		const [row] = await db
+		await db
 			.update(galleryAlbums)
 			.set({ ...input, updatedAt: new Date() })
+			.where(eq(galleryAlbums.id, id));
+		return db
+			.select()
+			.from(galleryAlbums)
 			.where(eq(galleryAlbums.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async removeAlbum(id: number) {
-		// Photos are removed via ON DELETE CASCADE.
-		const [row] = await db
+		await db
 			.delete(galleryAlbums)
-			.where(eq(galleryAlbums.id, id))
-			.returning({ id: galleryAlbums.id });
-		return row ?? null;
+			.where(eq(galleryAlbums.id, id));
+		return { id };
 	},
 
 	async addPhoto(input: CreatePhotoInput) {
-		const [row] = await db.insert(galleryPhotos).values(input).returning();
-		return row;
+		const [result] = await db.insert(galleryPhotos).values(input);
+		return db
+			.select()
+			.from(galleryPhotos)
+			.where(eq(galleryPhotos.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async updatePhoto(id: number, input: UpdatePhotoInput) {
-		const [row] = await db
+		await db
 			.update(galleryPhotos)
 			.set(input)
+			.where(eq(galleryPhotos.id, id));
+		return db
+			.select()
+			.from(galleryPhotos)
 			.where(eq(galleryPhotos.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	findPhotoById(id: number) {
@@ -148,17 +164,18 @@ export const galleryRepo = {
 	},
 
 	async removePhoto(id: number) {
-		const [row] = await db
+		const photo = await this.findPhotoById(id);
+		if (!photo) return null;
+		await db
 			.delete(galleryPhotos)
-			.where(eq(galleryPhotos.id, id))
-			.returning({ id: galleryPhotos.id, albumId: galleryPhotos.albumId });
-		return row ?? null;
+			.where(eq(galleryPhotos.id, id));
+		return { id, albumId: photo.albumId };
 	},
 
 	/** Next sort order for appending a photo to an album. */
 	async nextPhotoSortOrder(albumId: number) {
 		const [{ max }] = await db
-			.select({ max: sql<number>`coalesce(max(${galleryPhotos.sortOrder}), -1)::int` })
+			.select({ max: sql<number>`coalesce(max(${galleryPhotos.sortOrder}), -1)` })
 			.from(galleryPhotos)
 			.where(eq(galleryPhotos.albumId, albumId));
 		return (max ?? -1) + 1;

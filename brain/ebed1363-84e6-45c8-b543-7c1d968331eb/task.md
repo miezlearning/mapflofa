@@ -1,0 +1,6 @@
+- [x] Update packages and dependencies (add mysql2)
+- [x] Update drizzle configuration file (`drizzle.config.ts`)
+- [x] Refactor schema file from `pg-core` to `mysql-core` (`src/lib/db/schema.ts`)
+- [ ] Refactor database connection client (`src/lib/db/index.ts`)
+- [ ] Refactor database seed script (`src/lib/db/seed.ts`)
+- [ ] Verify build and type checking compiles cleanly

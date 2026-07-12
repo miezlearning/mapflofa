@@ -1,5 +1,5 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/mysql2';
+import mysql from 'mysql2/promise';
 import { env } from '$env/dynamic/private';
 import * as schema from './schema';
 
@@ -11,11 +11,8 @@ if (!databaseUrl) {
 	);
 }
 
-const client = postgres(databaseUrl, {
-	prepare: false
-});
+const poolConnection = mysql.createPool(databaseUrl);
 
-export const db = drizzle(client, { schema });
+export const db = drizzle(poolConnection, { schema, mode: 'default' });
 
 export { schema };
-

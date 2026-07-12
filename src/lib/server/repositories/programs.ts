@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, or, sql } from 'drizzle-orm';
+import { and, desc, eq, like, or, sql } from 'drizzle-orm';
 import { db } from '$lib/db';
 import { programs } from '$lib/db/schema';
 import type {
@@ -17,7 +17,7 @@ export const programsRepo = {
 		const where = and(
 			opts.tag ? eq(programs.tag, opts.tag) : undefined,
 			opts.q
-				? or(ilike(programs.title, `%${opts.q}%`), ilike(programs.excerpt, `%${opts.q}%`))
+				? or(like(programs.title, `%${opts.q}%`), like(programs.excerpt, `%${opts.q}%`))
 				: undefined
 		);
 
@@ -30,7 +30,7 @@ export const programsRepo = {
 				.limit(opts.limit)
 				.offset(opts.offset),
 			db
-				.select({ count: sql<number>`count(*)::int` })
+				.select({ count: sql<number>`count(*)` })
 				.from(programs)
 				.where(where)
 		]);
@@ -48,7 +48,7 @@ export const programsRepo = {
 	},
 
 	async create(input: CreateProgramInput) {
-		const [row] = await db
+		const [result] = await db
 			.insert(programs)
 			.values({
 				title: input.title,
@@ -67,25 +67,33 @@ export const programsRepo = {
 				outcomes: input.outcomes ?? null,
 				activities: input.activities ?? null,
 				requirements: input.requirements ?? null
-			})
-			.returning();
-		return row;
+			});
+		return db
+			.select()
+			.from(programs)
+			.where(eq(programs.id, result.insertId))
+			.limit(1)
+			.then((rows) => rows[0]);
 	},
 
 	async update(id: number, input: UpdateProgramInput) {
-		const [row] = await db
+		await db
 			.update(programs)
 			.set({
 				...input,
 				updatedAt: new Date()
 			})
+			.where(eq(programs.id, id));
+		return db
+			.select()
+			.from(programs)
 			.where(eq(programs.id, id))
-			.returning();
-		return row ?? null;
+			.limit(1)
+			.then((rows) => rows[0] ?? null);
 	},
 
 	async remove(id: number) {
-		const [row] = await db.delete(programs).where(eq(programs.id, id)).returning({ id: programs.id });
-		return row ?? null;
+		await db.delete(programs).where(eq(programs.id, id));
+		return { id };
 	}
 };
