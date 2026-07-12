@@ -12,8 +12,8 @@ function daysAgo(days: number): Date {
 async function countViewsAndUniques(since: Date) {
 	const [r] = await db
 		.select({
-			views: sql<number>`count(*)::int`,
-			uniques: sql<number>`count(DISTINCT ${pageViews.visitorHash})::int`
+			views: sql<number>`cast(count(*) as signed)`,
+			uniques: sql<number>`cast(count(DISTINCT ${pageViews.visitorHash}) as signed)`
 		})
 		.from(pageViews)
 		.where(gte(pageViews.createdAt, since));
@@ -55,14 +55,14 @@ export async function dailyViews(
 	const since = daysAgo(days);
 	const rows = await db
 		.select({
-			date: sql<string>`to_char(date_trunc('day', ${pageViews.createdAt}), 'YYYY-MM-DD')`,
-			views: sql<number>`count(*)::int`,
-			uniques: sql<number>`count(DISTINCT ${pageViews.visitorHash})::int`
+			date: sql<string>`DATE_FORMAT(${pageViews.createdAt}, '%Y-%m-%d')`,
+			views: sql<number>`cast(count(*) as signed)`,
+			uniques: sql<number>`cast(count(DISTINCT ${pageViews.visitorHash}) as signed)`
 		})
 		.from(pageViews)
 		.where(gte(pageViews.createdAt, since))
-		.groupBy(sql`date_trunc('day', ${pageViews.createdAt})`)
-		.orderBy(sql`date_trunc('day', ${pageViews.createdAt}) asc`);
+		.groupBy(sql`DATE(${pageViews.createdAt})`)
+		.orderBy(sql`DATE(${pageViews.createdAt}) asc`);
 
 	const byDate = new Map(rows.map((r) => [r.date, r]));
 	const out: { date: string; views: number; uniques: number }[] = [];
@@ -86,8 +86,8 @@ export async function topPaths(
 	return db
 		.select({
 			path: pageViews.path,
-			views: sql<number>`count(*)::int`,
-			uniques: sql<number>`count(DISTINCT ${pageViews.visitorHash})::int`
+			views: sql<number>`cast(count(*) as signed)`,
+			uniques: sql<number>`cast(count(DISTINCT ${pageViews.visitorHash}) as signed)`
 		})
 		.from(pageViews)
 		.where(and(gte(pageViews.createdAt, since)))

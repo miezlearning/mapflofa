@@ -31,7 +31,7 @@ export const load: PageServerLoad = async (event) => {
 		.limit(30);
 
 	const totalCount = await db
-		.select({ count: sql<number>`count(*)::int` })
+		.select({ count: sql<number>`cast(count(*) as signed)` })
 		.from(news)
 		.then((r) => r[0]?.count ?? 0);
 

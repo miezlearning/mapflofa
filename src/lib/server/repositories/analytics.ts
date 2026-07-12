@@ -29,7 +29,7 @@ function startOfDaysAgo(daysAgo: number): Date {
   return date;
 }
 
-const programIdFromPath = sql<number>`nullif(regexp_replace(${pageViews.path}, '^/programs/(\\d+).*$', '\\1'), '')::int`;
+const programIdFromPath = sql<number>`cast(nullif(regexp_replace(${pageViews.path}, '^/programs/([0-9]+).*$', '\\\\1'), '') as signed)`;
 
 export const analyticsRepo = {
   async getOverview(): Promise<OverviewAnalytics> {
@@ -45,22 +45,22 @@ export const analyticsRepo = {
     ] = await Promise.all([
       db
         .select({
-          count: sql<number>`count(distinct ${pageViews.visitorHash})::int`,
+          count: sql<number>`cast(count(distinct ${pageViews.visitorHash}) as signed)`,
         })
         .from(pageViews)
         .where(gte(pageViews.createdAt, weekStart)),
       db
         .select({
-          count: sql<number>`count(distinct ${pageViews.visitorHash})::int`,
+          count: sql<number>`cast(count(distinct ${pageViews.visitorHash}) as signed)`,
         })
         .from(pageViews)
         .where(gte(pageViews.createdAt, monthStart)),
       db
-        .select({ count: sql<number>`count(*)::int` })
+        .select({ count: sql<number>`cast(count(*) as signed)` })
         .from(pageViews)
         .where(gte(pageViews.createdAt, weekStart)),
       db
-        .select({ count: sql<number>`count(*)::int` })
+        .select({ count: sql<number>`cast(count(*) as signed)` })
         .from(pageViews)
         .where(gte(pageViews.createdAt, monthStart)),
       db
@@ -69,8 +69,8 @@ export const analyticsRepo = {
           title: programs.title,
           tag: programs.tag,
           image: programs.image,
-          views: sql<number>`count(${pageViews.id})::int`,
-          visitors: sql<number>`count(distinct ${pageViews.visitorHash})::int`,
+          views: sql<number>`cast(count(${pageViews.id}) as signed)`,
+          visitors: sql<number>`cast(count(distinct ${pageViews.visitorHash}) as signed)`,
           lastViewedAt: sql<string | null>`max(${pageViews.createdAt})`,
         })
         .from(pageViews)

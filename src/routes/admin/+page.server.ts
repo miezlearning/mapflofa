@@ -10,10 +10,10 @@ export const load: PageServerLoad = async (event) => {
 	requireUser(event);
 
 	const [[p], [n], [e], [g], summary, daily30, top30, allNews] = await Promise.all([
-		db.select({ count: sql<number>`count(*)::int` }).from(programs),
-		db.select({ count: sql<number>`count(*)::int` }).from(news),
-		db.select({ count: sql<number>`count(*)::int` }).from(events),
-		db.select({ count: sql<number>`count(*)::int` }).from(galleryAlbums),
+		db.select({ count: sql<number>`cast(count(*) as signed)` }).from(programs),
+		db.select({ count: sql<number>`cast(count(*) as signed)` }).from(news),
+		db.select({ count: sql<number>`cast(count(*) as signed)` }).from(events),
+		db.select({ count: sql<number>`cast(count(*) as signed)` }).from(galleryAlbums),
 		viewSummary(),
 		dailyViews(30),
 		topPaths(30, 5),

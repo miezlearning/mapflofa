@@ -33,7 +33,7 @@ export const load: PageServerLoad = async (event) => {
 			.orderBy(desc(auditLogs.createdAt))
 			.limit(PAGE_SIZE)
 			.offset(offset),
-		db.select({ count: sql<number>`count(*)::int` }).from(auditLogs).where(where)
+		db.select({ count: sql<number>`cast(count(*) as signed)` }).from(auditLogs).where(where)
 	]);
 
 	// Distinct values for filter dropdowns. Cheap on small tables; cap at 100.

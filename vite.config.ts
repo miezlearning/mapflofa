@@ -8,7 +8,8 @@ export default defineConfig(() => {
 		'localhost',
 		'127.0.0.1',
 		'pearl-canyon-6d4c00cb.tunnl.gg',
-		'brave-eagle-0fafc910.tunnl.gg'
+		'brave-eagle-0fafc910.tunnl.gg',
+		'doom-indiana-comparison-efficiency.trycloudflare.com'
 	];
 
 	return {

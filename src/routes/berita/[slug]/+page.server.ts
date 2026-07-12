@@ -21,7 +21,7 @@ export const load: PageServerLoad = async (event) => {
 
 	// Lifetime view count (for the badge under the title).
 	const [{ views }] = await db
-		.select({ views: sql<number>`count(*)::int` })
+		.select({ views: sql<number>`cast(count(*) as signed)` })
 		.from(pageViews)
 		.where(eq(pageViews.path, `/berita/${post.slug}`));
 

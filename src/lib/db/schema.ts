@@ -1,4 +1,4 @@
-import { boolean, index, int, json, mysqlTable, text, varchar, timestamp } from 'drizzle-orm/mysql-core';
+import { boolean, index, int, json, mysqlTable, text, varchar, timestamp, datetime } from 'drizzle-orm/mysql-core';
 
 /**
  * programs
@@ -89,7 +89,7 @@ export const users = mysqlTable('users', {
 	isActive: boolean('is_active').notNull().default(true),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
-	lastLoginAt: timestamp('last_login_at')
+	lastLoginAt: datetime('last_login_at')
 });
 
 /**
@@ -127,7 +127,7 @@ export const auditLogs = mysqlTable(
 		userEmail: text('user_email').notNull(),
 		userRole: text('user_role').notNull(),
 		action: text('action').notNull(),
-		resource: text('resource').notNull(),
+		resource: varchar('resource', { length: 255 }).notNull(),
 		resourceId: int('resource_id'),
 		details: json('details'),
 		ip: text('ip'),
@@ -161,8 +161,8 @@ export const pageViews = mysqlTable(
 	'page_views',
 	{
 		id: int('id').autoincrement().primaryKey(),
-		path: text('path').notNull(),
-		visitorHash: text('visitor_hash').notNull(),
+		path: varchar('path', { length: 255 }).notNull(),
+		visitorHash: varchar('visitor_hash', { length: 255 }).notNull(),
 		referer: text('referer'),
 		createdAt: timestamp('created_at').defaultNow().notNull()
 	},
