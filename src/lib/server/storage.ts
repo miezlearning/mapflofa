@@ -20,6 +20,8 @@ import { createHash } from 'node:crypto';
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { env } from '$env/dynamic/private';
+
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5 MB
 
 const ALLOWED: Record<string, { ext: string; sniff: (buf: Buffer) => boolean }> = {
@@ -74,13 +76,16 @@ export type UploadResult = {
 	filename: string;
 };
 
-const UPLOADS_DIR = join(process.cwd(), 'static', 'uploads');
+export function getUploadsDir(): string {
+	return env.UPLOAD_DIR || process.env.UPLOAD_DIR || process.env.UPLOADS_DIR || join(process.cwd(), 'static', 'uploads');
+}
 
 async function ensureDir() {
+	const dir = getUploadsDir();
 	try {
-		await access(UPLOADS_DIR);
+		await access(dir);
 	} catch {
-		await mkdir(UPLOADS_DIR, { recursive: true });
+		await mkdir(dir, { recursive: true });
 	}
 }
 
@@ -107,7 +112,7 @@ export async function saveUpload(file: File): Promise<UploadResult | UploadFailu
 	const filename = `${hash}.${allowed.ext}`;
 
 	await ensureDir();
-	const fullPath = join(UPLOADS_DIR, filename);
+	const fullPath = join(getUploadsDir(), filename);
 	try {
 		await access(fullPath);
 		// File already exists — same content, same URL. Skip rewrite.
