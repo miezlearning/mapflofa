@@ -20,6 +20,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, writeFile, access } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { existsSync } from 'node:fs';
 import { env } from '$env/dynamic/private';
 
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024; // 15 MB
@@ -80,8 +81,20 @@ export function getUploadsDir(): string {
 	let dir = (env.UPLOAD_DIR || process.env.UPLOAD_DIR || process.env.UPLOADS_DIR || '').trim();
 	if (dir) {
 		dir = dir.replace(/^["']|["']$/g, '').trim();
+		if (dir.length > 0) return dir;
 	}
-	return dir || join(process.cwd(), 'static', 'uploads');
+
+	// Auto-detect DirectAdmin domain uploads folder if it exists
+	const directAdminPath = '/home/mapflofa/domains/mapflofa.com/public_html/uploads';
+	try {
+		if (existsSync(directAdminPath)) {
+			return directAdminPath;
+		}
+	} catch {
+		// Ignore check failure
+	}
+
+	return join(process.cwd(), 'static', 'uploads');
 }
 
 async function ensureDir() {
@@ -114,10 +127,11 @@ export async function saveUpload(file: File): Promise<UploadResult | UploadFailu
 
 	const hash = createHash('sha256').update(buf).digest('hex');
 	const filename = `${hash}.${allowed.ext}`;
+	const targetDir = getUploadsDir();
 
 	try {
 		await ensureDir();
-		const fullPath = join(getUploadsDir(), filename);
+		const fullPath = join(targetDir, filename);
 		try {
 			await access(fullPath);
 			// File already exists — same content, same URL. Skip rewrite.
@@ -133,7 +147,7 @@ export async function saveUpload(file: File): Promise<UploadResult | UploadFailu
 			filename
 		};
 	} catch (err) {
-		console.error('[storage] Gagal menyimpan file upload:', err);
-		return { error: `Gagal menyimpan file ke sistem server: ${(err as Error).message}` };
+		console.error('[storage] Gagal menyimpan file upload ke:', targetDir, err);
+		return { error: `Gagal menyimpan file ke ${targetDir}: ${(err as Error).message}` };
 	}
 }
