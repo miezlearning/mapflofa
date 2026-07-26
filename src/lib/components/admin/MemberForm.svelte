@@ -256,7 +256,7 @@
 			<label class="field">
 				<span class="lbl">Foto</span>
 				<input type="file" name="photoFile" accept="image/*" onchange={onPhotoFile} />
-				<span class="field-hint">Foto potret latar polos/putih paling rapi. JPG, PNG, WebP (maks 5 MB).</span>
+				<span class="field-hint">Foto potret latar polos/putih paling rapi. JPG, PNG, WebP (maks 15 MB).</span>
 			</label>
 			<label class="field">
 				<span class="lbl">…atau tempel URL foto</span>

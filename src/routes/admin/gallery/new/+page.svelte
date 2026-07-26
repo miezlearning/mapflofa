@@ -94,7 +94,7 @@
 		<label>
 			<span class="field-label">Sampul album</span>
 			<input type="file" name="coverFile" accept="image/*" onchange={onCoverFile} />
-			<span class="field-hint">Opsional. JPG, PNG, WebP, atau GIF (maks 5 MB). Bisa juga tempel URL di bawah.</span>
+			<span class="field-hint">Opsional. JPG, PNG, WebP, atau GIF (maks 15 MB). Bisa juga tempel URL di bawah.</span>
 		</label>
 
 		<label>

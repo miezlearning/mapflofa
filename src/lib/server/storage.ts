@@ -22,7 +22,7 @@ import { join } from 'node:path';
 
 import { env } from '$env/dynamic/private';
 
-export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024; // 5 MB
+export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024; // 15 MB
 
 const ALLOWED: Record<string, { ext: string; sniff: (buf: Buffer) => boolean }> = {
 	'image/jpeg': {

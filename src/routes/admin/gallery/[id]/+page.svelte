@@ -124,7 +124,7 @@
 			<label>
 				<span class="field-label">Unggah foto (bisa banyak sekaligus)</span>
 				<input type="file" name="photos" accept="image/*" multiple />
-				<span class="field-hint">JPG, PNG, WebP, atau GIF. Maks 5 MB per file.</span>
+				<span class="field-hint">JPG, PNG, WebP, atau GIF. Maks 15 MB per file.</span>
 			</label>
 			<label>
 				<span class="field-label">…atau URL gambar</span>
