@@ -39,17 +39,42 @@
 			// ignore
 		}
 	}
+
+	import SeoHead from '$lib/components/SeoHead.svelte';
+
+	const articleJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'NewsArticle',
+		headline: post.title,
+		description: post.excerpt,
+		image: post.image ? [post.image] : [],
+		datePublished: post.date,
+		articleSection: post.category,
+		author: {
+			'@type': 'Organization',
+			name: 'MAPFLOFA'
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'MAPFLOFA',
+			logo: {
+				'@type': 'ImageObject',
+				url: '/logo.png'
+			}
+		}
+	});
 </script>
 
-<svelte:head>
-	<title>{post.title} — MAPFLOFA</title>
-	<meta name="description" content={post.excerpt} />
-	<meta property="og:title" content={post.title} />
-	<meta property="og:description" content={post.excerpt} />
-	<meta property="og:image" content={post.image} />
-	<meta property="og:type" content="article" />
-	<meta name="twitter:card" content="summary_large_image" />
-</svelte:head>
+<SeoHead
+	title={`${post.title} — MAPFLOFA`}
+	description={post.excerpt}
+	image={post.image}
+	imageAlt={post.title}
+	type="article"
+	publishedTime={post.date}
+	category={post.category}
+	jsonLd={articleJsonLd}
+/>
 
 <ReadingProgress />
 <FloatingNavbar />

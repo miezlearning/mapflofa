@@ -99,18 +99,29 @@
 		if (idx !== -1) {
 			goTo(idx);
 			const el = document.getElementById('struktur');
-			if (el) el.scrollIntoView({ behavior: 'smooth' });
 		}
 	}
+
+	import SeoHead from '$lib/components/SeoHead.svelte';
+
+	const profileJsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: 'MAPFLOFA',
+		alternateName: 'Mahasiswa Penyayang Flora Fauna',
+		description:
+			'Profil MAPFLOFA: visi, misi, sejarah, dan struktur organisasi Mahasiswa Penyayang Flora Fauna.',
+		logo: '/logo.png'
+	};
 </script>
 
-<svelte:head>
-	<title>Profil — MAPFLOFA</title>
-	<meta
-		name="description"
-		content="Profil MAPFLOFA: visi, misi, sejarah, dan struktur organisasi Mahasiswa Penyayang Flora Fauna."
-	/>
-</svelte:head>
+<SeoHead
+	title="Profil & Struktur Organisasi — MAPFLOFA"
+	description="Profil MAPFLOFA: visi, misi, sejarah, dan struktur organisasi Mahasiswa Penyayang Flora Fauna."
+	image="/logo.png"
+	type="profile"
+	jsonLd={profileJsonLd}
+/>
 
 <FloatingNavbar />
 

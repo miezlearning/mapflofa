@@ -34,12 +34,35 @@
 		else if (e.key === 'ArrowRight') next();
 		else if (e.key === 'ArrowLeft') prev();
 	}
+
+	import SeoHead from '$lib/components/SeoHead.svelte';
+
+	const albumDescription = $derived(
+		album.description || `Dokumentasi foto kegiatan ${album.title} oleh MAPFLOFA.`
+	);
+	const albumCover = $derived(photos[0]?.image || '/logo.png');
+
+	const galleryJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'ImageGallery',
+		name: album.title,
+		description: albumDescription,
+		image: albumCover,
+		author: {
+			'@type': 'Organization',
+			name: 'MAPFLOFA'
+		}
+	});
 </script>
 
-<svelte:head>
-	<title>{album.title} — Galeri MAPFLOFA</title>
-	<meta name="description" content={album.description ?? `Foto kegiatan ${album.title} oleh MAPFLOFA.`} />
-</svelte:head>
+<SeoHead
+	title={`${album.title} — Galeri MAPFLOFA`}
+	description={albumDescription}
+	image={albumCover}
+	imageAlt={album.title}
+	type="website"
+	jsonLd={galleryJsonLd}
+/>
 
 <svelte:window onkeydown={onKey} />
 

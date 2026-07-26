@@ -7,15 +7,16 @@
 
 	let { data }: { data: PageData } = $props();
 	const allPrograms = $derived(data.programs);
+	import SeoHead from '$lib/components/SeoHead.svelte';
+	const firstCover = $derived(allPrograms[0]?.image || '/logo.png');
 </script>
 
-<svelte:head>
-	<title>Kegiatan | MAPFLOFA</title>
-	<meta
-		name="description"
-		content="Jelajahi kegiatan konservasi, edukasi, aksi lingkungan, dan ekspedisi alam MAPFLOFA."
-	/>
-</svelte:head>
+<SeoHead
+	title="Program & Kegiatan Konservasi — MAPFLOFA"
+	description="Jelajahi kegiatan konservasi, edukasi, aksi lingkungan, dan ekspedisi alam MAPFLOFA."
+	image={firstCover}
+	type="website"
+/>
 
 <FloatingNavbar />
 

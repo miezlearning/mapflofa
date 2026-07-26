@@ -56,15 +56,34 @@
 		const num = (siteContact.whatsapp ?? '').replace(/[^0-9+]/g, '');
 		return num ? `https://wa.me/${num.replace('+', '')}` : '#';
 	});
+	import SeoHead from '$lib/components/SeoHead.svelte';
+
+	const homeJsonLd = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'Organization',
+				'name': 'MAPFLOFA',
+				'alternateName': 'Mahasiswa Penyayang Flora Fauna',
+				'description':
+					'Website resmi MAPFLOFA (Mahasiswa Penyayang Flora Fauna). Komunitas mahasiswa pecinta alam yang bergerak untuk konservasi flora, fauna, dan pelestarian lingkungan.',
+				'logo': '/logo.png'
+			},
+			{
+				'@type': 'WebSite',
+				'name': 'MAPFLOFA'
+			}
+		]
+	};
 </script>
 
-<svelte:head>
-	<title>MAPFLOFA — Mahasiswa Penyayang Flora Fauna</title>
-	<meta
-		name="description"
-		content="Website resmi MAPFLOFA (Mahasiswa Penyayang Flora Fauna). Komunitas mahasiswa pecinta alam yang bergerak untuk konservasi flora, fauna, dan lingkungan."
-	/>
-</svelte:head>
+<SeoHead
+	title="MAPFLOFA — Mahasiswa Penyayang Flora Fauna"
+	description="Website resmi MAPFLOFA (Mahasiswa Penyayang Flora Fauna). Komunitas mahasiswa pecinta alam yang bergerak untuk konservasi flora, fauna, dan pelestarian lingkungan."
+	image="/logo.png"
+	type="website"
+	jsonLd={homeJsonLd}
+/>
 
 <FloatingNavbar />
 

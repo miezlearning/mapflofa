@@ -3,19 +3,20 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import Icon from '$lib/components/Icon.svelte';
 	import { reveal } from '$lib/actions/reveal';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	const albums = $derived(data.albums);
+	const coverImage = $derived(albums[0]?.cover || '/logo.png');
 </script>
 
-<svelte:head>
-	<title>Galeri Aksi & Kegiatan — MAPFLOFA</title>
-	<meta
-		name="description"
-		content="Dokumentasi foto kegiatan MAPFLOFA: penanaman pohon, sosialisasi satwa langka, bersih sungai, dan ekspedisi konservasi."
-	/>
-</svelte:head>
+<SeoHead
+	title="Galeri Aksi & Kegiatan — MAPFLOFA"
+	description="Dokumentasi foto kegiatan MAPFLOFA: penanaman pohon, sosialisasi satwa langka, bersih sungai, dan ekspedisi konservasi."
+	image={coverImage}
+	type="website"
+/>
 
 <FloatingNavbar />
 

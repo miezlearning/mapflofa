@@ -56,18 +56,20 @@
 		}
 		goto(urlWith({ q: searchValue.trim() || null, page: null }), {
 			replaceState: true,
-			keepFocus: true,
+			keepFocus: true
 		});
 	}
+
+	import SeoHead from '$lib/components/SeoHead.svelte';
+	const pageCover = $derived(featured?.image || '/logo.png');
 </script>
 
-<svelte:head>
-	<title>Berita — MAPFLOFA</title>
-	<meta
-		name="description"
-		content="Kabar terbaru seputar konservasi, edukasi, dan aksi lingkungan MAPFLOFA — diperbarui rutin oleh tim pengurus."
-	/>
-</svelte:head>
+<SeoHead
+	title="Berita & Artikel — MAPFLOFA"
+	description="Kabar terbaru seputar konservasi, edukasi, dan aksi lingkungan MAPFLOFA — diperbarui rutin oleh tim pengurus."
+	image={pageCover}
+	type="website"
+/>
 
 <FloatingNavbar />
 

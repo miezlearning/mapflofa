@@ -56,12 +56,37 @@
 			{ title: 'Perlu disiapkan', items: toList(program.requirements) }
 		].filter((section): section is ListSection => section.items.length > 0)
 	);
+
+	import SeoHead from '$lib/components/SeoHead.svelte';
+
+	const programCover = $derived(program.image || '/logo.png');
+	const programJsonLd = $derived({
+		'@context': 'https://schema.org',
+		'@type': 'Event',
+		name: program.title,
+		description: program.excerpt,
+		image: programCover,
+		organizer: {
+			'@type': 'Organization',
+			name: 'MAPFLOFA'
+		},
+		location: program.location
+			? {
+					'@type': 'Place',
+					name: program.location
+				}
+			: undefined
+	});
 </script>
 
-<svelte:head>
-	<title>{program.title} | Kegiatan MAPFLOFA</title>
-	<meta name="description" content={program.excerpt} />
-</svelte:head>
+<SeoHead
+	title={`${program.title} — Program MAPFLOFA`}
+	description={program.excerpt}
+	image={programCover}
+	imageAlt={program.title}
+	type="website"
+	jsonLd={programJsonLd}
+/>
 
 <FloatingNavbar />
 
