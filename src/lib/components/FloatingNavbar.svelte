@@ -17,20 +17,10 @@
 			{ label: "Profil", href: "/profil" },
 			{ label: "Berita", href: "/berita" },
 			{ label: "Galeri", href: "/galeri" },
-			{ label: "Kontak", href: "/#kontak" },
 		],
 		brand = "MAPFLOFA",
 	}: Props = $props();
 
-	/**
-	 * Hash-only links (`#tentang`) only work as in-page anchors when we're
-	 * actually on the homepage. On any other route they would resolve
-	 * against the current URL — clicking "Beranda" from `/berita/abc`
-	 * would land at `/berita/abc#beranda`, which is wrong.
-	 *
-	 * Rewrite hash hrefs to absolute `/` + hash whenever we're not on the
-	 * homepage; SvelteKit will navigate home and then scroll to the anchor.
-	 */
 	const onHome = $derived(page.url.pathname === "/");
 	function resolveHref(href: string): string {
 		if (!href.startsWith("#")) return href;
@@ -39,13 +29,18 @@
 
 	const ctaHref = $derived(resolveHref("#kontak"));
 	const brandHref = $derived(onHome ? "#beranda" : "/");
+	const currentPath = $derived(page.url.pathname);
+
+	function isActive(href: string): boolean {
+		if (href === "/") return currentPath === "/";
+		if (href.startsWith("#")) return onHome;
+		return currentPath.startsWith(href);
+	}
 
 	let listEl: HTMLUListElement | null = $state(null);
 	let itemEls: HTMLAnchorElement[] = $state([]);
 
 	// Magic Pill state
-	// `instant` snaps without sliding (used the very first appearance so the pill
-	// doesn't grow from the corner). After that it slides smoothly.
 	let pill = $state({ x: 0, w: 0, h: 0, visible: false, instant: false });
 	let reducedMotion = $state(false);
 	let mobileMenuOpen = $state(false);
@@ -53,8 +48,7 @@
 	onMount(() => {
 		const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
 		reducedMotion = mq.matches;
-		const onChange = (e: MediaQueryListEvent) =>
-			(reducedMotion = e.matches);
+		const onChange = (e: MediaQueryListEvent) => (reducedMotion = e.matches);
 		mq.addEventListener("change", onChange);
 		return () => mq.removeEventListener("change", onChange);
 	});
@@ -73,14 +67,15 @@
 			instant: wasHidden,
 		};
 	}
+
 	function leave() {
 		pill = { ...pill, visible: false, instant: false };
 	}
 
 	const transition = $derived(
 		reducedMotion || pill.instant
-			? "opacity 0.18s linear"
-			: "transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.42s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease-out",
+			? "opacity 0.15s ease-out"
+			: "transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease-out",
 	);
 </script>
 
@@ -90,19 +85,19 @@
 	aria-label="Navigasi utama"
 >
 	<div
-		class="flex items-center justify-between gap-3
-		       rounded-full bg-white/85 backdrop-blur-lg
-		       border border-slate-200
+		class="relative flex items-center justify-between gap-3
+		       rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl
+		       border border-slate-200 dark:border-slate-800
 		       pl-5 pr-2 py-2
-		       shadow-xl shadow-slate-300/40"
+		       shadow-xl shadow-slate-900/10 dark:shadow-slate-950/60"
 	>
 		<!-- Brand -->
 		<a href={brandHref} class="flex items-center gap-2.5 shrink-0 group">
-			<span class="w-8 h-8 rounded-xl overflow-hidden shrink-0">
+			<span class="w-8 h-8 rounded-xl overflow-hidden shrink-0 transition-transform duration-200 group-hover:scale-105">
 				<img src="/logo.png" alt="MAPFLOFA" class="w-full h-full object-contain" />
 			</span>
 			<span
-				class="hidden sm:block font-bold text-primary tracking-tight text-sm md:text-base"
+				class="hidden sm:block font-extrabold text-primary tracking-tight text-sm md:text-base"
 			>
 				{brand}
 			</span>
@@ -115,13 +110,15 @@
 			onfocusout={(e) => {
 				if (!listEl?.contains(e.relatedTarget as Node)) leave();
 			}}
-			class="relative hidden md:flex items-center"
+			class="relative hidden md:flex items-center gap-1"
 		>
-			<!-- Magic Pill -->
+			<!-- High Contrast Smooth Magic Pill -->
 			<li
 				aria-hidden="true"
 				class="absolute top-0 left-0 pointer-events-none rounded-full
-				       bg-slate-100 will-change-transform"
+				       bg-sky-100/90 dark:bg-sky-950/90
+				       border border-sky-300/80 dark:border-sky-700/80
+				       shadow-sm shadow-sky-500/10 will-change-transform"
 				style="
 					transform: translate3d({pill.x}px, 0, 0);
 					width: {pill.w}px;
@@ -132,17 +129,20 @@
 			></li>
 
 			{#each items as item, i (item.href)}
+				{@const active = isActive(item.href)}
 				<li>
 					<a
 						bind:this={itemEls[i]}
 						href={resolveHref(item.href)}
 						onmouseenter={() => moveTo(i)}
 						onfocus={() => moveTo(i)}
-						class="relative z-10 inline-flex items-center
+						class="relative z-10 inline-flex items-center gap-1.5
 						       px-4 py-2 rounded-full
-						       text-sm font-semibold text-slate-700
-						       transition-colors duration-200 hover:text-primary
-						       focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+						       text-sm font-bold transition-colors duration-150
+						       {active
+						         ? 'text-primary dark:text-sky-300'
+						         : 'text-slate-700 dark:text-slate-200 hover:text-sky-900 dark:hover:text-sky-100'}
+						       focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
 					>
 						{item.label}
 					</a>
@@ -156,11 +156,11 @@
 				href={ctaHref}
 				class="inline-flex items-center gap-2 shrink-0
 				       bg-accent hover:bg-accent-600 text-white
-				       text-xs md:text-sm font-semibold
+				       text-xs md:text-sm font-bold
 				       px-4 md:px-5 py-2.5 rounded-full
-				       transition-all duration-300
-				       shadow-lg shadow-accent/20
-				       hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5"
+				       transition-all duration-200
+				       shadow-md shadow-accent/20
+				       hover:shadow-lg hover:shadow-accent/30 hover:scale-105 active:scale-95"
 			>
 				Gabung
 				<svg
@@ -181,7 +181,7 @@
 				type="button"
 				class="md:hidden inline-flex items-center justify-center
 				       w-10 h-10 rounded-full
-				       text-slate-700 hover:bg-slate-100
+				       text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800
 				       transition-colors duration-200
 				       focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
 				onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
@@ -204,18 +204,21 @@
 	<!-- Mobile dropdown menu -->
 	{#if mobileMenuOpen}
 		<div
-			class="md:hidden mt-2 mx-2 rounded-2xl bg-white/95 backdrop-blur-lg
-			       border border-slate-200 shadow-xl shadow-slate-300/30
+			class="md:hidden mt-2 mx-2 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl
+			       border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-900/10
 			       p-4 animate-in"
 		>
 			<ul class="flex flex-col gap-1">
 				{#each items as item (item.href)}
+					{@const active = isActive(item.href)}
 					<li>
 						<a
 							href={resolveHref(item.href)}
 							onclick={() => (mobileMenuOpen = false)}
-							class="block px-4 py-3 rounded-xl text-sm font-semibold
-							       text-slate-700 hover:bg-slate-50 hover:text-primary
+							class="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold
+							       {active
+							         ? 'bg-sky-50 dark:bg-sky-950/50 text-primary dark:text-sky-300'
+							         : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-primary'}
 							       transition-colors duration-150"
 						>
 							{item.label}
