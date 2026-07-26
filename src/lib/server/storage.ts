@@ -111,20 +111,25 @@ export async function saveUpload(file: File): Promise<UploadResult | UploadFailu
 	const hash = createHash('sha256').update(buf).digest('hex');
 	const filename = `${hash}.${allowed.ext}`;
 
-	await ensureDir();
-	const fullPath = join(getUploadsDir(), filename);
 	try {
-		await access(fullPath);
-		// File already exists — same content, same URL. Skip rewrite.
-	} catch {
-		await writeFile(fullPath, buf);
-	}
+		await ensureDir();
+		const fullPath = join(getUploadsDir(), filename);
+		try {
+			await access(fullPath);
+			// File already exists — same content, same URL. Skip rewrite.
+		} catch {
+			await writeFile(fullPath, buf);
+		}
 
-	return {
-		url: `/uploads/${filename}`,
-		path: fullPath,
-		size: buf.length,
-		mime: declaredMime,
-		filename
-	};
+		return {
+			url: `/uploads/${filename}`,
+			path: fullPath,
+			size: buf.length,
+			mime: declaredMime,
+			filename
+		};
+	} catch (err) {
+		console.error('[storage] Gagal menyimpan file upload:', err);
+		return { error: `Gagal menyimpan file ke sistem server: ${(err as Error).message}` };
+	}
 }
