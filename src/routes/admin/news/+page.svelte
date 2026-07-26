@@ -32,8 +32,29 @@
 		}
 	];
 
-	function fmt(d: Date | string) {
-		return new Date(d).toLocaleDateString();
+	function formatHumanDate(d: Date | string | null | undefined): string {
+		if (!d) return '-';
+		const dateObj = typeof d === 'string' ? new Date(d) : d;
+		if (isNaN(dateObj.getTime())) {
+			return String(d);
+		}
+
+		const now = new Date();
+		const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+		const targetDay = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+		const diffDays = Math.round((today.getTime() - targetDay.getTime()) / (1000 * 60 * 60 * 24));
+
+		const formattedStr = dateObj.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric'
+		});
+
+		if (diffDays === 0) return `Hari ini (${formattedStr})`;
+		if (diffDays === 1) return `Kemarin (${formattedStr})`;
+		if (diffDays > 1 && diffDays <= 7) return `${diffDays} hr lalu (${formattedStr})`;
+
+		return formattedStr;
 	}
 </script>
 
@@ -84,7 +105,7 @@
 							</a>
 						</td>
 						<td><span class="dim">{n.category}</span></td>
-						<td><span class="dim">{n.date}</span></td>
+						<td><span class="dim">{formatHumanDate(n.date)}</span></td>
 						<td>
 							<div class="actions" data-tour={idx === 0 ? "news-actions" : undefined}>
 								<a class="adm-btn" href={`/admin/news/${n.id}`}>Edit</a>

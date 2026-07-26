@@ -105,6 +105,30 @@
 	let excerpt = $state(pick('excerpt'));
 	let image = $state(pick('image'));
 
+	const CATEGORY_PRESETS = ['Berita', 'Konservasi', 'Aksi', 'Edukasi', 'Pengumuman'];
+
+	function setTodayDate() {
+		const now = new Date();
+		date = now.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+	}
+
+	function onDatePickerChange(e: Event) {
+		const val = (e.target as HTMLInputElement).value;
+		if (!val) return;
+		const [y, m, d] = val.split('-').map(Number);
+		if (isNaN(y) || isNaN(m) || isNaN(d)) return;
+		const dateObj = new Date(y, m - 1, d);
+		date = dateObj.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+	}
+
 	const initialSlug = pick('slug');
 	let slug = $state(initialSlug);
 	let slugTouched = $state(initialSlug.length > 0);
@@ -1069,22 +1093,69 @@
 			{#if coverError}<div class="field-error">{coverError}</div>{/if}
 			{#if err('image')}<div class="field-error">{err('image')}</div>{/if}
 
-			<div class="meta-row" data-tour="editor-meta">
-				<input
-					type="text"
-					class="meta-cat"
-					placeholder="Kategori"
-					bind:value={category}
-					maxlength="60"
-				/>
-				<span class="dot-sep">·</span>
-				<input
-					type="text"
-					class="meta-date"
-					placeholder="12 Mei 2026"
-					bind:value={date}
-					maxlength="40"
-				/>
+			<!-- Sleek Modern CMS Metadata Bar -->
+			<div class="meta-bar mb-4 flex flex-wrap items-center gap-2.5 p-2 bg-slate-50/90 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800" data-tour="editor-meta">
+				<!-- Category Input & Tag Icon -->
+				<div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+					<span class="text-sky-500 font-bold text-xs" aria-hidden="true">🏷️</span>
+					<input
+						type="text"
+						class="meta-cat-input text-xs font-bold text-sky-700 dark:text-sky-400 bg-transparent outline-none w-24 sm:w-28 placeholder:text-slate-400"
+						placeholder="Kategori"
+						bind:value={category}
+						maxlength="60"
+					/>
+				</div>
+
+				<!-- Category Preset Chips -->
+				<div class="flex items-center gap-1">
+					{#each CATEGORY_PRESETS as cat}
+						<button
+							type="button"
+							onclick={() => (category = cat)}
+							class="px-2 py-1 rounded-lg text-[11px] font-bold transition-all duration-150
+							       {category === cat
+							         ? 'bg-sky-500 text-white shadow-xs scale-[1.02]'
+							         : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700/80 hover:border-sky-300 dark:hover:border-sky-700 hover:text-sky-600 dark:hover:text-sky-400'}"
+						>
+							{cat}
+						</button>
+					{/each}
+				</div>
+
+				<span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
+
+				<!-- Custom Date Trigger -->
+				<div class="flex items-center gap-1.5">
+					<div class="relative flex items-center gap-1.5 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs cursor-pointer hover:border-sky-400 dark:hover:border-sky-600 transition-colors">
+						<span class="text-emerald-500 font-bold text-xs" aria-hidden="true">📅</span>
+						<input
+							type="text"
+							class="meta-date-input text-xs font-semibold text-slate-700 dark:text-slate-200 bg-transparent outline-none w-28 sm:w-32 placeholder:text-slate-400"
+							placeholder="26 Juli 2026"
+							bind:value={date}
+							maxlength="40"
+						/>
+						<span class="text-[10px] text-slate-400" aria-hidden="true">▾</span>
+
+						<!-- Hidden overlay date picker -->
+						<input
+							type="date"
+							onchange={onDatePickerChange}
+							class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+							title="Klik untuk memilih tanggal dari kalender"
+						/>
+					</div>
+
+					<button
+						type="button"
+						onclick={setTodayDate}
+						class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors shadow-2xs"
+						title="Set ke tanggal hari ini"
+					>
+						⚡ Hari ini
+					</button>
+				</div>
 			</div>
 			{#if err('category')}<div class="field-error">{err('category')}</div>{/if}
 			{#if err('date')}<div class="field-error">{err('date')}</div>{/if}

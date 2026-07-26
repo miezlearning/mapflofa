@@ -1,19 +1,81 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import AdminTourGuide, { type TourStep } from '$lib/components/admin/AdminTourGuide.svelte';
 
 	let { data }: { data: PageData } = $props();
 	const items = $derived(data.items);
 
 	let confirmingId = $state<number | null>(null);
+	let tourActive = $state(false);
+
+	const tourSteps: TourStep[] = [
+		{
+			target: '[data-tour="gallery-header"]',
+			title: 'Kelola Galeri & Kegiatan',
+			content: 'Halaman ini menampilkan seluruh album dokumentasi kegiatan dan foto galeri Mapflofa.'
+		},
+		{
+			target: '[data-tour="add-album-btn"]',
+			title: 'Buat Album Baru',
+			content: 'Klik tombol "+ Album Baru" untuk membuat dokumentasi kegiatan baru.'
+		},
+		{
+			target: '[data-tour="gallery-table"]',
+			title: 'Daftar Album Dokumentasi',
+			content: 'Anda dapat melihat sampul, judul kegiatan, URL slug publik, tanggal rilis, dan jumlah foto di dalam album.'
+		},
+		{
+			target: '[data-tour="gallery-actions"]',
+			title: 'Aksi Kelola Foto & Hapus',
+			content: 'Gunakan tombol Kelola untuk menambah/mengatur foto di dalam album, atau Hapus untuk membuang album.'
+		}
+	];
+
+	function formatHumanDate(d: Date | string | null | undefined): string {
+		if (!d) return '-';
+		const dateObj = typeof d === 'string' ? new Date(d) : d;
+		if (isNaN(dateObj.getTime())) {
+			return String(d);
+		}
+
+		const now = new Date();
+		const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+		const targetDay = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+		const diffDays = Math.round((today.getTime() - targetDay.getTime()) / (1000 * 60 * 60 * 24));
+
+		const formattedStr = dateObj.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric'
+		});
+
+		if (diffDays === 0) return `Hari ini (${formattedStr})`;
+		if (diffDays === 1) return `Kemarin (${formattedStr})`;
+		if (diffDays > 1 && diffDays <= 7) return `${diffDays} hr lalu (${formattedStr})`;
+
+		return formattedStr;
+	}
 </script>
 
-<div class="adm-page-head">
+<AdminTourGuide steps={tourSteps} bind:active={tourActive} tourKey="gallery-list" />
+
+<div class="adm-page-head" data-tour="gallery-header">
 	<div>
 		<h1 class="adm-title">Galeri</h1>
 		<p class="adm-sub">{data.pagination.total} album tersimpan.</p>
 	</div>
-	<a class="adm-btn adm-btn-primary" href="/admin/gallery/new">+ Album Baru</a>
+	<div class="flex items-center gap-2">
+		<button
+			type="button"
+			class="adm-btn"
+			onclick={() => (tourActive = true)}
+			style="background: var(--color-surface-3, #f0f9ff); border-color: var(--color-primary, #0284c7); color: var(--color-primary, #0284c7); font-weight: 700;"
+		>
+			💡 Panduan Galeri
+		</button>
+		<a class="adm-btn adm-btn-primary" href="/admin/gallery/new" data-tour="add-album-btn">+ Album Baru</a>
+	</div>
 </div>
 
 {#if items.length === 0}
@@ -21,7 +83,7 @@
 		Belum ada album. Klik <strong>Album Baru</strong> untuk membuat album kegiatan pertama.
 	</div>
 {:else}
-	<div class="adm-card" style="padding:0;overflow:hidden">
+	<div class="adm-card" style="padding:0;overflow:hidden" data-tour="gallery-table">
 		<table class="adm-table">
 			<thead>
 				<tr>
@@ -33,7 +95,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each items as a (a.id)}
+				{#each items as a, idx (a.id)}
 					<tr>
 						<td>
 							{#if a.effectiveCover}
@@ -48,7 +110,7 @@
 								/galeri/{a.slug} ↗
 							</a>
 							{#if a.eventDate}
-								<div class="dim">{a.eventDate}</div>
+								<div class="dim">📅 {formatHumanDate(a.eventDate)}</div>
 							{/if}
 						</td>
 						<td><span class="dim">{a.photoCount} foto</span></td>
@@ -60,7 +122,7 @@
 							{/if}
 						</td>
 						<td>
-							<div class="actions">
+							<div class="actions" data-tour={idx === 0 ? "gallery-actions" : undefined}>
 								<a class="adm-btn" href={`/admin/gallery/${a.id}`}>Kelola</a>
 								{#if confirmingId === a.id}
 									<form

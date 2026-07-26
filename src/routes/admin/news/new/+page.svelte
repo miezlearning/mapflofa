@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import RichEditor from '$lib/components/admin/RichEditor.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	type FormState = {
 		values?: Record<string, unknown>;
@@ -16,4 +16,4 @@
 	<title>New post — Admin</title>
 </svelte:head>
 
-<RichEditor form={f} submitLabel="Publish" cancelHref="/admin/news" />
+<RichEditor initial={data.initial} form={f} submitLabel="Publish" cancelHref="/admin/news" />
