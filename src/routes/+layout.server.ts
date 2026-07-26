@@ -1,12 +1,16 @@
 import type { LayoutServerLoad } from './$types';
 import { profileRepo } from '$lib/server/repositories/profile';
+import { newsRepo } from '$lib/server/repositories/news';
 
 /**
- * Root layout server load — provides contact info to all pages
- * so the Footer component can be fully dynamic.
+ * Root layout server load — provides contact info & latest news to all pages
+ * so the Footer component can be fully dynamic and real.
  */
 export const load: LayoutServerLoad = async () => {
-	const content = await profileRepo.getContentMap();
+	const [content, newsResult] = await Promise.all([
+		profileRepo.getContentMap().catch(() => ({})),
+		newsRepo.list({ limit: 3, offset: 0 }).catch(() => ({ rows: [], total: 0 }))
+	]);
 
 	const extraContacts = (content['contact.extra'] ?? '')
 		.split('\n')
@@ -36,6 +40,14 @@ export const load: LayoutServerLoad = async () => {
 			email: content['contact.email'] ?? '',
 			extra: extraContacts,
 			socials
-		}
+		},
+		latestNews: (newsResult.rows ?? []).map((n) => ({
+			id: n.id,
+			title: n.title,
+			slug: n.slug,
+			category: n.category,
+			createdAt: n.createdAt,
+			publishedAt: n.publishedAt
+		}))
 	};
 };
