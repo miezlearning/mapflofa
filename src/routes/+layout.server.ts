@@ -7,37 +7,35 @@ import { newsRepo } from '$lib/server/repositories/news';
  * so the Footer component can be fully dynamic and real.
  */
 export const load: LayoutServerLoad = async () => {
-	const [content, newsResult] = await Promise.all([
-		profileRepo.getContentMap().catch(() => ({})),
-		newsRepo.list({ limit: 3, offset: 0 }).catch(() => ({ rows: [], total: 0 }))
-	]);
+	const contentMap: Record<string, string> = await profileRepo.getContentMap().catch(() => ({}));
+	const newsResult = await newsRepo.list({ limit: 3, offset: 0 }).catch(() => ({ rows: [], total: 0 }));
 
-	const extraContacts = (content['contact.extra'] ?? '')
+	const extraContacts = (contentMap['contact.extra'] ?? '')
 		.split('\n')
-		.map((line) => line.trim())
+		.map((line: string) => line.trim())
 		.filter(Boolean)
-		.map((line) => {
-			const [label, value] = line.split('|').map((s) => s.trim());
+		.map((line: string) => {
+			const [label, value] = line.split('|').map((s: string) => s.trim());
 			return { label: label || '', value: value || '' };
 		})
-		.filter((c) => c.label && c.value);
+		.filter((c: { label: string; value: string }) => c.label && c.value);
 
-	const socials = (content['contact.socials'] ?? '')
+	const socials = (contentMap['contact.socials'] ?? '')
 		.split('\n')
-		.map((line) => line.trim())
+		.map((line: string) => line.trim())
 		.filter(Boolean)
-		.map((line) => {
-			const [platform, url] = line.split('|').map((s) => s.trim());
+		.map((line: string) => {
+			const [platform, url] = line.split('|').map((s: string) => s.trim());
 			return { platform: platform || '', url: url || '#' };
 		})
-		.filter((s) => s.platform && s.url);
+		.filter((s: { platform: string; url: string }) => s.platform && s.url);
 
 	return {
 		contact: {
-			address: content['contact.address'] ?? '',
-			whatsapp: content['contact.whatsapp'] ?? '',
-			instagram: content['contact.instagram'] ?? '',
-			email: content['contact.email'] ?? '',
+			address: contentMap['contact.address'] ?? '',
+			whatsapp: contentMap['contact.whatsapp'] ?? '',
+			instagram: contentMap['contact.instagram'] ?? '',
+			email: contentMap['contact.email'] ?? '',
 			extra: extraContacts,
 			socials
 		},
@@ -47,7 +45,7 @@ export const load: LayoutServerLoad = async () => {
 			slug: n.slug,
 			category: n.category,
 			createdAt: n.createdAt,
-			publishedAt: n.publishedAt
+			date: n.date
 		}))
 	};
 };

@@ -38,6 +38,7 @@
 		type Snapshot
 	} from './editor/history';
 	import { flattenNested, setBlockTag, selectionMatchesTag, type BlockTag } from './editor/blocks';
+	import AdminTourGuide, { type TourStep } from './AdminTourGuide.svelte';
 
 	type FormState = {
 		values?: Record<string, unknown>;
@@ -55,6 +56,41 @@
 
 	let { initial = null, form = null, submitLabel, cancelHref, previewSlug = null }: Props =
 		$props();
+
+	let tourActive = $state(false);
+
+	const tourSteps: TourStep[] = [
+		{
+			target: '[data-tour="editor-actionbar"]',
+			title: 'Actionbar & Status Autosave',
+			content: 'Di bilah atas ini Anda dapat membatalkan, menyesuaikan Slug URL, mengecek autosave otomatis, serta menekan tombol Publish/Simpan.'
+		},
+		{
+			target: '[data-tour="editor-cover"]',
+			title: 'Foto Sampul (Cover Image)',
+			content: 'Klik "+ Tambah cover image" untuk mengunggah foto utama artikel (maksimal 15 MB).'
+		},
+		{
+			target: '[data-tour="editor-title"]',
+			title: 'Judul Berita',
+			content: 'Tulis judul berita yang menarik di sini. Slug URL halaman berita akan terbuat secara otomatis.'
+		},
+		{
+			target: '[data-tour="editor-meta"]',
+			title: 'Kategori & Tanggal',
+			content: 'Atur kategori berita (misal: Konservasi, Aksi, Edukasi) dan tanggal rilis artikel.'
+		},
+		{
+			target: '[data-tour="editor-toolbar"]',
+			title: 'Toolbar Formatting Teks',
+			content: 'Format teks dengan mudah: Cetak Tebal, Miring, Heading (H1, H2, H3), Kutipan, Poin, Link, dan Sisip Gambar Inline.'
+		},
+		{
+			target: '[data-tour="editor-body"]',
+			title: 'Kanvas Editor Visual',
+			content: 'Tuliskan artikel langsung pada kanvas ini. Tampilannya sama persis seperti yang akan dibaca oleh publik!'
+		}
+	];
 
 	function pick(name: string, fallback = ''): string {
 		const v = form?.values?.[name] ?? initial?.[name];
@@ -746,6 +782,9 @@
 	</div>
 {/if}
 
+<!-- Tour Guide -->
+<AdminTourGuide steps={tourSteps} bind:active={tourActive} tourKey="news-editor" />
+
 <!-- Restore-draft banner -->
 {#if restoreBanner}
 	<div class="restore-banner">
@@ -791,7 +830,7 @@
 	<input type="hidden" name="content" value={contentHtml} />
 
 	<!-- Sticky action bar -->
-	<div class="actionbar">
+	<div class="actionbar" data-tour="editor-actionbar">
 		<a href={cancelHref} class="adm-btn">← Batal</a>
 
 		<div class="ab-meta">
@@ -820,6 +859,14 @@
 		</div>
 
 		<div class="ab-actions">
+			<button
+				type="button"
+				class="adm-btn"
+				onclick={() => (tourActive = true)}
+				style="background: #f0f9ff; border-color: #0284c7; color: #0284c7; font-weight: 700;"
+			>
+				💡 Panduan Editor
+			</button>
 			{#if previewSlug}
 				<a class="adm-btn" href={`/berita/${previewSlug}`} target="_blank" rel="noopener">
 					Preview ↗
@@ -838,6 +885,7 @@
 			role="toolbar"
 			tabindex="-1"
 			aria-label="Format toolbar"
+			data-tour="editor-toolbar"
 			onmousedown={(e) => e.preventDefault()}
 		>
 			<button
@@ -996,7 +1044,7 @@
 
 		<article class="post-canvas">
 			{#if image}
-				<div class="cover">
+				<div class="cover" data-tour="editor-cover">
 					<img src={image} alt="Cover" />
 					<div class="cover-actions">
 						<button type="button" class="ghost-btn" onclick={pickCover} disabled={coverUploading}>
@@ -1011,6 +1059,7 @@
 				<button
 					type="button"
 					class="cover-empty"
+					data-tour="editor-cover"
 					onclick={pickCover}
 					disabled={coverUploading}
 				>
@@ -1020,7 +1069,7 @@
 			{#if coverError}<div class="field-error">{coverError}</div>{/if}
 			{#if err('image')}<div class="field-error">{err('image')}</div>{/if}
 
-			<div class="meta-row">
+			<div class="meta-row" data-tour="editor-meta">
 				<input
 					type="text"
 					class="meta-cat"
@@ -1043,6 +1092,7 @@
 			<input
 				type="text"
 				class="title-input"
+				data-tour="editor-title"
 				placeholder="Judul berita…"
 				bind:value={title}
 				maxlength="200"
@@ -1061,6 +1111,7 @@
 			<div
 				bind:this={bodyEl}
 				class="body-edit md-content"
+				data-tour="editor-body"
 				contenteditable="true"
 				role="textbox"
 				tabindex="0"

@@ -18,7 +18,7 @@
 		slug: string;
 		category: string;
 		createdAt?: Date | string | null;
-		publishedAt?: Date | string | null;
+		date?: string | null;
 	};
 
 	const contact = $derived((page.data as { contact?: ContactData })?.contact ?? {
@@ -261,8 +261,8 @@
 									<div class="min-w-0 flex-1">
 										<div class="flex items-center gap-2 text-[11px] font-bold">
 											<span class="text-emerald-400 uppercase tracking-wider">{a.category || 'Berita'}</span>
-											{#if a.createdAt || a.publishedAt}
-												<span class="text-white/40">• {formatDate(a.publishedAt || a.createdAt)}</span>
+											{#if a.date || a.createdAt}
+												<span class="text-white/40">• {a.date || formatDate(a.createdAt)}</span>
 											{/if}
 										</div>
 										<p class="mt-1 text-sm font-semibold text-white/90 leading-snug line-clamp-2 group-hover:text-emerald-300 transition-colors">
