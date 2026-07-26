@@ -77,7 +77,11 @@ export type UploadResult = {
 };
 
 export function getUploadsDir(): string {
-	return env.UPLOAD_DIR || process.env.UPLOAD_DIR || process.env.UPLOADS_DIR || join(process.cwd(), 'static', 'uploads');
+	let dir = (env.UPLOAD_DIR || process.env.UPLOAD_DIR || process.env.UPLOADS_DIR || '').trim();
+	if (dir) {
+		dir = dir.replace(/^["']|["']$/g, '').trim();
+	}
+	return dir || join(process.cwd(), 'static', 'uploads');
 }
 
 async function ensureDir() {
