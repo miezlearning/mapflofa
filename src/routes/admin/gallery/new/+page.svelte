@@ -1,14 +1,60 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import AdminTourGuide, { type TourStep } from '$lib/components/admin/AdminTourGuide.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	let { data, form }: { data: PageData; form: ActionData } = $props();
 
 	let title = $state('');
 	let slug = $state('');
 	let slugTouched = $state(false);
 	let coverPreview = $state('');
 	let submitting = $state(false);
+	let tourActive = $state(false);
+
+	let eventDate = $state(
+		(form?.values?.eventDate as string) ?? data?.initial?.eventDate ?? ''
+	);
+
+	function setTodayDate() {
+		const now = new Date();
+		eventDate = now.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+	}
+
+	function onDatePickerChange(e: Event) {
+		const val = (e.target as HTMLInputElement).value;
+		if (!val) return;
+		const [y, m, d] = val.split('-').map(Number);
+		if (isNaN(y) || isNaN(m) || isNaN(d)) return;
+		const dateObj = new Date(y, m - 1, d);
+		eventDate = dateObj.toLocaleDateString('id-ID', {
+			day: 'numeric',
+			month: 'long',
+			year: 'numeric'
+		});
+	}
+
+	const tourSteps: TourStep[] = [
+		{
+			target: '[data-tour="album-title"]',
+			title: 'Judul Album Kegiatan',
+			content: 'Tuliskan nama atau judul kegiatan (contoh: Penanaman 1000 Mangrove 2026).'
+		},
+		{
+			target: '[data-tour="album-date"]',
+			title: 'Tanggal Rilis / Pelaksanaan',
+			content: 'Gunakan kalender atau tombol ⚡ Hari ini untuk mengisi tanggal pelaksanaan kegiatan.'
+		},
+		{
+			target: '[data-tour="album-cover"]',
+			title: 'Foto Sampul Album',
+			content: 'Pilih foto utama album dari komputer Anda atau masukkan URL gambar.'
+		}
+	];
 
 	function autoSlug(t: string) {
 		return t
@@ -31,12 +77,24 @@
 	}
 </script>
 
+<AdminTourGuide steps={tourSteps} bind:active={tourActive} tourKey="gallery-new" />
+
 <div class="adm-page-head">
 	<div>
 		<h1 class="adm-title">Album Baru</h1>
 		<p class="adm-sub">Buat album kegiatan, lalu tambahkan foto di langkah berikutnya.</p>
 	</div>
-	<a class="adm-btn" href="/admin/gallery">← Kembali</a>
+	<div class="flex items-center gap-2">
+		<button
+			type="button"
+			class="adm-btn"
+			onclick={() => (tourActive = true)}
+			style="background: var(--color-surface-3, #f0f9ff); border-color: var(--color-primary, #0284c7); color: var(--color-primary, #0284c7); font-weight: 700;"
+		>
+			💡 Panduan Album Baru
+		</button>
+		<a class="adm-btn" href="/admin/gallery">← Kembali</a>
+	</div>
 </div>
 
 {#if form?.message}
@@ -56,7 +114,7 @@
 			};
 		}}
 	>
-		<label>
+		<label data-tour="album-title">
 			<span class="field-label">Judul album *</span>
 			<input name="title" bind:value={title} placeholder="cth. Penanaman Pohon 2026" required />
 			{#if form?.fieldErrors?.title}<span class="field-error">{form.fieldErrors.title[0]}</span>{/if}
@@ -80,10 +138,41 @@
 		</label>
 
 		<div class="grid-2">
-			<label>
+			<div class="flex flex-col gap-1.5" data-tour="album-date">
 				<span class="field-label">Tanggal kegiatan</span>
-				<input name="eventDate" value={(form?.values?.eventDate as string) ?? ''} placeholder="cth. Mei 2026" />
-			</label>
+				<div class="flex items-center gap-2">
+					<div class="relative flex items-center gap-1.5 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 shadow-2xs cursor-pointer hover:border-sky-400 dark:hover:border-sky-600 transition-colors flex-1">
+						<span class="text-emerald-500 font-bold text-xs" aria-hidden="true">📅</span>
+						<input
+							type="text"
+							name="eventDate"
+							class="text-xs font-semibold text-slate-700 dark:text-slate-200 bg-transparent outline-none w-full placeholder:text-slate-400"
+							placeholder="26 Juli 2026"
+							bind:value={eventDate}
+							maxlength="40"
+						/>
+						<span class="text-[10px] text-slate-400" aria-hidden="true">▾</span>
+
+						<!-- Hidden overlay date picker -->
+						<input
+							type="date"
+							onchange={onDatePickerChange}
+							class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+							title="Klik untuk memilih tanggal dari kalender"
+						/>
+					</div>
+
+					<button
+						type="button"
+						onclick={setTodayDate}
+						class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors shadow-2xs shrink-0"
+						title="Set ke tanggal hari ini"
+					>
+						⚡ Hari ini
+					</button>
+				</div>
+			</div>
+
 			<label>
 				<span class="field-label">Urutan tampil</span>
 				<input name="sortOrder" type="number" min="0" value="0" />
@@ -91,7 +180,7 @@
 			</label>
 		</div>
 
-		<label>
+		<label data-tour="album-cover">
 			<span class="field-label">Sampul album</span>
 			<input type="file" name="coverFile" accept="image/*" onchange={onCoverFile} />
 			<span class="field-hint">Opsional. JPG, PNG, WebP, atau GIF (maks 15 MB). Bisa juga tempel URL di bawah.</span>

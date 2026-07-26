@@ -8,7 +8,16 @@ import { audit } from '$lib/server/audit/log';
 
 export const load: PageServerLoad = async (event) => {
 	requireUser(event);
-	return {};
+	const todayStr = new Date().toLocaleDateString('id-ID', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric'
+	});
+	return {
+		initial: {
+			eventDate: todayStr
+		}
+	};
 };
 
 export const actions: Actions = {
