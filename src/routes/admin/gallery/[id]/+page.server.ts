@@ -73,69 +73,74 @@ export const actions: Actions = {
 		const album = await galleryRepo.findAlbumById(id);
 		if (!album) throw error(404, 'Album tidak ditemukan');
 
-		const form = await event.request.formData();
-		const files = form.getAll('photos').filter((f): f is File => f instanceof File && f.size > 0);
-		const url = (form.get('photoUrl') as string | null)?.trim();
-		const caption = (form.get('caption') as string | null)?.trim() || null;
+		try {
+			const form = await event.request.formData();
+			const files = form.getAll('photos').filter((f): f is File => f instanceof File && f.size > 0);
+			const url = (form.get('photoUrl') as string | null)?.trim();
+			const caption = (form.get('caption') as string | null)?.trim() || null;
 
-		if (files.length === 0 && !url) {
-			return fail(400, { message: 'Pilih minimal satu foto atau tempel URL gambar.' });
-		}
-
-		let order = await galleryRepo.nextPhotoSortOrder(id);
-		let added = 0;
-		const errors: string[] = [];
-
-		for (const file of files) {
-			const result = await saveUpload(file);
-			if ('error' in result) {
-				errors.push(`${file.name}: ${result.error}`);
-				continue;
+			if (files.length === 0 && !url) {
+				return fail(400, { message: 'Pilih minimal satu foto atau tempel URL gambar.' });
 			}
-			const parsed = createPhotoSchema.safeParse({
-				albumId: id,
-				image: result.url,
-				caption,
-				sortOrder: order
-			});
-			if (!parsed.success) {
-				errors.push(`${file.name}: tidak valid.`);
-				continue;
-			}
-			await galleryRepo.addPhoto(parsed.data);
-			order += 1;
-			added += 1;
-		}
 
-		if (url) {
-			const parsed = createPhotoSchema.safeParse({ albumId: id, image: url, caption, sortOrder: order });
-			if (parsed.success) {
+			let order = await galleryRepo.nextPhotoSortOrder(id);
+			let added = 0;
+			const errors: string[] = [];
+
+			for (const file of files) {
+				const result = await saveUpload(file);
+				if ('error' in result) {
+					errors.push(`${file.name}: ${result.error}`);
+					continue;
+				}
+				const parsed = createPhotoSchema.safeParse({
+					albumId: id,
+					image: result.url,
+					caption,
+					sortOrder: order
+				});
+				if (!parsed.success) {
+					errors.push(`${file.name}: tidak valid.`);
+					continue;
+				}
 				await galleryRepo.addPhoto(parsed.data);
+				order += 1;
 				added += 1;
-			} else {
-				errors.push('URL gambar tidak valid.');
 			}
-		}
 
-		// First photo becomes the cover if the album has none yet.
-		if (added > 0 && !album.coverImage) {
-			const photos = await galleryRepo.listPhotos(id);
-			if (photos[0]) await galleryRepo.updateAlbum(id, { coverImage: photos[0].image });
-		}
+			if (url) {
+				const parsed = createPhotoSchema.safeParse({ albumId: id, image: url, caption, sortOrder: order });
+				if (parsed.success) {
+					await galleryRepo.addPhoto(parsed.data);
+					added += 1;
+				} else {
+					errors.push('URL gambar tidak valid.');
+				}
+			}
 
-		await audit(event, {
-			action: 'resource.update',
-			resource: 'gallery',
-			resourceId: id,
-			details: { addedPhotos: added }
-		});
+			// First photo becomes the cover if the album has none yet.
+			if (added > 0 && !album.coverImage) {
+				const photos = await galleryRepo.listPhotos(id);
+				if (photos[0]) await galleryRepo.updateAlbum(id, { coverImage: photos[0].image });
+			}
 
-		if (errors.length > 0) {
-			return fail(added > 0 ? 207 : 400, {
-				message: `${added} foto ditambahkan. Sebagian gagal: ${errors.join(' ')}`
+			await audit(event, {
+				action: 'resource.update',
+				resource: 'gallery',
+				resourceId: id,
+				details: { addedPhotos: added }
 			});
+
+			if (errors.length > 0) {
+				return fail(added > 0 ? 207 : 400, {
+					message: `${added} foto ditambahkan. Sebagian gagal: ${errors.join(' ')}`
+				});
+			}
+			return { ok: true, message: `${added} foto ditambahkan.` };
+		} catch (err) {
+			console.error('[addPhotos error]', err);
+			return fail(400, { message: `Gagal mengunggah foto: ${(err as Error).message}` });
 		}
-		return { ok: true, message: `${added} foto ditambahkan.` };
 	},
 
 	// ---- Update a photo caption ----
