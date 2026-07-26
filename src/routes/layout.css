@@ -1,35 +1,55 @@
 /* All @import statements MUST come first */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import 'tailwindcss';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 /* ==========================================================
    MAPFLOFA Design Tokens — Mahasiswa Penyayang Flora Fauna
-   Light, airy, nature-forward. Sky blue brand + leaf green accent.
+   Color Wheel Distance Concept (Konsep Roda Warna):
+   - Primary: Ocean Sky Blue (#0284C7) [Fauna & Water]
+   - Accent: Fresh Emerald Leaf Green (#10B981) [Flora - 60° Analogous-Complementary]
+   - Warm Highlight: Solar Amber Gold (#F59E0B) [150° Triadic Accent]
+   - Deep Marine: Midnight Navy (#0C4A6E)
+   - Typography: Plus Jakarta Sans
    ========================================================== */
 @theme {
-	/* Brand — Biru Langit (#6EAEE8) */
-	--color-primary: #6eaee8;       /* sky blue — links, interactive */
-	--color-primary-600: #4f97d6;   /* hover */
-	--color-primary-700: #2c5f7f;   /* deep teal — footer, gradients */
+	/* Brand — Ocean Sky Blue (#0284C7) */
+	--color-primary: #0284c7;       /* sky/ocean blue — links, primary elements */
+	--color-primary-600: #0369a1;   /* hover state */
+	--color-primary-700: #0c4a6e;   /* deep marine — footer, headers */
 
-	/* Accent — Leaf green for CTA only */
-	--color-accent: #4faf7c;        /* fresh leaf green */
-	--color-accent-600: #3d9968;
+	/* Accent — Fresh Emerald Leaf Green (#10B981 - Flora) */
+	--color-accent: #10b981;        /* fresh leaf green */
+	--color-accent-600: #059669;    /* deep emerald green hover */
 
-	/* Neutrals — clean, minimal palette */
-	--color-ink: #1e293b;           /* headings & body — slate-800 */
-	--color-muted: #64748b;         /* secondary text — slate-500 */
-	--color-line: #e2e8f0;          /* borders — slate-200 */
+	/* Warm Accent — Solar Amber (#F59E0B - Triadic Distance 150°) */
+	--color-warm: #f59e0b;
+	--color-warm-600: #d97706;
+
+	/* Neutrals — clean slate palette */
+	--color-ink: #0f172a;           /* slate-900 — high contrast text */
+	--color-muted: #64748b;         /* slate-500 — secondary text */
+	--color-line: #e2e8f0;          /* slate-200 — subtle borders */
 	--color-surface: #ffffff;       /* page bg */
-	--color-surface-2: #f8fafc;     /* very subtle alternate bg — slate-50 */
-	--color-surface-3: #f1f5f9;     /* cards / sections — slate-100 */
+	--color-surface-2: #f8fafc;     /* slate-50 — alternate bg */
+	--color-surface-3: #f0f9ff;     /* sky-50 — card & section background */
 	--color-card: #ffffff;
 
-	/* Type */
-	--font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-	--font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+	/* Type — Plus Jakarta Sans mandatory */
+	--font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+	--font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+	--color-primary: #0284c7;
+	--color-primary-600: #0369a1;
+	--color-primary-700: #0c4a6e;
+	--color-accent: #10b981;
+	--color-accent-600: #059669;
+	--color-warm: #f59e0b;
+	--font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+	--font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 html {
