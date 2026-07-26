@@ -887,9 +887,14 @@
 				type="button"
 				class="adm-btn"
 				onclick={() => (tourActive = true)}
-				style="background: #f0f9ff; border-color: #0284c7; color: #0284c7; font-weight: 700;"
+				style="background: #f0f9ff; border-color: #0284c7; color: #0284c7; font-weight: 700; display: inline-flex; align-items: center; gap: 0.375rem;"
 			>
-				Cara Pakai
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<circle cx="12" cy="12" r="10"/>
+					<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+					<line x1="12" y1="17" x2="12.01" y2="17"/>
+				</svg>
+				<span>Panduan</span>
 			</button>
 			{#if previewSlug}
 				<a class="adm-btn" href={`/berita/${previewSlug}`} target="_blank" rel="noopener">
@@ -1097,7 +1102,10 @@
 			<div class="meta-bar mb-4 flex flex-wrap items-center gap-2.5 p-2 bg-slate-50/90 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-800" data-tour="editor-meta">
 				<!-- Category Input & Tag Icon -->
 				<div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-					<span class="text-sky-500 font-bold text-xs" aria-hidden="true">🏷️</span>
+					<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-500 shrink-0" aria-hidden="true">
+						<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+						<line x1="7" y1="7" x2="7.01" y2="7"/>
+					</svg>
 					<input
 						type="text"
 						class="meta-cat-input text-xs font-bold text-sky-700 dark:text-sky-400 bg-transparent outline-none w-24 sm:w-28 placeholder:text-slate-400"
@@ -1128,7 +1136,12 @@
 				<!-- Custom Date Trigger -->
 				<div class="flex items-center gap-1.5">
 					<div class="relative flex items-center gap-1.5 bg-white dark:bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-200/80 dark:border-slate-700/80 shadow-2xs cursor-pointer hover:border-sky-400 dark:hover:border-sky-600 transition-colors">
-						<span class="text-emerald-500 font-bold text-xs" aria-hidden="true">📅</span>
+						<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500 shrink-0" aria-hidden="true">
+							<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+							<line x1="16" y1="2" x2="16" y2="6"/>
+							<line x1="8" y1="2" x2="8" y2="6"/>
+							<line x1="3" y1="10" x2="21" y2="10"/>
+						</svg>
 						<input
 							type="text"
 							class="meta-date-input text-xs font-semibold text-slate-700 dark:text-slate-200 bg-transparent outline-none w-28 sm:w-32 placeholder:text-slate-400"
@@ -1153,7 +1166,7 @@
 						class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/80 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors shadow-2xs"
 						title="Set ke tanggal hari ini"
 					>
-						⚡ Hari ini
+						Hari Ini
 					</button>
 				</div>
 			</div>

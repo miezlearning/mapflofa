@@ -70,9 +70,14 @@
 			type="button"
 			class="adm-btn"
 			onclick={() => (tourActive = true)}
-			style="background: var(--color-surface-3, #f0f9ff); border-color: var(--color-primary, #0284c7); color: var(--color-primary, #0284c7); font-weight: 700;"
+			style="background: var(--color-surface-3, #f0f9ff); border-color: var(--color-primary, #0284c7); color: var(--color-primary, #0284c7); font-weight: 700; display: inline-flex; align-items: center; gap: 0.375rem;"
 		>
-			💡 Panduan Cara Membuat Berita
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="10"/>
+				<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+				<line x1="12" y1="17" x2="12.01" y2="17"/>
+			</svg>
+			<span>Panduan Berita</span>
 		</button>
 		<a class="adm-btn adm-btn-primary" href="/admin/news/new" data-tour="add-btn">+ Tambah News</a>
 	</div>

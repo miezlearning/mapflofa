@@ -198,8 +198,12 @@
 		<!-- Step counter header -->
 		<div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-800">
 			<div class="flex items-center gap-1.5">
-				<span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-[11px] font-bold grid place-items-center border border-sky-400/40">
-					💡
+				<span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-400 text-[11px] font-bold grid place-items-center border border-sky-400/40 shrink-0">
+					<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="12" cy="12" r="10"/>
+						<path d="M12 16v-4"/>
+						<path d="M12 8h.01"/>
+					</svg>
 				</span>
 				<span class="text-[11px] font-extrabold text-sky-400 uppercase tracking-wider">
 					Panduan ({currentStep + 1}/{steps.length})

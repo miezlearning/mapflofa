@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData, ActionData } from './$types';
 	import { enhance } from '$app/forms';
+	import AdminTourGuide, { type TourStep } from '$lib/components/admin/AdminTourGuide.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	const album = $derived(data.album);
@@ -9,8 +10,27 @@
 	let savingAlbum = $state(false);
 	let uploading = $state(false);
 	let newCoverPreview = $state('');
+	let tourActive = $state(false);
 
 	let eventDate = $state(album.eventDate ?? '');
+
+	const tourSteps: TourStep[] = [
+		{
+			target: '[data-tour="album-meta"]',
+			title: 'Detail Metadata Album',
+			content: 'Ubah judul kegiatan, deskripsi, tanggal rilis/pelaksanaan, dan urutan tampil album di sini.'
+		},
+		{
+			target: '[data-tour="add-photos"]',
+			title: 'Unggah Foto Kegiatan',
+			content: 'Unggah foto sekaligus dari komputer Anda (bisa banyak foto sekaligus) atau masukkan URL gambar secara langsung.'
+		},
+		{
+			target: '[data-tour="photo-grid"]',
+			title: 'Kelola Foto & Sampul Album',
+			content: 'Atur keterangan (caption), jadikan foto utama sebagai ⭐ Sampul Album, atau hapus foto dari album.'
+		}
+	];
 
 	function setTodayDate() {
 		const now = new Date();
@@ -41,6 +61,8 @@
 	}
 </script>
 
+<AdminTourGuide steps={tourSteps} bind:active={tourActive} tourKey="gallery-edit" />
+
 <div class="adm-page-head">
 	<div>
 		<h1 class="adm-title">Kelola Album</h1>
@@ -49,7 +71,22 @@
 			· {photos.length} foto dalam album
 		</p>
 	</div>
-	<a class="adm-btn" href="/admin/gallery">← Semua album</a>
+	<div class="flex items-center gap-2">
+		<button
+			type="button"
+			class="adm-btn"
+			onclick={() => (tourActive = true)}
+			style="background: var(--color-surface-3, #f0f9ff); border-color: var(--color-primary, #0284c7); color: var(--color-primary, #0284c7); font-weight: 700; display: inline-flex; align-items: center; gap: 0.375rem;"
+		>
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="10"/>
+				<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+				<line x1="12" y1="17" x2="12.01" y2="17"/>
+			</svg>
+			<span>Panduan Album</span>
+		</button>
+		<a class="adm-btn" href="/admin/gallery">← Semua album</a>
+	</div>
 </div>
 
 {#if data.justCreated}
@@ -61,7 +98,7 @@
 
 <div class="cols">
 	<!-- ===== Album metadata ===== -->
-	<section class="adm-card">
+	<section class="adm-card" data-tour="album-meta">
 		<h2 class="section-title">Detail Album</h2>
 		<form
 			method="POST"
@@ -160,7 +197,7 @@
 	</section>
 
 	<!-- ===== Add photos ===== -->
-	<section class="adm-card">
+	<section class="adm-card" data-tour="add-photos">
 		<h2 class="section-title">Tambah Foto</h2>
 		<form
 			method="POST"
@@ -198,7 +235,7 @@
 </div>
 
 <!-- ===== Photo manager ===== -->
-<section class="adm-card" style="margin-top:1.25rem">
+<section class="adm-card" style="margin-top:1.25rem" data-tour="photo-grid">
 	<h2 class="section-title">Foto dalam Album ({photos.length})</h2>
 
 	{#if photos.length === 0}
