@@ -865,7 +865,7 @@
 				onclick={() => (tourActive = true)}
 				style="background: #f0f9ff; border-color: #0284c7; color: #0284c7; font-weight: 700;"
 			>
-				💡 Panduan Editor
+				Cara Pakai
 			</button>
 			{#if previewSlug}
 				<a class="adm-btn" href={`/berita/${previewSlug}`} target="_blank" rel="noopener">
