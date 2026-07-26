@@ -102,7 +102,13 @@ async function ensureDir() {
 	try {
 		await access(dir);
 	} catch {
-		await mkdir(dir, { recursive: true });
+		try {
+			// Try non-recursive mkdir first to prevent Node from walking parent paths (/home/user)
+			await mkdir(dir);
+		} catch (err: any) {
+			if (err?.code === 'EEXIST') return;
+			await mkdir(dir, { recursive: true });
+		}
 	}
 }
 
